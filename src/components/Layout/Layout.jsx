@@ -1,6 +1,6 @@
 import React from "react";
 import Routers from "../../routes/Routers";
-import Header from "../Header/Header";
+import Header from "../header/Header";
 import Footer from "../Footer/Footer";
 
 const Layout = () => {

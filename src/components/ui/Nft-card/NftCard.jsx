@@ -6,7 +6,7 @@ import "./nft-card.css";
 import Modal from "../Modal/Modal";
 
 const NftCard = (props) => {
-  const { title, id, currentBid, creatorImg, imgUrl, creator } = props.item;
+  const { title, id, currentBid,  imgUrl, creator, percent } = props.item;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -21,20 +21,18 @@ const NftCard = (props) => {
           <Link to={`/market/${id}`}>{title}</Link>
         </h5>
 
-        <div className="creator__info-wrapper d-flex gap-3">
-          <div className="creator__img">
-            <img src={creatorImg} alt="" className="w-100" />
-          </div>
+        <div className="creator__info-wrapper d-flex gap-4">
+         
 
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
-              <h6>Created By</h6>
+              <h6>Lowest</h6>
               <p>{creator}</p>
             </div>
 
             <div>
-              <h6>Current Bid</h6>
-              <p>{currentBid} ETH</p>
+              <h6>Highest</h6>
+              <p>{currentBid} USDT</p>
             </div>
           </div>
         </div>
@@ -44,13 +42,13 @@ const NftCard = (props) => {
             className="bid__btn d-flex align-items-center gap-1"
             onClick={() => setShowModal(true)}
           >
-            <i class="ri-shopping-bag-line"></i> Place Bid
+            <i class="ri-shopping-bag-line"></i> Stake
           </button>
 
           {showModal && <Modal setShowModal={setShowModal} />}
 
           <span className="history__link">
-            <Link to="#">View History</Link>
+            <Link to="#">Day APY {percent}%</Link>
           </span>
         </div>
       </div>

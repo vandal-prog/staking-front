@@ -14,14 +14,17 @@ const LiveAuction = () => {
         <Row>
           <Col lg="12" className="mb-5">
             <div className="live__auction__top d-flex align-items-center justify-content-between ">
-              <h3>Live Auction</h3>
+              <h3>NFT market making income</h3>
               <span>
                 <Link to="/market">Explore more</Link>
               </span>
+              
             </div>
           </Col>
+          <p>In the automated markers(AMM) pool, anyone can add liquidity to any NFT transaction in order to earn interest from market making</p>
 
-          {NFT__DATA.slice(0, 4).map((item) => (
+
+          {NFT__DATA.slice(0, 6).map((item) => (
             <Col lg="3" md="4" sm="6" className="mb-4">
               <NftCard key={item.id} item={item} />
             </Col>

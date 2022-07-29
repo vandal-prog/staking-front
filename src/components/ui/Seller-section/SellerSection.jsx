@@ -10,7 +10,7 @@ const SellerSection = () => {
         <Row>
           <Col lg="12" className="mb-5">
             <div className="seller__section-title">
-              <h3>Top Seller</h3>
+              <h3>The list of NFT market makers</h3>
             </div>
           </Col>
 
@@ -23,7 +23,7 @@ const SellerSection = () => {
 
                 <div className="seller__content">
                   <h6>{item.sellerName}</h6>
-                  <h6>{item.currentBid} ETH</h6>
+                  <h6>{item.currentBid}USDT</h6>
                 </div>
               </div>
             </Col>

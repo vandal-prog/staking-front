@@ -85,7 +85,7 @@ const Market = () => {
               </div>
             </Col>
 
-            {data?.map((item) => (
+            {data.slice(0, 6).map((item) => (
               <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
                 <NftCard item={item} />
               </Col>
