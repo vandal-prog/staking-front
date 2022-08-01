@@ -2,13 +2,7 @@ import React, { useRef, useEffect, Component } from "react";
 import "./header.css";
 import { Container } from "reactstrap";
 
-import { NavLink } from "react-router-dom";
-
-
-
-
-
-
+import { NavLink, Link } from "react-router-dom";
 
 const NAV__LINKS = [
   {
@@ -37,25 +31,10 @@ const NAV__LINKS = [
   },
 ];
 
-
-
-
-
-
-
-
 const Header = () => {
-
-  
-  
-  
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
-
-  
-  
-  
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -106,32 +85,25 @@ const Header = () => {
             </ul>
           </div>
 
-         
+          <div className="nav__right d-flex align-items-center gap-5 ">
+            <button
+              className="btn d-flex gap-2 align-items-center"
+              textcolor=""
+            >
+              <span>
+                <i class="ri-wallet-line"></i>
+              </span>
+              <Link to="/wallet">Connect Wallet</Link>
+            </button>
 
-             <div className="nav__right d-flex align-items-center gap-5 ">
-            
-                <button  className="btn d-flex gap-2 align-items-center" textcolor="" >
-                  <span>
-                    <i class="ri-wallet-line"></i>
-                  </span>
-                   Connect Wallet
-                </button>
-            
-
-               <span className="mobile__menu">
-                <i class="ri-menu-line" ></i>
-                </span>
-            </div>
-
-          
-
-
-        
+            <span className="mobile__menu">
+              <i class="ri-menu-line"></i>
+            </span>
+          </div>
         </div>
       </Container>
     </header>
   );
 };
-
 
 export default Header;
