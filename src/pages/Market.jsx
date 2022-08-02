@@ -41,7 +41,7 @@ const Market = () => {
       );
 
       setData(filterData);
-    }
+    } else setData(NFT__DATA);
   };
 
   return (

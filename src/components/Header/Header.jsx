@@ -23,7 +23,7 @@ const NAV__LINKS = [
   },
   {
     display: "Account",
-    url: "/contact",
+    url: "/account",
   },
   {
     display: "FAQ",
