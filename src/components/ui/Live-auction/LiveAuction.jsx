@@ -18,11 +18,12 @@ const LiveAuction = () => {
               <span>
                 <Link to="/market">Explore more</Link>
               </span>
-              
             </div>
           </Col>
-          <p>In the automated markers(AMM) pool, anyone can add liquidity to any NFT transaction in order to earn interest from market making</p>
-
+          <p>
+            In the automated markers(AMM) pool, anyone can add liquidity to any
+            NFT transaction in order to earn interest from market making
+          </p>
 
           {NFT__DATA.slice(0, 6).map((item) => (
             <Col lg="3" md="4" sm="6" className="mb-4">
