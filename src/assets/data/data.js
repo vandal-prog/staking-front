@@ -186,7 +186,7 @@ export const SELLER__DATA = [
 
     sellerName: "0x151...edb",
     sellerImg: ava06,
-    currentBid: 43717,
+    currentBid: 43717, 
     fbUrl: "#",
     instaUrl: "#",
     twitUrl: "#",

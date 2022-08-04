@@ -5,10 +5,8 @@ import "./nft-card.css";
 
 import Modal from "../Modal/Modal";
 
-const NftCard = (props) => {
-  const { title, id, currentBid, imgUrl, creator, percent } = props.item;
-
-  const [showModal, setShowModal] = useState(false);
+const NftCard = ({ item, pledge }) => {
+  const { title, id, currentBid, imgUrl, creator, percent } = item;
 
   return (
     <div className="single__nft__card">
@@ -41,7 +39,7 @@ const NftCard = (props) => {
             <button className="nft-pledge-btn">Start Pledge</button>
           </div>
         ) : (
-          <div className=" mt-3 ">
+          <div className=" mt-3 nft-pledge">
             <button className="bid__btn ">
               <i class="ri-shopping-bag-line"></i> Stake
             </button>

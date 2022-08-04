@@ -1,12 +1,13 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { HiMenuAlt4 } from "react-icons/hi";
 
 import "./header.css";
 import { Container } from "reactstrap";
-
 import { NavLink, Link } from "react-router-dom";
+
+import { TransactionContext } from "../../context/TransactionContext";
 
 const NAV__LINKS = [
   {
@@ -36,6 +37,8 @@ const NAV__LINKS = [
 ];
 
 const Header = () => {
+  const { connectWallet, currentAccount } = useContext(TransactionContext);
+
   const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
@@ -70,15 +73,17 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-            <button
-              className="btn d-flex gap-2 align-items-center"
-              textcolor=""
-            >
-              <span>
-                <i class="ri-wallet-line"></i>
-              </span>
-              <Link to="/wallet">Connect Wallet</Link>
-            </button>
+            {!currentAccount && (
+              <button
+                className="btn d-flex gap-2 align-items-center"
+                onClick={connectWallet}
+              >
+                <span>
+                  <i class="ri-wallet-line"></i>
+                </span>
+                Connect Wallet
+              </button>
+            )}
           </div>
 
           {/*This is rendered only if toggleMenu is true*/}
