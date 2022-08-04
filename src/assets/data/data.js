@@ -180,20 +180,20 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "15",
+    id: "13",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
     sellerName: "0x151...edb",
     sellerImg: ava06,
-    currentBid: 43717, 
+    currentBid: 43717,
     fbUrl: "#",
     instaUrl: "#",
     twitUrl: "#",
   },
 
   {
-    id: "16",
+    id: "14",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x987...a6c",
     sellerImg: ava07,
@@ -204,7 +204,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "17",
+    id: "15",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x9eb...O8b",
     sellerImg: ava08,
@@ -215,7 +215,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "18",
+    id: "16",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0xb92...12c",
     sellerImg: ava09,
@@ -226,7 +226,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "19",
+    id: "17",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -239,7 +239,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "20",
+    id: "18",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -252,7 +252,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "21",
+    id: "19",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 

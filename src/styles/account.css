@@ -108,22 +108,3 @@
   color: #fff;
   border: none;
 }
-
-@media only screen and (max-width: 767px) {
-  .account-container {
-    padding: 1rem;
-  }
-
-  .account-info {
-    padding: 4rem 2rem 2rem 2rem;
-  }
-
-  .account-infoInput,
-  .account-infobtn,
-  .account-timer {
-    font-size: 1rem;
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 5px;
-  }
-}

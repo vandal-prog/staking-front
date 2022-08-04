@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
-import TimerImg from "../assets/images/timer.svg";
+import Timer from "../assets/images/timer.svg";
 
 import "../styles/account.css";
 
@@ -36,8 +36,7 @@ const Account = () => {
             <img
               style={{ height: "18px", width: "18px" }}
               className="timer-icon"
-              src={TimerImg}
-              alt="time icon"
+              src={Timer}
             />
             <span className="account-timer-text">NEXT BENEFIT</span>
             {`00:00:00`}
