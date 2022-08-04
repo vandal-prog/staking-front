@@ -35,15 +35,19 @@ const NftCard = (props) => {
           </div>
         </div>
 
-        {/* <div className=" mt-3 ">
-          <button className="bid__btn ">
-            <i class="ri-shopping-bag-line"></i> Stake
-          </button>
-        </div> */}
-        <div className="nft-pledge">
-          <input type="number" className="nft-pledge-field" />
-          <button className="nft-pledge-btn">Start Pledge</button>
-        </div>
+        {pledge ? (
+          <div className="nft-pledge">
+            <input type="number" className="nft-pledge-field" />
+            <button className="nft-pledge-btn">Start Pledge</button>
+          </div>
+        ) : (
+          <div className=" mt-3 ">
+            <button className="bid__btn ">
+              <i class="ri-shopping-bag-line"></i> Stake
+            </button>
+          </div>
+        )}
+
         <div className="history__link">
           <Link to="#">Day APY {percent}%</Link>
         </div>
