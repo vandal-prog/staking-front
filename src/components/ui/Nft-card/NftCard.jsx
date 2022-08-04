@@ -40,7 +40,7 @@ const NftCard = (props) => {
             <i class="ri-shopping-bag-line"></i> Stake
           </button>
         </div> */}
-        <div>
+        <div className="nft-pledge">
           <input type="number" className="nft-pledge-field" />
           <button className="nft-pledge-btn">Start Pledge</button>
         </div>
