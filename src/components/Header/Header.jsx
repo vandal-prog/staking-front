@@ -73,7 +73,11 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-            {!currentAccount && (
+            {currentAccount ? (
+              <div className="erc">
+                <span>ERC</span>
+              </div>
+            ) : (
               <button
                 className="btn d-flex gap-2 align-items-center"
                 onClick={connectWallet}
