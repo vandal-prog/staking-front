@@ -19,3 +19,30 @@
     font-size: 0.6rem !important;
   }
 }
+
+/* .single__nft__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} */
+
+.history__link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.bid__btn {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.nft-pledge-field {
+  width: 80%;
+  border: 1px solid #fff;
+  background: none;
+  margin: 0 auto;
+  color: #fff;
+  padding: 0.3125rem 0.5rem;
+  font-size: 0.7rem;
+}
