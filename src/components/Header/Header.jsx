@@ -1,8 +1,13 @@
-import React, { useRef, useEffect, Component } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
+import { AiOutlineClose } from "react-icons/ai";
+import { HiMenuAlt4 } from "react-icons/hi";
+
 import "./header.css";
 import { Container } from "reactstrap";
-
 import { NavLink, Link } from "react-router-dom";
+
+import { TransactionContext } from "../../context/TransactionContext";
 
 const NAV__LINKS = [
   {
@@ -32,43 +37,58 @@ const NAV__LINKS = [
 ];
 
 const Header = () => {
-  const headerRef = useRef(null);
+  const { connectWallet, currentAccount } = useContext(TransactionContext);
 
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
-      ) {
-        headerRef.current.classList.add("header__shrink");
-      } else {
-        headerRef.current.classList.remove("header__shrink");
-      }
-    });
-
-    return () => {
-      window.removeEventListener("scroll");
-    };
-  }, []);
-
-  const toggleMenu = () => menuRef.current.classList.toggle("active__menu");
+  const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
-    <header className="header" ref={headerRef}>
+    <header className="header header__shrink">
       <Container>
         <div className="navigation">
           <div className="logo">
-            <h2 className=" d-flex gap-2 align-items-center ">
-              <span>
-                <i class="ri-fire-fill"></i>
-              </span>
-              NFT METAPOOL
-            </h2>
+            <span className="mobile__menu">
+              {toggleMenu ? (
+                <AiOutlineClose
+                  onClick={() => {
+                    setToggleMenu(!toggleMenu);
+                  }}
+                />
+              ) : (
+                <HiMenuAlt4
+                  onClick={() => {
+                    setToggleMenu(!toggleMenu);
+                  }}
+                />
+              )}
+            </span>
+
+            <Link to="/home" className=" d-flex gap-2 align-items-center">
+              <h2 className=" d-flex gap-2 align-items-center ">
+                <span>
+                  <i class="ri-fire-fill"></i>
+                </span>
+                NFT METAPOOL
+              </h2>
+            </Link>
           </div>
 
-          <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
+          <div className="nav__right d-flex align-items-center gap-5 ">
+            {!currentAccount && (
+              <button
+                className="btn d-flex gap-2 align-items-center"
+                onClick={connectWallet}
+              >
+                <span>
+                  <i class="ri-wallet-line"></i>
+                </span>
+                Connect Wallet
+              </button>
+            )}
+          </div>
+
+          {/*This is rendered only if toggleMenu is true*/}
+
+          <div className={`nav__menu ${toggleMenu ? "" : "active__menu"}`}>
             <ul className="nav__list">
               {NAV__LINKS.map((item, index) => (
                 <li className="nav__item" key={index}>
@@ -83,22 +103,6 @@ const Header = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="nav__right d-flex align-items-center gap-5 ">
-            <button
-              className="btn d-flex gap-2 align-items-center"
-              textcolor=""
-            >
-              <span>
-                <i class="ri-wallet-line"></i>
-              </span>
-              <Link to="/wallet">Connect Wallet</Link>
-            </button>
-
-            <span className="mobile__menu">
-              <i class="ri-menu-line"></i>
-            </span>
           </div>
         </div>
       </Container>
