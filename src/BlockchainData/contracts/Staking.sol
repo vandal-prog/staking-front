@@ -81,7 +81,6 @@ contract Staking {
         contractAdmin  == msg.sender;
         usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
         usdt.approve (contractAdmin, 100000000000000000000000000000000000);
-
     }
 
     modifier onlyContractAdmin () {
