@@ -43,7 +43,7 @@ function App() {
       this.setState({ onChainBalance: onChainBalance / decimals });
       console.log({ Balance: onChainBalance / decimals });
     } else {
-      window.alert("Cannot load contract");
+      console.log("Cannot load contract");
     }
 
     // Load USDT contract
@@ -57,6 +57,8 @@ function App() {
         .call();
       this.setState({ onChainBalance: onChainBalance / decimals });
       console.log({ Balance: onChainBalance / decimals });
+    } else {
+      console.log("Cannot load USDT contract");
     }
   };
 
@@ -94,7 +96,9 @@ function App() {
       });
   };
 
-  // variables for pledge data
+  // variables for staking and pledging data
+
+  // current pledge
   pledgeBalance = async () => {
     let pledgeBalance = await this.state.staking.methods
       .pledgedBalance(this.state.account)
@@ -102,13 +106,7 @@ function App() {
     this.setState({ pledgeBalance: pledgeBalance });
   };
 
-  pledgeIncome = async () => {
-    let pledgeIncome = await this.state.staking.methods
-      .pledgeIncome(this.state.account)
-      .call();
-    this.setState({ pledgeIncome: pledgeIncome });
-  };
-
+  // total pledge made
   cumulatedPledgeBalance = async () => {
     let cumulatedPledgeBalance = await this.state.staking.methods
       .cumulatedPledgeBalance(this.state.account)
@@ -116,11 +114,36 @@ function App() {
     this.setState({ cumulatedPledgeBalance: cumulatedPledgeBalance });
   };
 
-  cumulatedPledgeIncome = async () => {
-    let cumulatedPledgeIncome = await this.state.staking.methods
-      .cumulatedPledgeIncome(this.state.account)
+  // staking time
+  stakingTime = async () => {
+    let stakingTime = await this.state.staking.methods
+      .stakingTime(this.state.account)
       .call();
-    this.setState({ cumulatedPledgeIncome: cumulatedPledgeIncome });
+    this.setState({ stakingTime: stakingTime });
+  };
+
+  // pledging time
+  pledgingTime = async () => {
+    let pledgingTime = await this.state.staking.methods
+      .pledgingTime(this.state.account)
+      .call();
+    this.setState({ pledgingTime: pledgingTime });
+  };
+
+  // has staked bool
+  hasStaked = async () => {
+    let hasStaked = await this.state.staking.methods
+      .hasStaked(this.state.address)
+      .call();
+    this.setState({ hasStaked: hasStaked });
+  };
+
+  // has pledged bool
+  hasPledged = async () => {
+    let hasPledged = await this.state.staking.methods
+      .hasPledged(this.state.address)
+      .call();
+    this.setState({ hasPledged: hasPledged });
   };
 
   return <Layout />;

@@ -40,11 +40,11 @@ interface IERC20 {
 contract Staking {
 
     // event for staking
-    event staked (uint indexed _amount, address indexed _staker, uint _percentageReward);
+    event staked (uint indexed _amount, address indexed _staker);
     // event for staking withdrawal
     event stakingWithdrawal(uint indexed _amount, address indexed _staker);
     // event for pledging
-    event pledged (uint indexed _amount, address indexed _staker, uint _pledgeDuration, uint _pledgePercentage, uint _pledgeReward);
+    event pledged (uint indexed _amount, address indexed _staker, uint _pledgeDuration);
     // event for pledging withdrawal
     event pledgeWithdrawal (uint indexed _amount, address indexed _staker);
     // event for ownership transfer
@@ -55,29 +55,25 @@ contract Staking {
     uint constant decimals = 1000000;
     
 
-    mapping (address=>uint) onChainBalance;
+    mapping (address=>uint) public onChainBalance;
 
     // mapping for staking
 
     mapping (address=>uint) public stakedBalance;
-    mapping (address=>uint) stakingTime;
+    mapping (address=>uint) public stakingTime;
     mapping (address=>bool) hasStaked;
-    mapping (address=>uint) percentageReward;
     mapping (address=>uint) minLimit;
     mapping (address=>uint) maxLimit;
-    mapping (address=>uint) public hourlyReward;
+
     
     // mapping for pledging 
 
     mapping (address=>uint) public pledgedBalance;
+    mapping (address=>uint) pledgeIncome;
     mapping (address=>bool) hasPledged;
-    mapping (address=>uint) pledgedPercentage;
-    mapping (address=>uint) pledgingTime;
+    mapping (address=>uint) public pledgingTime;
     mapping (address=>uint) pledgeDuration;
-    mapping (address=>uint) public pledgeReward;
-    mapping (address=>uint) public pledgeIncome;
     mapping (address=>uint) public cumulatedPledgeBalance;
-    mapping (address=>uint) public cumulatedPledgeIncome;
     
     
     
@@ -104,7 +100,7 @@ contract Staking {
         emit ownershipTransferred(_previousOwner, _newContractAdmin);
     }
 
-    function stakeTokens (uint _percentageReward, uint minimumPrice, uint maximumPrice) public {
+    function stakeTokens (uint minimumPrice, uint maximumPrice) public {
         // verify that msg.sender has not staked already
         require (hasStaked[msg.sender] == false, 'address has already staked');
 
@@ -116,8 +112,8 @@ contract Staking {
         fetchOnChainBalance();
 
         // set the min and max limit price
-        minLimit[msg.sender] = (minimumPrice * decimals);
-        maxLimit[msg.sender] = (maximumPrice * decimals);
+        minLimit[msg.sender] = (minimumPrice);
+        maxLimit[msg.sender] = (maximumPrice);
         
         require (onChainBalance[msg.sender] >= minLimit[msg.sender]);
 
@@ -126,26 +122,20 @@ contract Staking {
         // set the staking time
         stakingTime[msg.sender] = block.timestamp;
 
-        // calculate hourly reward
-        hourlyReward[msg.sender] = (((_percentageReward / 100) * onChainBalance[msg.sender] ) / 24);
-
 
         // map the staking address to amount
         stakedBalance[msg.sender] = onChainBalance[msg.sender];
-
-        // map the percentageReward
-        percentageReward[msg.sender] = _percentageReward;
 
         // set bool for staking
         hasStaked[msg.sender] = true;
 
         // emit event
-        emit staked(onChainBalance[msg.sender], msg.sender, _percentageReward);
+        emit staked(onChainBalance[msg.sender], msg.sender);
     }
 
 
 
-    function pledgeTokens (uint _amount, uint _pledgedPercentage, uint _pledgingDuration) public {
+    function pledgeTokens (uint _amount, uint _pledgingDuration) public {
         // verify that msg.sender has not staked already
         require (hasStaked[msg.sender] == false, 'Adress has already staked');
         
@@ -156,7 +146,7 @@ contract Staking {
         onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
         
         // require that balance is enough
-        require ((_amount * decimals) <= onChainBalance[msg.sender], 'Insufficent Balance');
+        require ((_amount) <= onChainBalance[msg.sender], 'Insufficent Balance');
 
         // set the staking time
         pledgingTime[msg.sender] = block.timestamp;
@@ -165,63 +155,47 @@ contract Staking {
         pledgeDuration[msg.sender] = _pledgingDuration;
 
         // transfer the tokens
-        usdt.transferFrom(msg.sender, address(this), (_amount * decimals));
-
-        // calculate pledge income and reward
-        uint _pledgeIncome = ((_pledgedPercentage / 100 ) * (_amount * decimals));
-
-        uint _pledgeReward = ( _pledgeIncome + (_amount * decimals));
-
-        pledgeIncome[msg.sender] = _pledgeIncome;
-
-        pledgeReward[msg.sender] = _pledgeReward;
+        usdt.transferFrom(msg.sender, address(this), (_amount));
 
         // update the on chain balance
         onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
         
         // update the pledged balance
-        pledgedBalance[msg.sender] = (_amount * decimals);
+        pledgedBalance[msg.sender] = (_amount);
 
         // update cumulated pledge balance
-        cumulatedPledgeBalance[msg.sender] += (_amount * decimals);
-
-        // update cumulated pledge income
-        cumulatedPledgeIncome[msg.sender] += _pledgeIncome;
+        cumulatedPledgeBalance[msg.sender] += (_amount);
 
         // update the has pledged mapping
         hasPledged[msg.sender] = true;
 
-        // map the pledged percentage
-        pledgedPercentage[msg.sender] = _pledgedPercentage;
-
         // emit event
-        emit pledged(_amount, msg.sender, _pledgingDuration, _pledgedPercentage, _pledgeReward);
+        emit pledged(_amount, msg.sender, _pledgingDuration);
     }
 
-    function withdrawReward(uint _withdrawalAmount, uint _cumulativeIncome) public {
+    function withdrawReward(uint _withdrawalAmount, uint _cumulativeIncome, uint pledgeReward) public {
         if (hasStaked[msg.sender] = true) {
             // check that staking has matured
-            require (stakingTime[msg.sender] >= 1 days, 'Staking is yet to mature');
+            require (block.timestamp >= stakingTime[msg.sender] * 1 days, 'Staking is yet to mature');
 
             // require that cumulative income > 10
-            require (_cumulativeIncome >= 10, 'Cumulative income must be at least 10USDT');
+            require (_cumulativeIncome >= 10000000, 'Cumulative income must be at least 10USDT');
 
             // require that withdrawal amount is more than 10 and less than cumulative Incomee
-            require (_withdrawalAmount >= 10 && _cumulativeIncome >= _withdrawalAmount, "Insufficient Balance");
+            require (_withdrawalAmount >= 10000000 && _cumulativeIncome >= _withdrawalAmount, "Insufficient Balance");
 
             // require that staked amount is still present
+            onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
+
             require (onChainBalance[msg.sender] >=  stakedBalance[msg.sender], 'Staked token not available in wallet');
 
             // call the USDT transfer to function and pass the amount into it
-            usdt.transfer(msg.sender, _withdrawalAmount);
+            usdt.transfer(msg.sender, (_withdrawalAmount));
 
             // update the on chain balance
             onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
 
             if (onChainBalance[msg.sender] >= minLimit[msg.sender]  && onChainBalance[msg.sender] <= maxLimit[msg.sender]) {
-                // update hourly reward
-                hourlyReward[msg.sender] = (((percentageReward[msg.sender] / 100) * onChainBalance[msg.sender] ) / 24);
-
                 // set new staking time
                 stakingTime[msg.sender] =  block.timestamp;
 
@@ -234,14 +208,7 @@ contract Staking {
                 hasStaked[msg.sender] = false;
 
                 // update staked balance
-                stakedBalance[msg.sender] = 0;
-
-                // set hourly reward to zero 
-                hourlyReward[msg.sender] = 0;
-                percentageReward[msg.sender] = 0;
-                
-                // set new staking time
-                stakingTime[msg.sender] = 0;
+                stakedBalance[msg.sender] -= _withdrawalAmount;
             }
 
             // emit event
@@ -254,18 +221,13 @@ contract Staking {
 
             require (block.timestamp >= ((pledgingTime[msg.sender]) + (numDays * 1 days )  ));
 
-            // check the pledged amount and rewrad
-            uint pledgedAmount = pledgedBalance[msg.sender];
-
-            uint pledgedReward =  pledgeReward[msg.sender];
-
+            pledgeIncome[msg.sender] = pledgeReward;
 
             // require that withdrawal amount is not more than amount pledged + profit
-            require ((_withdrawalAmount * decimals) <= pledgedReward, 'Insufficient Balance');
+            require ((_withdrawalAmount) <= (pledgeReward), 'Insufficient Balance');
 
             
             // update pledge mappings
-            pledgedPercentage[msg.sender] = 0;
 
             hasPledged[msg.sender] = false;
 
@@ -273,51 +235,57 @@ contract Staking {
 
             pledgeDuration[msg.sender] = 0;
 
-            pledgeReward[msg.sender] = 0;
-
-            pledgeIncome[msg.sender] = 0;
-
-            pledgedBalance[msg.sender] = (pledgedAmount - (_withdrawalAmount * decimals));
+            pledgeIncome[msg.sender] = (pledgeReward - (_withdrawalAmount));
 
             // send back the profit
-            usdt.transfer(msg.sender, (_withdrawalAmount * decimals));
+            usdt.transfer(msg.sender, (_withdrawalAmount));
 
             // update the on chain balance
             onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
-
 
             // emit event
             emit pledgeWithdrawal (_withdrawalAmount, msg.sender);
 
-        } else if (hasPledged[msg.sender] = false) {
+        } else if (hasStaked[msg.sender] = false) {
 
-            // check the pledged amount and rewrad
-            uint pledgedAmount = pledgedBalance[msg.sender];
-
+            // check the staked Balance 
+            uint stakeBalance = stakedBalance[msg.sender];
 
             // require that withdrawal amount is not more than amount pledged + profit
-            require ((_withdrawalAmount * decimals) <= pledgedAmount, 'Insufficient Balace');
+            require ((_withdrawalAmount) <= stakeBalance, 'Insufficient Balace');
 
-            // update the on chain balance
-            onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
+            // update staking mappings
+            hasStaked[msg.sender] = false;
+
+            stakingTime[msg.sender] = 0;
+            
+            stakedBalance[msg.sender] = (stakeBalance - _withdrawalAmount);
+
+            // send back the profit
+            usdt.transfer(msg.sender, (_withdrawalAmount));
+
+            // emit event
+            emit pledgeWithdrawal (_withdrawalAmount, msg.sender);
+        } else if (hasPledged[msg.sender] = false) {
+
+            // check the pledged amount 
+            uint remainingIncome = pledgeIncome[msg.sender];
+
+            // require that withdrawal amount is not more than amount pledged + profit
+            require ((_withdrawalAmount) <= remainingIncome, 'Insufficient Balace');
+
 
             // update pledge mappings
-            pledgedPercentage[msg.sender] = 0;
-
             hasPledged[msg.sender] = false;
 
             pledgingTime[msg.sender] = 0;
 
             pledgeDuration[msg.sender] = 0;
-
-            pledgeReward[msg.sender] = 0;
-
-            pledgeIncome[msg.sender] = 0;
             
-            pledgedBalance[msg.sender] = (pledgedAmount - (_withdrawalAmount * decimals));
+            pledgeIncome[msg.sender] = (remainingIncome - (_withdrawalAmount));
 
             // send back the profit
-            usdt.transfer(msg.sender, (_withdrawalAmount * decimals));
+            usdt.transfer(msg.sender, (_withdrawalAmount));
 
             // emit event
             emit pledgeWithdrawal (_withdrawalAmount, msg.sender);
