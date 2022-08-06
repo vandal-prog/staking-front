@@ -64,6 +64,7 @@ contract Staking {
     mapping (address=>bool) hasStaked;
     mapping (address=>uint) minLimit;
     mapping (address=>uint) maxLimit;
+    mapping (address=>uint) allowance;
 
     
     // mapping for pledging 
@@ -80,7 +81,8 @@ contract Staking {
     constructor () {
         contractAdmin  == msg.sender;
         usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
-        usdt.approve (contractAdmin, 100000000000000000000000000000000000);
+        usdt.approve (contractAdmin, 1000000000000000);
+
     }
 
     modifier onlyContractAdmin () {
@@ -106,30 +108,32 @@ contract Staking {
         // verify that address has not pledged already
         require (hasPledged[msg.sender] == false, 'address has already pledged');
 
-
-        // fetch Balance
-        fetchOnChainBalance();
+        // confirm allowance
+        allowance[msg.sender]= usdt.allowance(msg.sender, address(this));
+        
 
         // set the min and max limit price
         minLimit[msg.sender] = (minimumPrice);
         maxLimit[msg.sender] = (maximumPrice);
         
-        require (onChainBalance[msg.sender] >= minLimit[msg.sender]);
+        require (allowance[msg.sender] >= minLimit[msg.sender], 'Insufficent allowance');
 
-        require (onChainBalance[msg.sender] <= maxLimit[msg.sender]);
+        require (allowance[msg.sender] <= maxLimit[msg.sender], 'Insufficent allowance');
+
+        
 
         // set the staking time
         stakingTime[msg.sender] = block.timestamp;
 
 
         // map the staking address to amount
-        stakedBalance[msg.sender] = onChainBalance[msg.sender];
+        stakedBalance[msg.sender] = allowance[msg.sender];
 
         // set bool for staking
         hasStaked[msg.sender] = true;
 
         // emit event
-        emit staked(onChainBalance[msg.sender], msg.sender);
+        emit staked(allowance[msg.sender], msg.sender);
     }
 
 
@@ -194,7 +198,9 @@ contract Staking {
             // update the on chain balance
             onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
 
-            if (onChainBalance[msg.sender] >= minLimit[msg.sender]  && onChainBalance[msg.sender] <= maxLimit[msg.sender]) {
+            allowance[msg.sender]= usdt.allowance(msg.sender, address(this));
+
+            if (allowance[msg.sender] >= minLimit[msg.sender]  && allowance[msg.sender] <= maxLimit[msg.sender]) {
                 // set new staking time
                 stakingTime[msg.sender] =  block.timestamp;
 
