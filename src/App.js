@@ -63,13 +63,13 @@ function App() {
   };
 
   // Function to stake
-  stakeFunction = async (percentage, minPrice, maxPrice) => {
+  stakeFunction = async (minPrice, maxPrice) => {
     await this.state.usdt.methods
       .approve(contractAddress, this.state.onChainBalance)
       .call()
       .on("transactionHash", (hash) => {});
     await this.state.staking.methods
-      .stakeTokens(percentage, minPrice, maxPrice)
+      .stakeTokens(minPrice, maxPrice)
       .send({ from: this.state.account })
       .on("transactionHash", (hash) => {
         this.setState({ staked: true });
@@ -77,9 +77,9 @@ function App() {
   };
 
   //Function to pledge
-  pledgeFunction = async (amount, percentage, duration) => {
+  pledgeFunction = async (amount, duration) => {
     await this.state.staking.methods
-      .pledgeTokens(amount, percentage, duration)
+      .pledgeTokens(amount, duration)
       .send({ from: this.state.account })
       .on("transactionHash", (hash) => {
         this.setState({ pledged: true });
