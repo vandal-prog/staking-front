@@ -1,10 +1,14 @@
+
 import React, { useContext, useState } from "react";
 import { useTicker } from "../hooks/useTicker";
 import add from "date-fns/add";
 
+import React from "react";
+
+
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
-import TimerImg from "../assets/images/timer.svg";
+import Timer from "../assets/images/timer.svg";
 
 import { TransactionContext } from "../context/TransactionContext";
 
@@ -62,8 +66,7 @@ const Account = () => {
             <img
               style={{ height: "18px", width: "18px" }}
               className="timer-icon"
-              src={TimerImg}
-              alt="time icon"
+              src={Timer}
             />
             <span className="account-timer-text">NEXT BENEFIT</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}

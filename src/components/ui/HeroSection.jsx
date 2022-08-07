@@ -5,7 +5,7 @@ import "./hero-section.css";
 
 import heroImg from "../../assets/images/hero.png";
 
-const HeroSection = () => { 
+const HeroSection = () => {
   return (
     <section className="hero__section">
       <Container>
