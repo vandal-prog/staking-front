@@ -41,7 +41,7 @@ export const NFT__DATA = [
     creator: "5,000USDT",
     creatorImg: ava02,
     currentBid: "19,999",
-    percent:1.28,
+    percent: 1.28,
   },
 
   {
@@ -74,7 +74,7 @@ export const NFT__DATA = [
     creator: "100,000USDT",
     creatorImg: ava05,
     currentBid: "199,999",
-    percent:1.94,
+    percent: 1.94,
   },
 
   {
@@ -85,7 +85,7 @@ export const NFT__DATA = [
     creator: "200,000USDT",
     creatorImg: ava06,
     currentBid: "1,000,000",
-    percent:2.5,
+    percent: 2.5,
   },
 
   {
@@ -121,7 +121,7 @@ export const NFT__DATA = [
 
 export const SELLER__DATA = [
   {
-    id: "01",
+    id: "10",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0X023...13b",
     sellerImg: ava01,
@@ -132,7 +132,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "02",
+    id: "11",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x023...719",
     sellerImg: ava02,
@@ -143,7 +143,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "03",
+    id: "12",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0xa89...225",
     sellerImg: ava03,
@@ -154,7 +154,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "04",
+    id: "13",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -167,7 +167,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "05",
+    id: "14",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -180,7 +180,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "06",
+    id: "13",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -193,7 +193,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "01",
+    id: "14",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x987...a6c",
     sellerImg: ava07,
@@ -204,7 +204,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "02",
+    id: "15",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x9eb...O8b",
     sellerImg: ava08,
@@ -215,7 +215,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "03",
+    id: "16",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0xb92...12c",
     sellerImg: ava09,
@@ -226,7 +226,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "04",
+    id: "17",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -239,7 +239,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "05",
+    id: "18",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -252,7 +252,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "06",
+    id: "19",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 

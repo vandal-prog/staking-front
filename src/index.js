@@ -16,6 +16,7 @@ function getLibrary(provider) {
 }
 
 ReactDOM.render(
+
   <TransactionProvider>
     <React.StrictMode>
       <Router>

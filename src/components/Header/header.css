@@ -4,7 +4,7 @@
   line-height: 70px;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 0; 
   z-index: 111111;
 }
 
@@ -52,6 +52,36 @@
   padding: 7px 25px;
   border: 1px solid #5142fc;
   border-radius: 50px;
+}
+
+.nav__right .login-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav__right .account-id {
+  padding: 0.5rem;
+  height: 35px;
+  background: #8a2be2;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav__right .erc {
+  padding: 0.5rem;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .nav__right .btn a {
