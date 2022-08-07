@@ -2,11 +2,7 @@ import React, { useRef, useEffect, Component } from "react";
 import "./header.css";
 import { Container } from "reactstrap";
 
-
-import { TransactionContext } from "../../context/TransactionContext";
-import { shortenAddress } from "../../utils/shortenAddress";
 import { NavLink, Link } from "react-router-dom";
-
 
 const NAV__LINKS = [
   {
@@ -35,13 +31,10 @@ const NAV__LINKS = [
   },
 ];
 
-const Header = () => 
-  const { connectWallet, currentAccount, setCurrentAccount } =
-    useContext(TransactionContext);
+const Header = () => {
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
-
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -75,36 +68,7 @@ const Header = () =>
             </h2>
           </div>
 
-
-          <div className="nav__right d-flex align-items-center gap-5 ">
-            {currentAccount ? (
-              <div className="login-buttons">
-                <div className="erc">
-                  <span>ERC</span>
-                </div>
-                <div className="account-id">
-                  <span>{`${shortenAddress(currentAccount)}`}</span>
-                </div>
-              </div>
-            ) : (
-              <button
-                className="btn d-flex gap-2 align-items-center"
-                onClick={connectWallet}
-              >
-                <span>
-                  <i class="ri-wallet-line"></i>
-                </span>
-                Connect Wallet
-              </button>
-            )}
-          </div>
-
-          {/*This is rendered only if toggleMenu is true*/}
-
-          <div className={`nav__menu ${toggleMenu ? "" : "active__menu"}`}>
-=======
           <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
-
             <ul className="nav__list">
               {NAV__LINKS.map((item, index) => (
                 <li className="nav__item" key={index}>
