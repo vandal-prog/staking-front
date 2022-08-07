@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import { add } from "date-fns";
+
+import { useTicker } from "../hooks/useTicker";
+import { getRemainingTimeUntilMsTimestamp } from "../utils/countdownTimer";
 
 export const TransactionContext = React.createContext();
 
@@ -16,11 +20,46 @@ const getContract = () => {
 };
 
 export const TransactionProvider = ({ children }) => {
+  //state for current user account
   const [currentAccount, setCurrentAccount] = useState("");
 
+  // variable and state to render countdown timer
+  const defaultRemainingTime = {
+    seconds: "00",
+    minutes: "00",
+    hours: "00",
+    days: "00",
+  };
+
+  const futureDate = add(new Date(), {
+    days: 0,
+    hours: 1,
+    minutes: 0,
+  });
+
+  const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
+
+  // const hourTimestamp = 1659697200000;
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     updateRemainingTime(hourTimestamp);
+  //   }, 1000);
+  //   return () => clearInterval(intervalId);
+  // }, [hourTimestamp]);
+
+  // // const updateRemainingTime = ({ futureDate }) => {
+  // //   return setRemainingTime(useTicker(futureDate));
+  // // };
+
+  // const updateRemainingTime = (hourTimestamp) => {
+  //   return setRemainingTime(getRemainingTimeUntilMsTimestamp(hourTimestamp));
+  // };
+
+  // function that checks if wallet is connected
   const checkIfWalletIsConnected = async () => {
     try {
-      //if now wallet is found in browser it returns this
+      //if no wallet is found in browser it returns this
       if (!ethereum) return alert("Please install metamask");
 
       const accounts = await ethereum.request({ method: "eth_accounts" });
@@ -39,9 +78,10 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
+  // function that connects the wallet
   const connectWallet = async () => {
     try {
-      //if now wallet is found in browser it returns this
+      //if no wallet is found in browser it returns this
       if (!ethereum) return alert("Please install metamask");
 
       const accounts = await ethereum.request({
@@ -62,7 +102,16 @@ export const TransactionProvider = ({ children }) => {
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ connectWallet, currentAccount }}>
+    <TransactionContext.Provider
+      value={{
+        connectWallet,
+        currentAccount,
+        remainingTime,
+        futureDate,
+        setRemainingTime,
+        setCurrentAccount,
+      }}
+    >
       {children}
     </TransactionContext.Provider>
   );
