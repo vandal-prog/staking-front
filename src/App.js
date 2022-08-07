@@ -6,7 +6,7 @@ import Staking from "./BlockchainData/build/Staking.json";
 import USDT from "./BlockchainData/build/IERC20.json";
 
 function App() {
-  loadWeb3 = async () => {
+  /*loadWeb3 = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       try {
@@ -26,7 +26,7 @@ function App() {
   };
 
   // Fetch account and network ID
-  loadBlockchainData = async () => {
+  /*loadBlockchainData = async () => {
     const web3 = window.web3;
     const account = await web3.eth.getAccounts();
     this.setState({ account: account[0] });
@@ -144,7 +144,7 @@ function App() {
       .hasPledged(this.state.address)
       .call();
     this.setState({ hasPledged: hasPledged });
-  };
+  };*/
 
   return <Layout />;
 }

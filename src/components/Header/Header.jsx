@@ -35,7 +35,7 @@ const NAV__LINKS = [
   },
 ];
 
-const Header = () => 
+const Header = () => {
   const { connectWallet, currentAccount, setCurrentAccount } =
     useContext(TransactionContext);
   const headerRef = useRef(null);
@@ -136,6 +136,7 @@ const Header = () =>
               <i class="ri-menu-line"></i>
             </span>
           </div>
+        </div>
         </div>
       </Container>
     </header>

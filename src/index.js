@@ -9,6 +9,7 @@ import "remixicon/fonts/remixicon.css";
 
 import { Web3ReactProvider } from '@web3-react/core'
 import Web3 from 'web3'
+import { TransactionProvider } from "./context/TransactionContext";
 
 function getLibrary(provider) {
   return new Web3(provider)
@@ -22,5 +23,13 @@ ReactDOM.render(
     </Router>
     </Web3ReactProvider>
   </React.StrictMode>,
+  <TransactionProvider>
+    <React.StrictMode>
+      <Router>
+        <App />
+      </Router>
+    </React.StrictMode>
+  </TransactionProvider>,
+  
   document.getElementById("root")
 );
