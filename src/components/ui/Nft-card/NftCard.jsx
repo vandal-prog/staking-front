@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 
 import "./nft-card.css";
 
+import FormInput from "../forminput/form-input.component";
+
 import Modal from "../Modal/Modal";
 
 const NftCard = ({ item, pledge }) => {
   const { title, id, currentBid, imgUrl, creator, percent } = item;
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="single__nft__card">
@@ -35,8 +39,16 @@ const NftCard = ({ item, pledge }) => {
 
         {pledge ? (
           <div className="nft-pledge">
-            <input type="number" className="nft-pledge-field" />
+            <div>
+              <FormInput dollar />
+            </div>
             <button className="nft-pledge-btn">Start Pledge</button>
+            <span
+              className="nft-pledge-text"
+              onClick={() => setShowModal(true)}
+            >
+              Pledge record
+            </span>
           </div>
         ) : (
           <div className=" mt-3 nft-pledge">
@@ -46,8 +58,10 @@ const NftCard = ({ item, pledge }) => {
           </div>
         )}
 
+        {showModal ? <Modal setShowModal={setShowModal} /> : ""}
+
         <div className="history__link">
-          <Link to="#">Day APY {percent}%</Link>
+          <span>Day APY {percent}%</span>
         </div>
       </div>
     </div>

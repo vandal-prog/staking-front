@@ -8,6 +8,7 @@ import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
 
 import { TransactionContext } from "../../context/TransactionContext";
+import { shortenAddress } from "../../utils/shortenAddress";
 
 const NAV__LINKS = [
   {
@@ -37,7 +38,8 @@ const NAV__LINKS = [
 ];
 
 const Header = () => {
-  const { connectWallet, currentAccount } = useContext(TransactionContext);
+  const { connectWallet, currentAccount, setCurrentAccount } =
+    useContext(TransactionContext);
 
   const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -74,8 +76,13 @@ const Header = () => {
 
           <div className="nav__right d-flex align-items-center gap-5 ">
             {currentAccount ? (
-              <div className="erc">
-                <span>ERC</span>
+              <div className="login-buttons">
+                <div className="erc">
+                  <span>ERC</span>
+                </div>
+                <div className="account-id">
+                  <span>{`${shortenAddress(currentAccount)}`}</span>
+                </div>
               </div>
             ) : (
               <button

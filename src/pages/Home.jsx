@@ -9,6 +9,7 @@ import About from "../components/ui/aboutp/About";
 
 import Trending from "../components/ui/Trending-section/Trending";
 
+import Calculator from "../components/ui/calculator/calculator.component";
 import StepSection from "../components/ui/Step-section/StepSection";
 
 const Home = () => {
@@ -18,8 +19,9 @@ const Home = () => {
       <SellerSection />
       <About />
       <LiveAuction />
-      
+
       <Trending />
+      <Calculator />
       <StepSection />
     </>
   );
