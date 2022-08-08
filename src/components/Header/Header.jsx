@@ -1,12 +1,10 @@
-import React, { useRef, useEffect, Component } from "react";
+import React, { useRef, useEffect, useContext, Component } from "react";
 import "./header.css";
 import { Container } from "reactstrap";
-
 
 import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
 import { NavLink, Link } from "react-router-dom";
-
 
 const NAV__LINKS = [
   {
@@ -42,7 +40,6 @@ const Header = () => {
 
   const menuRef = useRef(null);
 
-
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (
@@ -75,7 +72,6 @@ const Header = () => {
             </h2>
           </div>
 
-
           <div className="nav__right d-flex align-items-center gap-5 ">
             {currentAccount ? (
               <div className="login-buttons">
@@ -102,41 +98,39 @@ const Header = () => {
           {/*This is rendered only if toggleMenu is true*/}
 
           <div className={`nav__menu ${toggleMenu ? "" : "active__menu"}`}>
-=======
-          <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
+            =======
+            <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
+              <ul className="nav__list">
+                {NAV__LINKS.map((item, index) => (
+                  <li className="nav__item" key={index}>
+                    <NavLink
+                      to={item.url}
+                      className={(navClass) =>
+                        navClass.isActive ? "active" : ""
+                      }
+                    >
+                      {item.display}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="nav__right d-flex align-items-center gap-5 ">
+              <button
+                className="btn d-flex gap-2 align-items-center"
+                textcolor=""
+              >
+                <span>
+                  <i class="ri-wallet-line"></i>
+                </span>
+                <Link to="/wallet">Connect Wallet</Link>
+              </button>
 
-            <ul className="nav__list">
-              {NAV__LINKS.map((item, index) => (
-                <li className="nav__item" key={index}>
-                  <NavLink
-                    to={item.url}
-                    className={(navClass) =>
-                      navClass.isActive ? "active" : ""
-                    }
-                  >
-                    {item.display}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="nav__right d-flex align-items-center gap-5 ">
-            <button
-              className="btn d-flex gap-2 align-items-center"
-              textcolor=""
-            >
-              <span>
-                <i class="ri-wallet-line"></i>
+              <span className="mobile__menu">
+                <i class="ri-menu-line"></i>
               </span>
-              <Link to="/wallet">Connect Wallet</Link>
-            </button>
-
-            <span className="mobile__menu">
-              <i class="ri-menu-line"></i>
-            </span>
+            </div>
           </div>
-        </div>
         </div>
       </Container>
     </header>
