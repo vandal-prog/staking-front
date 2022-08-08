@@ -11,11 +11,22 @@ import Account from "../pages/Account";
 import Wallet from "../pages/Wallet";
 import NftDetails from "../pages/NftDetails";
 
+import PledgeRecords from "../components/ui/pledgerecords/Pledgerecord";
+import Transferring from "../components/ui/transferring/transferring";
+import Progress from "../components/ui/progress/progress";
+import Completed from "../components/ui/completed/completed";
+
 const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/records" element={<PledgeRecords />}>
+        <Route path="transferring" element={<Transferring />} />
+        <Route path="progress" element={<Progress />} />
+        <Route path="completed" element={<Completed />} />
+      </Route>
+
       <Route path="/market" element={<Market />} />
       <Route path="/create" element={<Create />} />
       <Route path="/contact" element={<Contact />} />

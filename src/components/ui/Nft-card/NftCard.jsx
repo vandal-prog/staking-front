@@ -5,8 +5,6 @@ import "./nft-card.css";
 
 import FormInput from "../forminput/form-input.component";
 
-import Modal from "../Modal/Modal";
-
 const NftCard = ({ item, pledge }) => {
   const { title, id, currentBid, imgUrl, creator, percent } = item;
 
@@ -41,7 +39,9 @@ const NftCard = ({ item, pledge }) => {
               <FormInput dollar />
             </div>
             <button className="nft-pledge-btn">Start Pledge</button>
-            <span className="nft-pledge-text">Pledge record</span>
+            <span className="nft-pledge-text">
+              <Link to="/records/transferring">Pledge record</Link>
+            </span>
           </div>
         ) : (
           <div className=" mt-3 nft-pledge">
@@ -51,22 +51,8 @@ const NftCard = ({ item, pledge }) => {
           </div>
         )}
 
-        {/* {showModal ? <Modal setShowModal={setShowModal} /> : ""} */}
-
         <div className="history__link">
           <span>Day APY {percent}%</span>
-
-          <div className=" mt-3 d-flex align-items-center justify-content-between">
-            <button className="bid__btn d-flex align-items-center gap-1">
-              <i class="ri-shopping-bag-line"></i> Stake
-            </button>
-
-            {/* {showModal && <Modal setShowModal={setShowModal} />} */}
-
-            <span className="history__link">
-              <Link to="#">Day APY {percent}%</Link>
-            </span>
-          </div>
         </div>
       </div>
     </div>

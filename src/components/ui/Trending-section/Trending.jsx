@@ -15,11 +15,13 @@ const Trending = () => {
             <h3 className="trending__title">NFT pledge income</h3>
           </Col>
           <p>
-In the Automated market makers (AMM) pool, anyone can add liquidity to any NFT transaction in order to earn interest from market making. </p>
+            In the Automated market makers (AMM) pool, anyone can add liquidity
+            to any NFT transaction in order to earn interest from market making.{" "}
+          </p>
 
-          {NFT__DATA.slice(0, 8).map((item) => (
+          {NFT__DATA.slice(0, 6).map((item) => (
             <Col lg="3" md="4" sm="6" key={item.id} className="mb-4">
-              <NftCard item={item} />
+              <NftCard item={item} pledge />
             </Col>
           ))}
         </Row>
