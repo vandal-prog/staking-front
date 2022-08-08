@@ -31,11 +31,11 @@ export const TransactionProvider = ({ children }) => {
     days: "00",
   };
 
-  const futureDate = add(new Date(), {
-    days: 0,
-    hours: 1,
-    minutes: 0,
-  });
+  // const futureDate = add(new Date(), {
+  //   days: 0,
+  //   hours: 1,
+  //   minutes: 0,
+  // });
 
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
 
@@ -55,6 +55,12 @@ export const TransactionProvider = ({ children }) => {
   // const updateRemainingTime = (hourTimestamp) => {
   //   return setRemainingTime(getRemainingTimeUntilMsTimestamp(hourTimestamp));
   // };
+
+  //Trying new timer function 08/08/22
+  const [workMinutes, setWorkMinutes] = useState(60);
+  const [breakMinutes, setBreakMinutes] = useState(60);
+
+  const [isPaused, setIsPaused] = useState(false);
 
   // function that checks if wallet is connected
   const checkIfWalletIsConnected = async () => {
@@ -106,10 +112,15 @@ export const TransactionProvider = ({ children }) => {
       value={{
         connectWallet,
         currentAccount,
-        remainingTime,
-        futureDate,
+        defaultRemainingTime,
         setRemainingTime,
         setCurrentAccount,
+        workMinutes,
+        setWorkMinutes,
+        breakMinutes,
+        setBreakMinutes,
+        isPaused,
+        setIsPaused,
       }}
     >
       {children}

@@ -11,10 +11,10 @@
     font-size: 0.7rem !important;
   }
 
-  .bid__btn {
+  /* .bid__btn {
     padding: 4px 20px !important;
     font-size: 0.6rem !important;
-  }
+  } */
   .history__link a {
     font-size: 0.6rem !important;
   }
@@ -70,4 +70,20 @@
 
 .nft-pledge-text a:hover {
   color: #fff;
+}
+
+@media only screen and (max-width: 767px) {
+  .history__link {
+    width: 200px;
+    font-size: 20px;
+
+    position: absolute;
+    top: 10px;
+    left: 25%;
+  }
+
+  .bid__btn {
+    font-size: 20px !important;
+    /* padding: 1rem; */
+  }
 }
