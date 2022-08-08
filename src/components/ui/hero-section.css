@@ -32,6 +32,10 @@
   background: transparent;
 }
 
+.explore__btn:hover {
+  background-color: #5142fc;
+}
+
 .explore__btn i,
 .create__btn i {
   color: #fff;
