@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import { useTicker } from "../hooks/useTicker";
-import add from "date-fns/add";
+import React, { useContext } from "react";
+// import { useTicker } from "../hooks/useTicker";
+// import add from "date-fns/add";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
@@ -12,26 +12,14 @@ import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
 
 const Account = () => {
-  const { futureDate } = useContext(TransactionContext);
-  const defaultRemainingTime = {
-    seconds: "00",
-    minutes: "00",
-    hours: "00",
-    days: "00",
-  };
-
-  // const futureDate = add(new Date(), {
-  //   days: 0,
-  //   hours: 1,
-  //   minutes: 0,
-  // });
-
-  let [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
   // const futureDate = 1659697200;
 
-  remainingTime = useTicker(futureDate);
+  // remainingTime = useTicker(futureDate);
+  const settingsInfo = useContext(TransactionContext);
+  const { isPaused, setIsPaused } = settingsInfo;
+  console.log(isPaused);
 
   const DataValues = ({ title, value }) => (
     <div className="datavalues">
@@ -66,15 +54,12 @@ const Account = () => {
             />
             <span className="account-timer-text">NEXT BENEFIT</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
-            <Timer
-              days={`${remainingTime.days}`}
-              hours={`${remainingTime.hours}`}
-              minutes={`${remainingTime.minutes}`}
-              seconds={`${remainingTime.seconds}`}
-            />
+            <Timer />
           </div>
           <input type="number" className="account-infoInput" />
-          <button className="account-infobtn">Auto Withdrawal</button>
+          <button className="account-infobtn" onClick={() => setIsPaused(true)}>
+            Auto Withdrawal
+          </button>
         </div>
         <div className="account-container-header">NFT market making income</div>
         <div className="account-marketBal">
