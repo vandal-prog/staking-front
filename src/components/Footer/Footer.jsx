@@ -7,24 +7,7 @@ import { Link } from "react-router-dom";
 
 
 
-const RESOURCES = [
-  {
-    display: "Help Center",
-    url: "#",
-  },
-  {
-    display: "Partner",
-    url: "#",
-  },
-  {
-    display: "Community",
-    url: "#",
-  },
-  {
-    display: "Activity",
-    url: "#",
-  },
-];
+
 
 const COMPANY = [
   {
@@ -57,26 +40,17 @@ const Footer = () => {
                   <i class="ri-fire-fill"></i>
                 </span>
                 NFT METAPOOL
-              </h2>
-              <p>
-                Stake and earn the yield on the most
-                liquidity decentralized NFT marketplace
-              </p>
+              </h2> 
             </div>
           </Col>
 
-          
-
+             
           <Col lg="2" md="3" sm="6" className="mb-4">
-            <h5>Resources</h5>
-            <ListGroup className="list__group">
-              {RESOURCES.map((item, index) => (
-                <ListGroupItem key={index} className="list__item">
-                  <Link to={item.url}> {item.display} </Link>
-                </ListGroupItem>
-              ))}
-            </ListGroup>
-          </Col>
+             <p>
+                Stake and earn the yield on the most
+                liquidity decentralized NFT marketplace
+              </p>
+            </Col>  
 
           <Col lg="2" md="3" sm="6" className="mb-4">
             <h5>Company</h5>

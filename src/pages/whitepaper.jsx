@@ -1,28 +1,37 @@
-import React, { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import React from "react";
 
-const whitepaper = () => {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber] = useState(1);
 
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
 
+
+
+
+const Whitepaper = url => { 
+  window.open(url, '_blank', 'noopener,noreferrer');
   return (
+
     <div>
-      <Document
-        file="https://nftshouquan.oss-ap-northeast-1.aliyuncs.com/f85da435c7ca4e5a9e2e0ca556b5eca9.pdf"
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
-        <Page pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-    </div>
+      
+      <a href="https://nftshouquan.oss-ap-northeast-1.aliyuncs.com/f85da435c7ca4e5a9e2e0ca556b5eca9.pdf" target="_blank" rel="noopener noreferrer">
+        Google
+      </a>
+    </div> 
+    
+     
+
+
+    
+      
+        
+
+
+
+
+
+
+
+
+
   );
 }
 
-export default whitepaper;
+export default Whitepaper;

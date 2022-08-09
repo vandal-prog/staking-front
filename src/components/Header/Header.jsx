@@ -25,7 +25,7 @@ const NAV__LINKS = [
   },
   {
     display: "whitepaper",
-    url: "/contact",
+    url: "/whitepaper",
   },
   {
     display: "Account",
