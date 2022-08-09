@@ -34,7 +34,7 @@ const NAV__LINKS = [
   },
   {
     display: "FAQ",
-    url: "/contact",
+    url: "/home",
   },
 ];
 

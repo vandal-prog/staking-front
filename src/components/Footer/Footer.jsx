@@ -11,21 +11,23 @@ import { Link } from "react-router-dom";
 
 const COMPANY = [
   {
-    display: "About",
-    url: "#",
+    display: "Home",
+    url: "/home",
   },
   {
-    display: "Career",
-    url: "#",
+    display: "NftMarket",
+    url: "/market",
   },
   {
-    display: "Ranking",
-    url: "#",
+    display: "Invitefriends",
+    url: "/create",
   },
+  
   {
-    display: "Contact Us",
-    url: "/contact",
+    display: "Account",
+    url: "/account",
   },
+  
 ];
 
 const Footer = () => {

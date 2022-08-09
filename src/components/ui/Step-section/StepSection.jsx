@@ -7,25 +7,25 @@ import "./step-section.css";
 const STEP__DATA = [
   {
     title: "Setup your wallet",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "1.Create your account and add a wallet",
     icon: "ri-wallet-line",
   },
 
   {
-    title: "Create your collection",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    title: "choose your suitable plans",
+    desc: "2.Access to our review team standards",
     icon: "ri-layout-masonry-line",
   },
 
   {
     title: "Add your NFTs",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "3.Create your NFT and list it for sale ",
     icon: "ri-image-line",
   },
 
   {
     title: "List them for sale",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "4.Sell your item and get rewarded",
     icon: "ri-list-check",
   },
 ];
