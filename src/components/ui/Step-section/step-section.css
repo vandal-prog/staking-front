@@ -35,3 +35,6 @@
     line-height: 25px;
   }
 }
+.explore__btn:hover {
+  background-color: #5142fc;
+}

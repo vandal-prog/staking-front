@@ -24,10 +24,7 @@ const NAV__LINKS = [
     display: "Invitefriends",
     url: "/create",
   },
-  {
-    display: "whitepaper",
-    url: "/con"
-  },
+  
   {
     display: "Account",
     url: "/account",

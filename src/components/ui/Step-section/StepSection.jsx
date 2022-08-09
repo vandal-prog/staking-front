@@ -3,6 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import "./step-section.css";
+import "../hero-section.css";
 
 const STEP__DATA = [
   {
@@ -12,7 +13,7 @@ const STEP__DATA = [
   },
 
   {
-    title: "choose your suitable plans",
+    title: "choose plans",
     desc: "2.Access to our review team standards",
     icon: "ri-layout-masonry-line",
   },
@@ -53,8 +54,12 @@ const StepSection = () => {
                 </div>
               </div>
             </Col>
-          ))}
+            
+          )
+          
+          )}
         </Row>
+        
       </Container>
     </section>
   );

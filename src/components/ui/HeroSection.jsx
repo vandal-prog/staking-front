@@ -26,6 +26,15 @@ const HeroSection = () => {
                   <Link to="/market">Explore</Link>
                 </button>
               </div>
+              <div className="hero__btns d-flex align-items-center gap-2">
+                <button className=" explore__btn d-flex align-items-center gap-2">
+                  <i class="ri-image-line"></i>{" "}
+                  <a href="https://nftshouquan.oss-ap-northeast-1.aliyuncs.com/f85da435c7ca4e5a9e2e0ca556b5eca9.pdf" target="_blank" 
+                    rel="noreferrer">
+                  WHITEPAPER
+                  </a>
+                </button>
+              </div>
             </div>
           </Col>
 

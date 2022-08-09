@@ -1,19 +1,17 @@
 import React from "react";
-import port from "./Port.pdf"
-
+import pdf from "./Port.pdf";
 
 const Contact = () => {
- 
-
-  return (
- 
-
-    <a href={port} target="_blank" 
-                    rel="noreferrer"></a>
-    
-   );
+    return (
+        
+            
+                <a href={pdf} target="_blank" 
+                    rel="noreferrer">
+                    {Contact}
+                </a> 
+              
+        
+    );
+};
   
-}
-
-
 export default Contact;
