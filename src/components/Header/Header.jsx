@@ -10,6 +10,7 @@ import { NavLink, Link } from "react-router-dom";
 import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
 
+
 const NAV__LINKS = [
   {
     display: "Home",
@@ -25,7 +26,7 @@ const NAV__LINKS = [
   },
   {
     display: "whitepaper",
-    url: "/whitepaper",
+    url: "/con"
   },
   {
     display: "Account",
