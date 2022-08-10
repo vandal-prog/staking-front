@@ -5,8 +5,59 @@ import Web3 from "web3";
 import Staking from "./BlockchainData/build/Staking.json";
 import USDT from "./BlockchainData/build/IERC20.json";
 
-function App() {
-  /*loadWeb3 = async () => {
+class App {
+  // use a lifecycle method to run the loadBlockchainData function once page render
+  UNSAFE_componentWillMount = async () => {
+    await this.loadWeb3();
+    await this.loadBlockchainData();
+    await this.pledgeBalance();
+    await this.cumulatedPledgeBalance();
+    await this.pledgingTime();
+    await this.hasPledged();
+    await this.pledgeIncome();
+    await this.cumulatedPledgeIncome();
+    await this.hasStaked();
+    await this.stakingTime();
+    await this.hourlyIncome();
+    await this.teamSize();
+    await this.referralIncome();
+    await this.firstPopulationCount();
+    await this.secondPopulationCount();
+    await this.thirdPopulationCount();
+    await this.firstPopulationIncome();
+    await this.secondPopulationIncome();
+    await this.thirdPopulationIncome();
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: "",
+      staking: {},
+      onChainBalance: "",
+      usdt: {},
+      decimals: 1000000,
+      staked: false,
+      pledged: false,
+      pledgeBalance: "",
+      pledgeIncome: "",
+      cumulatedPledgeBalance: "",
+      cumulatedPledgeIncome: "",
+      pledgingTime: "",
+      stakingTime: "",
+      hourlyIncome: "",
+      teamSize: "",
+      firstPopulationCount: "",
+      secondPopulationCount: "",
+      thirdPopulationCount: "",
+      referralIncome: "",
+      firstPopulationIncome: "",
+      secondPopulationIncome: "",
+      thirdPopulationIncome: "",
+    };
+  }
+
+  loadWeb3 = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       try {
@@ -26,7 +77,7 @@ function App() {
   };
 
   // Fetch account and network ID
-  /*loadBlockchainData = async () => {
+  loadBlockchainData = async () => {
     const web3 = window.web3;
     const account = await web3.eth.getAccounts();
     this.setState({ account: account[0] });
@@ -34,42 +85,36 @@ function App() {
 
     // Load app contract
     const contractData = Staking.networks[networkId];
-    if (contractData) {
-      const staking = new web3.eth.Contract(Staking.abi, contractData.address);
+    const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
+      const staking = await new web3.eth.Contract(Staking.abi, contractAddress);
       this.setState({ staking });
-      let onChainBalance = await staking.methods
-        .onChainBalance(this.state.account)
-        .call();
-      this.setState({ onChainBalance: onChainBalance / decimals });
-      console.log({ Balance: onChainBalance / decimals });
-    } else {
-      console.log("Cannot load contract");
-    }
+   
 
     // Load USDT contract
     const USDTdata = USDT.networks[networkId];
     const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
-    if (USDTdata) {
-      const usdt = new web3.eth.Contract(USDT.abi, USDTaddress);
+      const usdt = await new web3.eth.Contract(USDT.abi, USDTaddress);
       this.setState({ usdt });
       let onChainBalance = await this.state.usdt.methods
         .balanceOf(this.state.account)
         .call();
-      this.setState({ onChainBalance: onChainBalance / decimals });
-      console.log({ Balance: onChainBalance / decimals });
-    } else {
-      console.log("Cannot load USDT contract");
-    }
+      this.setState({ onChainBalance: onChainBalance / this.state.decimals });
+      console.log({ Balance: onChainBalance / this.state.decimals });
   };
 
   // Function to stake
-  stakeFunction = async (minPrice, maxPrice) => {
+    stakeFunction = async (minPrice, maxPrice, percentage) => {
+    const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
     await this.state.usdt.methods
-      .approve(contractAddress, this.state.onChainBalance)
+      .approve(contractAddress, this.state.onChainBalance * this.state.decimals)
       .call()
       .on("transactionHash", (hash) => {});
     await this.state.staking.methods
-      .stakeTokens(minPrice, maxPrice)
+      .stakeTokens(
+        minPrice * this.state.decimals,
+        maxPrice * this.state.decimals,
+        percentage * 100
+      )
       .send({ from: this.state.account })
       .on("transactionHash", (hash) => {
         this.setState({ staked: true });
@@ -77,9 +122,14 @@ function App() {
   };
 
   //Function to pledge
-  pledgeFunction = async (amount, duration) => {
+  pledgeFunction = async (amount, duration, percentage, referrer) => {
     await this.state.staking.methods
-      .pledgeTokens(amount, duration)
+      .pledgeTokens(
+        amount * this.state.decimals,
+        duration,
+        percentage * 100,
+        referrer
+      )
       .send({ from: this.state.account })
       .on("transactionHash", (hash) => {
         this.setState({ pledged: true });
@@ -87,39 +137,33 @@ function App() {
   };
 
   // Function to withdraw
-  withdrawFunction = async (amount, cumulativeIncome) => {
+  withdrawFunction = async (amount) => {
     await this.state.staking.methods
-      .withdrawReward(amount, cumulativeIncome)
+      .withdrawReward(amount * this.state.decimals)
       .send({ from: this.state.account })
       .on("transactionHash", (hash) => {
         this.setState({ staked: false, pledged: false });
       });
   };
 
-  // variables for staking and pledging data
+  // fetching staking, pledging and referral data
 
-  // current pledge
+  // current pledge amount
   pledgeBalance = async () => {
     let pledgeBalance = await this.state.staking.methods
       .pledgedBalance(this.state.account)
       .call();
-    this.setState({ pledgeBalance: pledgeBalance });
+    this.setState({ pledgeBalance: pledgeBalance / this.state.decimals });
   };
 
-  // total pledge made
+  // total pledge made amount
   cumulatedPledgeBalance = async () => {
     let cumulatedPledgeBalance = await this.state.staking.methods
       .cumulatedPledgeBalance(this.state.account)
       .call();
-    this.setState({ cumulatedPledgeBalance: cumulatedPledgeBalance });
-  };
-
-  // staking time
-  stakingTime = async () => {
-    let stakingTime = await this.state.staking.methods
-      .stakingTime(this.state.account)
-      .call();
-    this.setState({ stakingTime: stakingTime });
+    this.setState({
+      cumulatedPledgeBalance: cumulatedPledgeBalance / this.state.decimals,
+    });
   };
 
   // pledging time
@@ -130,23 +174,129 @@ function App() {
     this.setState({ pledgingTime: pledgingTime });
   };
 
-  // has staked bool
-  hasStaked = async () => {
-    let hasStaked = await this.state.staking.methods
-      .hasStaked(this.state.address)
-      .call();
-    this.setState({ hasStaked: hasStaked });
-  };
-
   // has pledged bool
   hasPledged = async () => {
     let hasPledged = await this.state.staking.methods
       .hasPledged(this.state.address)
       .call();
-    this.setState({ hasPledged: hasPledged });
-  };*/
+    this.setState({ pledged: hasPledged });
+  };
 
-  return <Layout />;
+  // current pledge income
+  pledgeIncome = async () => {
+    let pledgeIncome = await this.state.staking.methods
+      .pledgeIncome(this.state.account)
+      .call();
+    this.setState({ pledgeIncome: pledgeIncome / this.state.decimals });
+  };
+
+  // cumulated pledge income
+  cumulatedPledgeIncome = async () => {
+    let cumulatedPledgeIncome = await this.state.staking.methods
+      .cumulatedPledgeIncome(this.state.account)
+      .call();
+    this.setState({
+      cumulatedPledgeIncome: cumulatedPledgeIncome / this.state.decimals,
+    });
+  };
+
+  // has staked bool
+  hasStaked = async () => {
+    let hasStaked = await this.state.staking.methods
+      .hasStaked(this.state.address)
+      .call();
+    this.setState({ staked: hasStaked });
+  };
+
+  // staking time
+  stakingTime = async () => {
+    let stakingTime = await this.state.staking.methods
+      .stakingTime(this.state.account)
+      .call();
+    this.setState({ stakingTime: stakingTime });
+  };
+
+  // hourly staking income
+  hourlyIncome = async () => {
+    let hourlyIncome = this.state.staking.methods
+      .hourlyIncome(this.state.account)
+      .call();
+    this.setState({ hourlyIncome: hourlyIncome / this.state.decimals });
+  };
+
+  // referral team size
+  teamSize = async () => {
+    let teamSize = this.state.staking.methods
+      .teamSize(this.state.account)
+      .call();
+    this.setState({ teamSize: teamSize });
+  };
+
+  // total referral income
+  referralIncome = async () => {
+    let referralIncome = this.state.staking.methods
+      .referralIncome(this.state.account)
+      .call();
+    this.setState({ referralIncome: referralIncome / this.state.decimals });
+  };
+
+  // first population referral count
+  firstPopulationCount = async () => {
+    let firstPopulationCount = this.state.staking.methods
+      .firstGenerationReferral(this.state.account)
+      .call();
+    this.setState({ firstPopulationCount: firstPopulationCount });
+  };
+
+  // second population referral count
+  secondPopulationCount = async () => {
+    let secondPopulationCount = this.state.staking.methods
+      .secondGenerationReferral(this.state.account)
+      .call();
+    this.setState({ secondPopulationCount: secondPopulationCount });
+  };
+
+  // third population referral count
+  thirdPopulationCount = async () => {
+    let thirdPopulationCount = this.state.staking.methods
+      .thirdGenerationReferral(this.state.account)
+      .call();
+    this.setState({ thirdPopulationCount: thirdPopulationCount });
+  };
+
+  // first population referral income
+  firstPopulationIncome = async () => {
+    let firstPopulationIncome = this.state.staking.methods
+      .firstGenerationIncome(this.state.account)
+      .call();
+    this.setState({
+      firstPopulationIncome: firstPopulationIncome / this.state.decimals,
+    });
+  };
+
+  // second population referral income
+  secondPopulationIncome = async () => {
+    let secondPopulationIncome = this.state.staking.methods
+      .secondGenerationIncome(this.state.account)
+      .call();
+    this.setState({
+      secondPopulationIncome: secondPopulationIncome / this.state.decimals,
+    });
+  };
+
+  // third population referral income
+  thirdPopulationIncome = async () => {
+    let thirdPopulationIncome = this.state.staking.methods
+      .thirdGenerationIncome(this.state.account)
+      .call();
+    this.setState({
+      thirdPopulationIncome: thirdPopulationIncome / this.state.decimals,
+    });
+  };
+
+  render() {
+    return <Layout />;
+  }
 }
 
 export default App;
