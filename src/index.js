@@ -9,6 +9,9 @@ import "remixicon/fonts/remixicon.css";
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
 
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 import { TransactionProvider } from "./context/TransactionContext";
 
 function getLibrary(provider) {
@@ -16,13 +19,16 @@ function getLibrary(provider) {
 }
 
 ReactDOM.render(
-
-  <TransactionProvider>
-    <React.StrictMode>
-      <Router>
-        <App />
-      </Router>
-    </React.StrictMode>
-  </TransactionProvider>,
+  // <TransactionProvider>
+  <Provider store={store}>
+    <Web3ReactProvider>
+      <React.StrictMode>
+        <Router>
+          <App />
+        </Router>
+      </React.StrictMode>
+    </Web3ReactProvider>
+  </Provider>,
+  // </TransactionProvider>,
   document.getElementById("root")
 );
