@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { HiMenuAlt4 } from "react-icons/hi";
@@ -9,7 +10,10 @@ import { NavLink, Link } from "react-router-dom";
 
 import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
-
+import {
+  setCurrentAccount,
+  setOnChainBalance,
+} from "../../redux/user/user.actions";
 
 const NAV__LINKS = [
   {
@@ -24,7 +28,7 @@ const NAV__LINKS = [
     display: "Invitefriends",
     url: "/create",
   },
-  
+
   {
     display: "Account",
     url: "/account",
@@ -35,11 +39,32 @@ const NAV__LINKS = [
   },
 ];
 
-const Header = () => {
-  const { connectWallet, currentAccount, setCurrentAccount } =
-    useContext(TransactionContext);
+const Header = ({ currentAccount, setCurrentAccount, setOnChainBalance }) => {
+  // const { currentAccount, connectWallet, setOnChainBalance } =
+  //   useContext(TransactionContext);
+  const { ethereum } = window;
 
   const [toggleMenu, setToggleMenu] = useState(false);
+
+  const connectWallet = async () => {
+    // }
+    try {
+      if (!ethereum) return alert("Please install metamask");
+
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      setCurrentAccount(accounts[0]);
+      setOnChainBalance(accounts[0]);
+      // console.log(state);
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No ethereum object");
+    }
+  };
+  console.log(currentAccount);
 
   return (
     <header className="header header__shrink">
@@ -85,7 +110,9 @@ const Header = () => {
             ) : (
               <button
                 className="btn d-flex gap-2 align-items-center"
-                onClick={connectWallet}
+                onClick={() => {
+                  connectWallet();
+                }}
               >
                 <span>
                   <i class="ri-wallet-line"></i>
@@ -119,4 +146,16 @@ const Header = () => {
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  currentAccount: state.user.currentAccount,
+  staking: state.user.staking,
+  usdt: state.user.usdt,
+  decimals: state.user.decimals,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
+  setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
+import { connect } from "react-redux";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
@@ -11,7 +12,7 @@ import { TransactionContext } from "../context/TransactionContext";
 import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
 
-const Account = () => {
+const Account = ({ onChainBalance }) => {
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
   // const futureDate = 1659697200;
@@ -63,7 +64,7 @@ const Account = () => {
         </div>
         <div className="account-container-header">NFT market making income</div>
         <div className="account-marketBal">
-          <DataValues title="On-chain balance" value={`${0}`} />
+          <DataValues title="On-chain balance" value={`${onChainBalance}`} />
           <DataValues title="Current rate of return" value={`${0}%`} />
           <DataValues title="Today's income" value={`${0}USDT`} />
           <DataValues title="Cummulative income" value={`${0}USDT`} />
@@ -87,4 +88,8 @@ const Account = () => {
   );
 };
 
-export default Account;
+const mapStateToProps = (state) => ({
+  onChainBalance: state.user.onChainBalance,
+});
+
+export default connect(mapStateToProps)(Account);

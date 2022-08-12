@@ -4,30 +4,39 @@ import Layout from "./components/Layout/Layout";
 import Web3 from "web3";
 import Staking from "./BlockchainData/build/Staking.json";
 import USDT from "./BlockchainData/build/IERC20.json";
+import { ethers } from "ethers";
+import { connect } from "react-redux";
 
-class App {
+import React from "react";
+import {
+  setCurrentAccount,
+  setStakingContract,
+  setUSDTContract,
+} from "./redux/user/user.actions";
+
+class App extends React.Component {
   // use a lifecycle method to run the loadBlockchainData function once page render
-  UNSAFE_componentWillMount = async () => {
-    await this.loadWeb3();
-    await this.loadBlockchainData();
-    await this.pledgeBalance();
-    await this.cumulatedPledgeBalance();
-    await this.pledgingTime();
-    await this.hasPledged();
-    await this.pledgeIncome();
-    await this.cumulatedPledgeIncome();
-    await this.hasStaked();
-    await this.stakingTime();
-    await this.hourlyIncome();
-    await this.teamSize();
-    await this.referralIncome();
-    await this.firstPopulationCount();
-    await this.secondPopulationCount();
-    await this.thirdPopulationCount();
-    await this.firstPopulationIncome();
-    await this.secondPopulationIncome();
-    await this.thirdPopulationIncome();
-  };
+  // UNSAFE_componentWillMount = async () => {
+  //   await this.loadWeb3();
+  //   await this.loadBlockchainData();
+  //   await this.pledgeBalance();
+  //   await this.cumulatedPledgeBalance();
+  //   await this.pledgingTime();
+  //   await this.hasPledged();
+  //   await this.pledgeIncome();
+  //   await this.cumulatedPledgeIncome();
+  //   await this.hasStaked();
+  //   await this.stakingTime();
+  //   await this.hourlyIncome();
+  //   await this.teamSize();
+  //   await this.referralIncome();
+  //   await this.firstPopulationCount();
+  //   await this.secondPopulationCount();
+  //   await this.thirdPopulationCount();
+  //   await this.firstPopulationIncome();
+  //   await this.secondPopulationIncome();
+  //   await this.thirdPopulationIncome();
+  // };
 
   constructor(props) {
     super(props);
@@ -84,26 +93,25 @@ class App {
     const networkId = await web3.eth.net.getId();
 
     // Load app contract
-    const contractData = Staking.networks[networkId];
+    // const contractData = Staking.networks[networkId];
     const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
-      const staking = await new web3.eth.Contract(Staking.abi, contractAddress);
-      this.setState({ staking });
-   
+    const staking = await new web3.eth.Contract(Staking.abi, contractAddress);
+    this.setState({ staking });
 
     // Load USDT contract
     const USDTdata = USDT.networks[networkId];
     const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
-      const usdt = await new web3.eth.Contract(USDT.abi, USDTaddress);
-      this.setState({ usdt });
-      let onChainBalance = await this.state.usdt.methods
-        .balanceOf(this.state.account)
-        .call();
-      this.setState({ onChainBalance: onChainBalance / this.state.decimals });
-      console.log({ Balance: onChainBalance / this.state.decimals });
+    const usdt = await new web3.eth.Contract(USDT.abi, USDTaddress);
+    this.setState({ usdt });
+    let onChainBalance = await this.state.usdt.methods
+      .balanceOf(this.state.account)
+      .call();
+    this.setState({ onChainBalance: onChainBalance / this.state.decimals });
+    console.log({ Balance: onChainBalance / this.state.decimals });
   };
 
   // Function to stake
-    stakeFunction = async (minPrice, maxPrice, percentage) => {
+  stakeFunction = async (minPrice, maxPrice, percentage) => {
     const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
     await this.state.usdt.methods
       .approve(contractAddress, this.state.onChainBalance * this.state.decimals)
@@ -294,9 +302,86 @@ class App {
     });
   };
 
+  componentDidMount() {
+    const { setCurrentAccount, setStakingContract, setUSDTContract, usdt } =
+      this.props;
+    const { ethereum } = window;
+
+    const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
+    // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
+    const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
+    const provider = new ethers.providers.Web3Provider(ethereum);
+
+    const getStakingContract = () => {
+      const signer = provider.getSigner();
+      const transactionContract = new ethers.Contract(
+        contractAddress,
+        Staking.abi,
+        signer
+      );
+
+      return transactionContract;
+    };
+
+    const getUSDTContract = () => {
+      const signer = provider.getSigner();
+      const transactionContract = new ethers.Contract(
+        USDTaddress,
+        USDT.abi,
+        signer
+      );
+
+      return transactionContract;
+    };
+
+    const checkIfWalletIsConnected = async () => {
+      try {
+        //if no wallet is found in browser it returns this
+        if (!ethereum) return alert("Please install metamask");
+
+        const accounts = await ethereum.request({
+          method: "eth_accounts",
+        });
+
+        console.log(accounts);
+
+        if (accounts.length) {
+          //getAllTransactions();
+          setCurrentAccount(accounts);
+        } else {
+          console.log("No accounts found");
+        }
+      } catch (error) {
+        console.log(error);
+
+        throw new Error("No ethereum object.");
+      }
+    };
+
+    const stakingContract = getStakingContract();
+    const usdtContract = getUSDTContract();
+    setStakingContract(stakingContract);
+    setUSDTContract(usdtContract);
+    checkIfWalletIsConnected();
+  }
+
   render() {
-    return <Layout />;
+    return (
+      // <BlockchainState>
+      <Layout />
+      // </BlockchainState>
+    );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  usdt: state.user.usdt,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
+  setStakingContract: (contract) => dispatch(setStakingContract(contract)),
+  setUSDTContract: (contract) => dispatch(setUSDTContract(contract)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

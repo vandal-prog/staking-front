@@ -1,12 +1,42 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { ethers } from "ethers";
 
 import "./nft-card.css";
 
 import FormInput from "../forminput/form-input.component";
+import { hasPledged, hasStaked } from "../../../redux/user/user.actions";
 
-const NftCard = ({ item, pledge }) => {
+const NftCard = ({
+  item,
+  pledge,
+  hasStaked,
+  hasPledged,
+  usdt,
+  staking,
+  onChainBalance,
+  decimals,
+  currentAccount,
+}) => {
   const { title, id, currentBid, imgUrl, creator, percent } = item;
+
+  // Function to stake
+  const stakeFunction = async (minPrice, maxPrice, percentage) => {
+    const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
+    const firstCall = await usdt.approve(
+      contractAddress,
+      onChainBalance * decimals
+    );
+
+    firstCall.getTransaction((hash) => {});
+    await staking
+      .stakeTokens(minPrice * decimals, maxPrice * decimals, percentage * 100)
+      .send({ from: currentAccount })
+      .on("transactionHash", (hash) => {
+        hasStaked();
+      });
+  };
 
   return (
     <div className="single__nft__card">
@@ -38,14 +68,26 @@ const NftCard = ({ item, pledge }) => {
             <div>
               <FormInput dollar />
             </div>
-            <button className="nft-pledge-btn">Start Pledge</button>
+            <button
+              className="nft-pledge-btn"
+              onClick={() => {
+                hasPledged();
+              }}
+            >
+              Start Pledge
+            </button>
             <span className="nft-pledge-text">
               <Link to="/records/transferring">Pledge record</Link>
             </span>
           </div>
         ) : (
           <div className=" mt-3 nft-pledge">
-            <button className="bid__btn ">
+            <button
+              className="bid__btn "
+              onClick={() => {
+                stakeFunction(creator, currentBid, percent);
+              }}
+            >
               <i class="ri-shopping-bag-line"></i> Stake
             </button>
           </div>
@@ -59,4 +101,17 @@ const NftCard = ({ item, pledge }) => {
   );
 };
 
-export default NftCard;
+const mapStateToProps = (state) => ({
+  currentAccount: state.user.currentAccount,
+  staking: state.user.staking,
+  usdt: state.user.usdt,
+  decimals: state.user.decimals,
+  onChainBalance: state.user.onChainBalance,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  hasStaked: () => dispatch(hasStaked()),
+  hasPledged: () => dispatch(hasPledged()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NftCard);
