@@ -82,7 +82,12 @@ const NftCard = ({
           </div>
         ) : (
           <div className=" mt-3 nft-pledge">
-            <button className="bid__btn ">
+            <button
+              className="bid__btn "
+              onClick={() => {
+                stakeFunction(creator, currentBid, percent);
+              }}
+            >
               <i class="ri-shopping-bag-line"></i> Start using
             </button>
           </div>
@@ -109,4 +114,4 @@ const mapDispatchToProps = (dispatch) => ({
   hasPledged: () => dispatch(hasPledged()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NftCard);
+export default connect(mapStateToProps, mapDispatchToProps)(NftCard);;
