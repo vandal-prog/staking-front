@@ -161,7 +161,12 @@ export const TransactionProvider = ({ children }) => {
   const connectWallet = async () => {
     // }
     try {
-      if (!ethereum) return alert("Please install metamask");
+
+     
+
+      //if no wallet is found in browser it returns this
+      if (!ethereum) return alert("Please install an ethereum wallet");
+
 
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
