@@ -83,7 +83,7 @@ const NftCard = ({
         ) : (
           <div className=" mt-3 nft-pledge">
             <button className="bid__btn ">
-              <i class="ri-shopping-bag-line"></i> start using
+              <i class="ri-shopping-bag-line"></i> Start using
             </button>
           </div>
         )}
