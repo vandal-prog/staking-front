@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Placeholder } from "reactstrap";
 import CommonSection from "../components/ui/Common-section/CommonSection";
 import QRCode from "qrcode.react";
 
@@ -25,13 +25,23 @@ const Create = () => {
           
          </Container>
        </div>
-       <Container className="bg-dark border-dark blue">
+       <Container className="bg-dark border-dark blue" >
         <Row>
-          <Col>
-          
-          </Col>
-
-        </Row>
+        <Col>
+          <div style={{ marginTop: 30, marginButtom: 30, display: "center"}}>
+            <center>
+              <QRCode
+               value="https://www.tutorialspoint.com/" bgColor="white" fgColor="blue" style={{ marginRight: 50, borderRadius: 10 }}/>
+            </center>
+          </div>
+       </Col>
+       </Row>
+       <Row>
+        
+       
+       
+       </Row>
+        
 
        </Container>
 
