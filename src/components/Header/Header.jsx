@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { ethers } from "ethers";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { HiMenuAlt4 } from "react-icons/hi";
@@ -42,11 +43,14 @@ const NAV__LINKS = [
 const Header = ({ currentAccount, setCurrentAccount, setOnChainBalance }) => {
   // const { currentAccount, connectWallet, setOnChainBalance } =
   //   useContext(TransactionContext);
+
   const { ethereum } = window;
 
   const [toggleMenu, setToggleMenu] = useState(false);
 
   const connectWallet = async () => {
+    // const provider = new ethers.providers.Web3Provider(ethereum);
+
     // }
     try {
       if (!ethereum) return alert("Please install metamask");
@@ -54,6 +58,8 @@ const Header = ({ currentAccount, setCurrentAccount, setOnChainBalance }) => {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
+
+      // const accounts = await provider.send("eth_requestAccounts", []);
 
       setCurrentAccount(accounts[0]);
       setOnChainBalance(accounts[0]);

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
+import { connect } from "react-redux";
 // import { useTicker } from "../../../hooks/useTicker";
 import { getRemainingTimeUntilMsTimestamp } from "../../../utils/countdownTimer";
 
 import { TransactionContext } from "../../../context/TransactionContext";
 import { useTicker } from "../../../hooks/useTicker";
 
-const Timer = () => {
+const Timer = (staked, user) => {
   //   let { futureDate } = useContext(TransactionContext);
 
   //   const { days, hours, minutes, seconds } = remainingTime;
@@ -15,14 +16,18 @@ const Timer = () => {
   //   updateRemainingTime();
 
   //   remainingTime = useTicker(futureDate);
-  const settingsInfo = useContext(TransactionContext);
+  // const settingsInfo = useContext(TransactionContext);
 
-  const { isPaused, setIsPaused } = settingsInfo;
+  const [workMinutes, setWorkMinutes] = useState(60);
+  const [breakMinutes, setBreakMinutes] = useState(60);
+
+  // const { isPaused, setIsPaused } = settingsInfo;
+  // const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState("work"); // work/break/null
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   const secondsLeftRef = useRef(secondsLeft);
-  const isPausedRef = useRef(isPaused);
+  // const isPausedRef = useRef(staked);
   const modeRef = useRef(mode);
 
   function tick() {
@@ -30,13 +35,13 @@ const Timer = () => {
     setSecondsLeft(secondsLeftRef.current);
   }
 
+  
+
   useEffect(() => {
     function switchMode() {
       const nextMode = modeRef.current === "work" ? "break" : "work";
       const nextSeconds =
-        (nextMode === "work"
-          ? settingsInfo.workMinutes
-          : settingsInfo.breakMinutes) * 60;
+        (nextMode === "work" ? workMinutes : breakMinutes) * 60;
 
       setMode(nextMode);
       modeRef.current = nextMode;
@@ -45,12 +50,12 @@ const Timer = () => {
       secondsLeftRef.current = nextSeconds;
     }
 
-    secondsLeftRef.current = settingsInfo.workMinutes * 60;
+    secondsLeftRef.current = workMinutes * 60;
     setSecondsLeft(secondsLeftRef.current);
 
     const interval = setInterval(() => {
-      if (isPausedRef.current) {
-        console.log(isPaused);
+      if (staked.staked === false) {
+        console.log(staked);
         return;
       }
       if (secondsLeftRef.current === 0) {
@@ -61,12 +66,9 @@ const Timer = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [settingsInfo]);
+  }, [staked]);
 
-  const totalSeconds =
-    mode === "work"
-      ? settingsInfo.workMinutes * 60
-      : settingsInfo.breakMinutes * 60;
+  const totalSeconds = mode === "work" ? workMinutes * 60 : breakMinutes * 60;
   const percentage = Math.round((secondsLeft / totalSeconds) * 100);
 
   const minutes = Math.floor(secondsLeft / 60);
@@ -76,4 +78,9 @@ const Timer = () => {
   return <div>{`${"00"}:${"00"}:${minutes}:${seconds}`}</div>;
 };
 
-export default Timer;
+const mapStateToProps = (state) => ({
+  user: state.user,
+  staked: state.user.staked,
+});
+
+export default connect(mapStateToProps)(Timer);

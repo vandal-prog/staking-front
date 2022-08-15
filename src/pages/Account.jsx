@@ -18,9 +18,9 @@ const Account = ({ onChainBalance }) => {
   // const futureDate = 1659697200;
 
   // remainingTime = useTicker(futureDate);
-  const settingsInfo = useContext(TransactionContext);
-  const { isPaused, setIsPaused } = settingsInfo;
-  console.log(isPaused);
+  // const settingsInfo = useContext(TransactionContext);
+  // const { isPaused, setIsPaused } = settingsInfo;
+  // console.log(isPaused);
 
   const DataValues = ({ title, value }) => (
     <div className="datavalues">
@@ -58,7 +58,7 @@ const Account = ({ onChainBalance }) => {
             <Timer />
           </div>
           <input type="number" className="account-infoInput" />
-          <button className="account-infobtn" onClick={() => setIsPaused(true)}>
+          <button className="account-infobtn" onClick={() => {}}>
             Auto Withdrawal
           </button>
         </div>

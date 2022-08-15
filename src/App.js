@@ -303,14 +303,19 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const { setCurrentAccount, setStakingContract, setUSDTContract, usdt } =
+    const { setCurrentAccount, setStakingContract, setUSDTContract } =
       this.props;
     const { ethereum } = window;
 
     const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
     // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
-    const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
-    const provider = new ethers.providers.Web3Provider(ethereum);
+    // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
+    const USDTaddress = "0xeE73506b3e775937157849dd384B2692f5cA3215";
+
+    const provider = new ethers.providers.JsonRpcProvider(
+      `https:/\/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
+    );
+    // const provider = new ethers.providers.Web3Provider(ethereum);
 
     const getStakingContract = () => {
       const signer = provider.getSigner();
@@ -347,7 +352,7 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          setCurrentAccount(accounts);
+          setCurrentAccount(accounts[0]);
         } else {
           console.log("No accounts found");
         }
@@ -374,14 +379,10 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  usdt: state.user.usdt,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
   setStakingContract: (contract) => dispatch(setStakingContract(contract)),
   setUSDTContract: (contract) => dispatch(setUSDTContract(contract)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

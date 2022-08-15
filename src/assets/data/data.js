@@ -27,9 +27,9 @@ export const NFT__DATA = [
     title: "Exe dream hight",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
     imgUrl: img01,
-    creator: "100USDT",
+    creator: "100",
     creatorImg: ava01,
-    currentBid: "4,999",
+    currentBid: "4999",
     percent: 1,
   },
 
@@ -38,9 +38,9 @@ export const NFT__DATA = [
     title: "walking on air",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
     imgUrl: img02,
-    creator: "5,000USDT",
+    creator: "5000",
     creatorImg: ava02,
-    currentBid: "19,999",
+    currentBid: "19999",
     percent: 1.28,
   },
 
@@ -49,9 +49,9 @@ export const NFT__DATA = [
     title: "scarecrow in daylight",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
     imgUrl: img03,
-    creator: "20,000USDT",
+    creator: "20000",
     creatorImg: ava03,
-    currentBid: "49,999",
+    currentBid: "49999",
     percent: 1.48,
   },
 
@@ -60,9 +60,9 @@ export const NFT__DATA = [
     title: "Neon cube NFTx",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
     imgUrl: img04,
-    creator: "50,000USDT",
+    creator: "50000",
     creatorImg: ava04,
-    currentBid: "99,999",
+    currentBid: "99999",
     percent: 1.7,
   },
 
@@ -71,9 +71,9 @@ export const NFT__DATA = [
     title: "Fly on high",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
     imgUrl: img05,
-    creator: "100,000USDT",
+    creator: "100000",
     creatorImg: ava05,
-    currentBid: "199,999",
+    currentBid: "199999",
     percent: 1.94,
   },
 
@@ -82,9 +82,9 @@ export const NFT__DATA = [
     title: "Liquid wave",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
     imgUrl: img06,
-    creator: "200,000USDT",
+    creator: "200000",
     creatorImg: ava06,
-    currentBid: "1,000,000",
+    currentBid: "1000000",
     percent: 2.5,
   },
 
@@ -116,6 +116,78 @@ export const NFT__DATA = [
     creator: "Trista Francis",
     creatorImg: ava05,
     currentBid: 5.89,
+  },
+
+  {
+    id: "22",
+    title: "Exe dream hight",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    imgUrl: img07,
+    creator: "1000",
+    creatorImg: ava01,
+    currentBid: "4999",
+    percent: 1.4,
+    days: 2,
+  },
+
+  {
+    id: "23",
+    title: "walking on air",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    imgUrl: img08,
+    creator: "5000",
+    creatorImg: ava02,
+    currentBid: "9999",
+    percent: 1.9,
+    days: 4,
+  },
+
+  {
+    id: "24",
+    title: "scarecrow in daylight",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    imgUrl: img09,
+    creator: "10000",
+    creatorImg: ava03,
+    currentBid: "49999",
+    percent: 2.5,
+    days: 7,
+  },
+
+  {
+    id: "25",
+    title: "Neon cube NFTx",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    imgUrl: img04,
+    creator: "50000",
+    creatorImg: ava04,
+    currentBid: "99999",
+    percent: 3,
+    days: 14,
+  },
+
+  {
+    id: "26",
+    title: "Fly on high",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    imgUrl: img05,
+    creator: "100000",
+    creatorImg: ava05,
+    currentBid: "199999",
+    percent: 3.5,
+    days: 21,
+  },
+
+  {
+    id: "27",
+    title: "Liquid wave",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    imgUrl: img06,
+    creator: "200000",
+    creatorImg: ava06,
+    currentBid: "500000",
+    percent: 4,
+    days: 30,
   },
 ];
 
@@ -180,7 +252,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "13",
+    id: "15",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -193,7 +265,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "14",
+    id: "16",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x987...a6c",
     sellerImg: ava07,
@@ -204,7 +276,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "15",
+    id: "17",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0x9eb...O8b",
     sellerImg: ava08,
@@ -215,7 +287,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "16",
+    id: "18",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
     sellerName: "0xb92...12c",
     sellerImg: ava09,
@@ -226,7 +298,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "17",
+    id: "19",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -239,7 +311,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "18",
+    id: "20",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 
@@ -252,7 +324,7 @@ export const SELLER__DATA = [
   },
 
   {
-    id: "19",
+    id: "21",
 
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia",
 

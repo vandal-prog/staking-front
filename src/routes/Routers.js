@@ -8,7 +8,6 @@ import Create from "../pages/Create";
 import Contact from "../pages/Contact";
 import Account from "../pages/Account";
 
-
 import Wallet from "../pages/Wallet";
 import NftDetails from "../pages/NftDetails";
 
