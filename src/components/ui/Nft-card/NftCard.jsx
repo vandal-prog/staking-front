@@ -221,8 +221,12 @@ const NftCard = ({
                 // hasStaked();
               }}
             >
+
               <i class="ri-shopping-bag-line"></i> Stake
             </button> */}
+
+              
+
           </div>
         )}
 
@@ -247,4 +251,4 @@ const mapDispatchToProps = (dispatch) => ({
   hasPledged: () => dispatch(hasPledged()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NftCard);
+export default connect(mapStateToProps, mapDispatchToProps)(NftCard);;
