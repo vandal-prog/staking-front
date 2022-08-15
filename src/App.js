@@ -7,7 +7,7 @@ import USDT from "./BlockchainData/build/IERC20.json";
 import { ethers } from "ethers";
 import { connect } from "react-redux";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   setCurrentAccount,
   setStakingContract,
