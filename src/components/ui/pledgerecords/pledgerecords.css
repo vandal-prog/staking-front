@@ -34,5 +34,21 @@
   background-color: #8a2be2;
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 767px) {
+  .pledgerecords {
+    padding: 6rem 2rem 2rem 2rem;
+  }
+
+  .pledgerecords-header {
+    margin-bottom: 1rem;
+  }
+
+  .pledgerecords-navigation {
+    margin-bottom: 1rem;
+  }
+
+  .pledgerecords-navigation-item {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
 }

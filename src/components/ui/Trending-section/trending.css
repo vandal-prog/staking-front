@@ -1,3 +1,13 @@
 .trending__title {
   color: #fff;
 }
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-card {
+  margin: 1rem;
+}

