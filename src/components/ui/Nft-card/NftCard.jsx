@@ -212,7 +212,7 @@ const NftCard = ({
                 // hasStaked();
               }}
             >
-              Stake
+              Start using
             </LoadingButton>
             {/* <button
               className="bid__btn "
