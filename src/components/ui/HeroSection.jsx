@@ -29,7 +29,7 @@ const HeroSection = () => {
               <div className="hero__btns d-flex align-items-center gap-2">
                 <button className=" explore__btn d-flex align-items-center gap-2">
                   <i class="ri-image-line"></i>{" "}
-                  <a href="https://drive.google.com/file/d/1t59344hTlVz5sykO-ZWa3shnNru4gYAJ/view" 
+                  <a href="https://drive.google.com/file/d/1zh6Qp4neAOBMs2egpdtrbwZddTW0C5S8/view?usp=sharing" target="_blank"
                     rel="noreferrer">
                   WHITEPAPER
                   </a>
