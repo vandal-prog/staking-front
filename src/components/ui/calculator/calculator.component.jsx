@@ -64,6 +64,7 @@ const Calculator = () => {
             e.preventDefault();
           }}
           value={hasSubmitted && calculateResult(formData)}
+          readOnly
         />
       </div>
     </div>
