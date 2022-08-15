@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   decimals: 1000000,
   staked: true,
   pledged: true,
+  pledgeRecords: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {

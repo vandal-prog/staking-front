@@ -63,6 +63,18 @@
   margin-bottom: 2rem;
 }
 
+.acount-records-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.acount-records-icon-text {
+  color: rgba(255, 255, 255, 0.4);
+}
+
 .account-info {
   padding: 6rem 5rem 2rem 5rem;
   font-size: 1.25rem;

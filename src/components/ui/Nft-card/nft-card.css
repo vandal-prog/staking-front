@@ -75,11 +75,14 @@
 @media only screen and (max-width: 767px) {
   .history__link {
     width: 200px;
-    font-size: 20px;
+    font-size: 16px;
 
     position: absolute;
-    top: 10px;
-    left: 25%;
+    margin-right: auto;
+    margin-bottom: auto;
+    right: 0;
+    left: 0;
+    text-align: center;
   }
 
   .bid__btn {
