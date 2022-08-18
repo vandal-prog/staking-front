@@ -1,6 +1,9 @@
 import "./app.css";
 import Layout from "./components/Layout/Layout";
 
+
+
+
 import Web3 from "web3";
 import Staking from "./BlockchainData/build/Staking.json";
 import USDT from "./BlockchainData/build/IERC20.json";
@@ -372,9 +375,13 @@ class App extends React.Component {
 
   render() {
     return (
+    
       // <BlockchainState>
-      <Layout />
+      
+          <Layout />
+     
       // </BlockchainState>
+      
     );
   }
 }
