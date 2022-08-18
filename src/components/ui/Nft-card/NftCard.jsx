@@ -12,6 +12,10 @@ import "./nft-card.css";
 import FormInput from "../forminput/form-input.component";
 import { hasPledged, hasStaked } from "../../../redux/user/user.actions";
 
+import { ethers } from "ethers";
+import USDT from "../../../BlockchainData/build/IERC20.json";
+import Staking from "../../../BlockchainData/build/Staking.json";
+
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
 });
@@ -26,6 +30,7 @@ const NftCard = ({
   onChainBalance,
   decimals,
   currentAccount,
+  days,
 }) => {
   const { title, id, currentBid, imgUrl, creator, percent } = item;
 
@@ -43,21 +48,32 @@ const NftCard = ({
   // Function to stake
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
     // const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
-    const contractAddress = "0xdb339be8E04Db248ea2bdD7C308c5589c121C68b";
+    // const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
+
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const signer = provider.getSigner();
+    // const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
+    // const usdtContract = new ethers.Contract(USDTaddress, USDT.abi, signer);
+    // const stakingContract = new ethers.Contract(
+    //   contractAddress,
+    //   Staking.abi,
+    //   signer
+    // );
 
     const firstCall = await usdt.approve(
-      contractAddress,
+      "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
       onChainBalance * decimals
     );
 
     const receipt = await firstCall.wait();
     console.log(receipt);
 
-    const minValue = parseFloat(minPrice) * decimals;
-    const maxValue = parseFloat(maxPrice) * decimals;
+    const minValue = parseFloat(minPrice);
+    const maxValue = parseFloat(maxPrice);
     const percentValue = percentage * 100;
 
     console.log(minValue, maxValue, percentValue);
+
     const secondCall = await staking.stakeTokens(
       minValue,
       maxValue,
@@ -65,20 +81,23 @@ const NftCard = ({
     );
     console.log(secondCall);
 
-    // const secondResult = secondCall.send({ from: currentAccount });
-    const secondResult = await secondCall.getValue();
-    console.log(secondResult);
-    hasStaked();
+    // These needs to be mapped into state
 
-    // .on("transactionHash", (hash) => {
-    // });
+    const secondResult = await staking.hasStaked(currentAccount);
+    console.log(secondResult);
+
+    const thirdCall = await staking.stakingTime(currentAccount);
+    console.log(thirdCall);
+
+    const fourthCall = await staking.hourlyIncome(currentAccount);
+    console.log(fourthCall);
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
     const amountValue = amount * decimals;
     const percentageValue = percentage * 100;
 
-    const firstCall = await staking.methods.pledgeTokens(
+    const firstCall = await staking.pledgeTokens(
       amountValue,
       duration,
       percentageValue,
@@ -86,13 +105,25 @@ const NftCard = ({
     );
     console.log(firstCall);
 
-    const secondCall = await firstCall.getValue();
+    // These need to be mapped into state
+
+    const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
-    // .send({ from: this.state.account })
-    // .on("transactionHash", (hash) => {
-    //   this.setState({ pledged: true });
-    // });
+    const thirdCall = await staking.hasPledged(currentAccount);
+    console.log(thirdCall);
+
+    const fourthCall = await staking.pledgeIncome(currentAccount);
+    console.log(fourthCall);
+
+    const fifthCall = await staking.pledgeBalance(currentAccount);
+    console.log(fifthCall);
+
+    const sixthCall = await staking.cumulatedPledgeIncome(currentAccount);
+    console.log(sixthCall);
+
+    const seventhCall = await staking.cumulatedPledgeBalance(currentAccount);
+    console.log(seventhCall);
   };
 
   const [belowRange, setBelowRange] = useState(false);
@@ -102,7 +133,15 @@ const NftCard = ({
     setLowBalance(false);
   };
 
-  const checker = (resultAmount, currentBid, creator, onChainBalance) => {
+  const checker = (
+    resultAmount,
+    currentBid,
+    creator,
+    onChainBalance,
+    days,
+    percent,
+    referrer
+  ) => {
     if (resultAmount > currentBid || resultAmount < creator) {
       // alert(`purchase range ${creator}-${currentBid}`);
       setBelowRange(true);
@@ -113,7 +152,13 @@ const NftCard = ({
     ) {
       setLowBalance(true);
     } else {
-      return;
+      pledgeFunction(
+        resultAmount,
+        days,
+        percent,
+        // "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb"
+        referrer
+      );
     }
   };
 
@@ -155,6 +200,7 @@ const NftCard = ({
               onClick={() => {
                 checker(resultAmount, currentBid, creator, onChainBalance);
                 // hasPledged();
+                // pledgeFunction(resultAmount, 2, 100, "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb");
               }}
             >
               Start Pledge
@@ -224,9 +270,6 @@ const NftCard = ({
 
               <i class="ri-shopping-bag-line"></i> Stake
             </button> */}
-
-              
-
           </div>
         )}
 
@@ -251,4 +294,4 @@ const mapDispatchToProps = (dispatch) => ({
   hasPledged: () => dispatch(hasPledged()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NftCard);;
+export default connect(mapStateToProps, mapDispatchToProps)(NftCard);
