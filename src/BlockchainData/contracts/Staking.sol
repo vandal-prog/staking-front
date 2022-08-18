@@ -121,8 +121,7 @@ contract Staking  {
     
     constructor () {
         contractAdmin  == 0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb;
-        usdt = IERC20(0x6EE856Ae55B6E1A249f04cd3b947141bc146273c);
-
+        usdt = IERC20(0xfab46e002bbf0b4509813474841e0716e6730136);
     }
 
     modifier onlyContractAdmin () {
