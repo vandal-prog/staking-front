@@ -6,15 +6,13 @@ import { connect } from "react-redux";
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
 import TimerImg from "../assets/images/timer.svg";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-// import { TransactionContext } from "../context/TransactionContext";
-import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
+import { TransactionContext } from "../context/TransactionContext";
 
 import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
 
-const Account = ({ onChainBalance, pledgeRecords }) => {
+const Account = ({ onChainBalance }) => {
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
   // const futureDate = 1659697200;
@@ -30,6 +28,24 @@ const Account = ({ onChainBalance, pledgeRecords }) => {
       <div className="datavalues-value">{value}</div>
     </div>
   );
+
+  const RecordDataValues = ({ date, value }) => (
+    <div className="recordvalue">
+      <div className="recordvalue-date">
+        <span className="recordvalue-date-text">Income</span>
+        <div className="recordvalue-date-time">{date}</div>
+      </div>
+      <div className="recordvalue-value">{value}</div>
+    </div>
+  );
+
+  // // Function to withdraw
+  // const withdrawTokens = async (amount) => {
+  //   const withdraw = await staking.withdrawReward(amount * deciamls);
+  // };
+
+  // const reciept = withdraw.wait();
+  // console.log(reciept);
 
   return (
     <>
@@ -70,25 +86,10 @@ const Account = ({ onChainBalance, pledgeRecords }) => {
         </div>
         <div className="account-container-header">Change account records</div>
         <div className="account-records">
-          {pledgeRecords.length ? (
-            <>
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-            </>
-          ) : (
-            <div className="acount-records-empty">
-              <DeleteForeverIcon
-                sx={{
-                  width: 100,
-                  height: 100,
-                  opacity: 0.5,
-                }}
-              />
-              <p className="acount-records-icon-text">No Data</p>
-            </div>
-          )}
+          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
+          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
+          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
+          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
         </div>
       </div>
     </>
@@ -97,7 +98,6 @@ const Account = ({ onChainBalance, pledgeRecords }) => {
 
 const mapStateToProps = (state) => ({
   onChainBalance: state.user.onChainBalance,
-  pledgeRecords: state.user.pledgeRecords,
 });
 
 export default connect(mapStateToProps)(Account);
