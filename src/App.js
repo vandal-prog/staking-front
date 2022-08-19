@@ -1,9 +1,6 @@
 import "./app.css";
 import Layout from "./components/Layout/Layout";
 
-
-
-
 import Web3 from "web3";
 import Staking from "./BlockchainData/build/Staking.json";
 import USDT from "./BlockchainData/build/IERC20.json";
@@ -44,33 +41,33 @@ class App extends React.Component {
   //   await this.thirdPopulationIncome();
   // };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      account: "",
-      staking: {},
-      onChainBalance: "",
-      usdt: {},
-      decimals: 1000000,
-      staked: false,
-      pledged: false,
-      pledgeBalance: "",
-      pledgeIncome: "",
-      cumulatedPledgeBalance: "",
-      cumulatedPledgeIncome: "",
-      pledgingTime: "",
-      stakingTime: "",
-      hourlyIncome: "",
-      teamSize: "",
-      firstPopulationCount: "",
-      secondPopulationCount: "",
-      thirdPopulationCount: "",
-      referralIncome: "",
-      firstPopulationIncome: "",
-      secondPopulationIncome: "",
-      thirdPopulationIncome: "",
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     account: "",
+  //     staking: {},
+  //     onChainBalance: "",
+  //     usdt: {},
+  //     decimals: 1000000,
+  //     staked: false,
+  //     pledged: false,
+  //     pledgeBalance: "",
+  //     pledgeIncome: "",
+  //     cumulatedPledgeBalance: "",
+  //     cumulatedPledgeIncome: "",
+  //     pledgingTime: "",
+  //     stakingTime: "",
+  //     hourlyIncome: "",
+  //     teamSize: "",
+  //     firstPopulationCount: "",
+  //     secondPopulationCount: "",
+  //     thirdPopulationCount: "",
+  //     referralIncome: "",
+  //     firstPopulationIncome: "",
+  //     secondPopulationIncome: "",
+  //     thirdPopulationIncome: "",
+  //   };
+  // }
 
   loadWeb3 = async () => {
     if (window.ethereum) {
@@ -324,11 +321,15 @@ class App extends React.Component {
     // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
     const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
 
-    // const provider = new ethers.providers.JsonRpcProvider(
-    //   `https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
-    // );
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    let provider;
 
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(`https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`);
+    }
+
+    
     const getStakingContract = () => {
       const signer = provider.getSigner();
       const transactionContract = new ethers.Contract(
@@ -365,9 +366,9 @@ class App extends React.Component {
         if (accounts.length) {
           //getAllTransactions();
           setCurrentAccount(accounts[0]);
-          await setOnChainBalance(accounts[0]);
-          await hasStaked();
-          await hasPledged();
+          setOnChainBalance(accounts[0]);
+          hasStaked();
+          hasPledged();
           
         } else {
           console.log("No accounts found");
@@ -388,13 +389,9 @@ class App extends React.Component {
 
   render() {
     return (
-    
       // <BlockchainState>
-      
-          <Layout />
-     
+      <Layout />
       // </BlockchainState>
-      
     );
   }
 }
