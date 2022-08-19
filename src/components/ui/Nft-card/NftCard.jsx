@@ -12,10 +12,6 @@ import "./nft-card.css";
 import FormInput from "../forminput/form-input.component";
 import { hasPledged, hasStaked } from "../../../redux/user/user.actions";
 
-import { ethers } from "ethers";
-import USDT from "../../../BlockchainData/build/IERC20.json";
-import Staking from "../../../BlockchainData/build/Staking.json";
-
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
 });
@@ -47,19 +43,6 @@ const NftCard = ({
 
   // Function to stake
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
-    // const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
-    // const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
-
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // const signer = provider.getSigner();
-    // const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
-    // const usdtContract = new ethers.Contract(USDTaddress, USDT.abi, signer);
-    // const stakingContract = new ethers.Contract(
-    //   contractAddress,
-    //   Staking.abi,
-    //   signer
-    // );
-
     const firstCall = await usdt.approve(
       "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
       onChainBalance * decimals
@@ -148,7 +131,7 @@ const NftCard = ({
     } else if (
       Number(resultAmount) <= currentBid ||
       Number(resultAmount) >= creator ||
-      Number(resultAmount) < onChainBalance
+      Number(resultAmount) > onChainBalance
     ) {
       setLowBalance(true);
     } else {
