@@ -120,9 +120,9 @@ export const NFT__DATA = [
 
   {
     id: "22",
-    title: "Exe dream hight",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img07,
+    imgUrl: ava09,
     creator: "1000",
     creatorImg: ava01,
     currentBid: "4999",
