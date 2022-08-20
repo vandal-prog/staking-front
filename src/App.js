@@ -15,6 +15,10 @@ import {
   setOnChainBalance,
   hasPledged,
   hasStaked,
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setPledgedBalance,
+  setPledgedIncome,
 } from "./redux/user/user.actions";
 
 class App extends React.Component {
@@ -313,6 +317,10 @@ class App extends React.Component {
       setOnChainBalance,
       hasStaked,
       hasPledged,
+      setPledgeBalance,
+      setPledgeIncome,
+      setCumulatedPledgeIncome,
+      setCumulatedPledgeBalance,
     } = this.props;
     const { ethereum } = window;
 
@@ -326,10 +334,11 @@ class App extends React.Component {
     if (window.ethereum) {
       provider = new ethers.providers.Web3Provider(window.ethereum);
     } else {
-      provider = new ethers.providers.JsonRpcProvider(`https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`);
+      provider = new ethers.providers.JsonRpcProvider(
+        `https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
+      );
     }
 
-    
     const getStakingContract = () => {
       const signer = provider.getSigner();
       const transactionContract = new ethers.Contract(
@@ -369,7 +378,6 @@ class App extends React.Component {
           setOnChainBalance(accounts[0]);
           hasStaked();
           hasPledged();
-          
         } else {
           console.log("No accounts found");
         }
@@ -401,8 +409,12 @@ const mapDispatchToProps = (dispatch) => ({
   setStakingContract: (contract) => dispatch(setStakingContract(contract)),
   setUSDTContract: (contract) => dispatch(setUSDTContract(contract)),
   setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
-  hasStaked: (stakedBool) => dispatch(hasStaked(stakedBool)),
-  hasPledged: (pledgedBool) => dispatch(hasStaked(pledgedBool)),
+  hasStaked: () => dispatch(hasStaked()),
+  hasPledged: () => dispatch(hasPledged()),
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
 });
 
 export default connect(null, mapDispatchToProps)(App);

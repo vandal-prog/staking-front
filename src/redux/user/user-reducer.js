@@ -7,6 +7,13 @@ const INITIAL_STATE = {
   staked: true,
   pledged: true,
   pledgeRecords: [],
+  stakingTime: null,
+  pledgingTime: null,
+  pledgeIncome: 0,
+  pledgeBalance: 0,
+  cumulatedPledgeIncome: 0,
+  cumulatedPledgeBalance: 0,
+  hourlyIncome: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -45,6 +52,36 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         pledged: action.payload,
+      };
+
+    case "SET_PLEGED_INCOME":
+      return {
+        ...state,
+        pledged: action.payload,
+      };
+
+    case "SET_PLEGED_BALANCE":
+      return {
+        ...state,
+        pledgeBalance: action.payload,
+      };
+
+    case "SET_CUMULATED_PLEDGE_INCOME":
+      return {
+        ...state,
+        cumulatedPledgeIncome: action.payload,
+      };
+
+    case "SET_CUMULATED_PLEDGE_BALANCE":
+      return {
+        ...state,
+        cumulatedPledgeBalance: action.payload,
+      };
+
+    case "SET_HOURLY_INCOME":
+      return {
+        ...state,
+        hourlyIncome: action.payload,
       };
     default:
       return state;

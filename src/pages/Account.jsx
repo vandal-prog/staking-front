@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
 import { connect } from "react-redux";
@@ -11,8 +11,20 @@ import { TransactionContext } from "../context/TransactionContext";
 
 import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
+import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { TimeConverter } from "../utils/timeConverter";
 
-const Account = ({ onChainBalance }) => {
+const Account = ({
+  onChainBalance,
+  pledgeIncome,
+  pledgeBalance,
+  cumulatedPledgeIncome,
+  cumulatedPledgeBalance,
+  pledgeRecords,
+  staking,
+  decimals,
+}) => {
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
   // const futureDate = 1659697200;
@@ -29,22 +41,24 @@ const Account = ({ onChainBalance }) => {
     </div>
   );
 
-  const RecordDataValues = ({ date, value }) => (
-    <div className="recordvalue">
-      <div className="recordvalue-date">
-        <span className="recordvalue-date-text">Income</span>
-        <div className="recordvalue-date-time">{date}</div>
-      </div>
-      <div className="recordvalue-value">{value}</div>
-    </div>
-  );
+  const [inputData, setInputData] = useState({
+    withdrawalAmount: "",
+  });
 
-  // // Function to withdraw
-  // const withdrawTokens = async (amount) => {
-  //   const withdraw = await staking.withdrawReward(amount * deciamls);
-  // };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputData((prevState) => ({ ...prevState, [name]: value }));
+  };
+  const withdrawalAmount = Number(inputData.withdrawalAmount);
+  let nowTime = TimeConverter(1661002435000);
+  console.log(nowTime);
 
-  // const reciept = withdraw.wait();
+  // Function to withdraw
+  const withdrawTokens = async (amount) => {
+    const withdraw = await staking.withdrawReward(amount * decimals);
+    const reciept = withdraw.wait();
+  };
+
   // console.log(reciept);
 
   return (
@@ -65,8 +79,18 @@ const Account = ({ onChainBalance }) => {
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
             <Timer />
           </div>
-          <input type="number" className="account-infoInput" />
-          <button className="account-infobtn" onClick={() => {}}>
+          <input
+            name="withdrawalAmount"
+            type="number"
+            className="account-infoInput"
+            onChange={handleChange}
+          />
+          <button
+            className="account-infobtn"
+            onClick={() => {
+              withdrawTokens(withdrawalAmount);
+            }}
+          >
             Auto Withdrawal
           </button>
         </div>
@@ -79,17 +103,38 @@ const Account = ({ onChainBalance }) => {
         </div>
         <div className="account-container-header">NFT pledge income</div>
         <div className="accoount-pledge">
-          <DataValues title="Current pledge" value={`${0}USDT`} />
-          <DataValues title="Current income" value={`${0}USDT`} />
-          <DataValues title="Cumulative pledge" value={`${0}USDT`} />
-          <DataValues title="Cumulative income" value={`${0}USDT`} />
+          <DataValues title="Current pledge" value={`${pledgeBalance}USDT`} />
+          <DataValues title="Current income" value={`${pledgeIncome}USDT`} />
+          <DataValues
+            title="Cumulative pledge"
+            value={`${cumulatedPledgeBalance}USDT`}
+          />
+          <DataValues
+            title="Cumulative income"
+            value={`${cumulatedPledgeIncome}USDT`}
+          />
         </div>
         <div className="account-container-header">Change account records</div>
         <div className="account-records">
-          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
-          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
-          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
-          <RecordDataValues date="2022/06/09 03:00" value="+0.1234545USDT" />
+          {pledgeRecords.length ? (
+            <>
+              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
+              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
+              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
+              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
+            </>
+          ) : (
+            <div className="acount-records-empty">
+              <DeleteForeverIcon
+                sx={{
+                  width: 100,
+                  height: 100,
+                  opacity: 0.5,
+                }}
+              />
+              <p className="acount-records-icon-text">No Data</p>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -98,6 +143,13 @@ const Account = ({ onChainBalance }) => {
 
 const mapStateToProps = (state) => ({
   onChainBalance: state.user.onChainBalance,
+  pledgeIncome: state.user.pledgeIncome,
+  pledgeBalance: state.user.pledgeBalance,
+  cumulatedPledgeIncome: state.user.cumulatedPledgeIncome,
+  cumulatedPledgeBalance: state.user.cumulatedPledgeBalance,
+  pledgeRecords: state.user.pledgeRecords,
+  decimals: state.user.decimals,
+  staking: state.user.staking,
 });
 
 export default connect(mapStateToProps)(Account);

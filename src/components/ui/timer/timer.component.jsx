@@ -6,7 +6,22 @@ import { getRemainingTimeUntilMsTimestamp } from "../../../utils/countdownTimer"
 import { TransactionContext } from "../../../context/TransactionContext";
 import { useTicker } from "../../../hooks/useTicker";
 
-const Timer = (staked, user) => {
+import {
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setHourlyIncome,
+  setPledgedBalance,
+  setPledgedIncome,
+} from "../../../redux/user/user.actions";
+
+const Timer = ({
+  staked,
+  setPledgeBalance,
+  setPledgeIncome,
+  setCumulatedPledgeIncome,
+  setCumulatedPledgeBalance,
+  setHourlyIncome,
+}) => {
   //   let { futureDate } = useContext(TransactionContext);
 
   //   const { days, hours, minutes, seconds } = remainingTime;
@@ -35,8 +50,6 @@ const Timer = (staked, user) => {
     setSecondsLeft(secondsLeftRef.current);
   }
 
-  
-
   useEffect(() => {
     function switchMode() {
       const nextMode = modeRef.current === "work" ? "break" : "work";
@@ -50,16 +63,23 @@ const Timer = (staked, user) => {
       secondsLeftRef.current = nextSeconds;
     }
 
+    const update = async () => {
+      await setPledgeBalance();
+      await setPledgeIncome();
+      await setCumulatedPledgeBalance();
+      await setCumulatedPledgeIncome();
+    };
+
     secondsLeftRef.current = workMinutes * 60;
     setSecondsLeft(secondsLeftRef.current);
 
     const interval = setInterval(() => {
-      if (staked.staked === false) {
-        console.log(staked);
+      if (staked === false) {
         return;
       }
       if (secondsLeftRef.current === 0) {
-        return switchMode();
+        switchMode();
+        update();
       }
 
       tick();
@@ -83,4 +103,12 @@ const mapStateToProps = (state) => ({
   staked: state.user.staked,
 });
 
-export default connect(mapStateToProps)(Timer);
+const mapDispatchToProps = (dispatch) => ({
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
