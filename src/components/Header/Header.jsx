@@ -15,6 +15,7 @@ import {
   setCurrentAccount,
   setOnChainBalance,
 } from "../../redux/user/user.actions";
+import TawkTo from 'tawkto-react'
 
 const NAV__LINKS = [
   {
@@ -70,6 +71,18 @@ const Header = ({ currentAccount, setCurrentAccount, setOnChainBalance }) => {
       throw new Error("No ethereum object");
     }
   };
+
+  useEffect( () => {
+
+    var tawk = new TawkTo("62ff470f54f06e12d88f87f1", "1gaqir5gs")
+
+    tawk.onStatusChange((status) => 
+    {
+        console.log("status")
+    })
+    
+  }, [] )
+
   console.log(currentAccount);
 
   return (
