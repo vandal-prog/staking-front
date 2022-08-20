@@ -200,6 +200,17 @@ const NftCard = ({
               <p>{days}</p>
             </div>
           </div>
+          
+          
+          <div>
+            <div className="creator__breakline">
+              <hr />
+            </div>
+             <div className="creator__period">
+              <h6>Total people</h6>
+              <p>{days}</p>
+            </div>
+          </div>
         )}
 
         {pledge ? (
