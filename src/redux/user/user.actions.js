@@ -33,8 +33,8 @@ export const setOnChainBalance = (account) => {
     const visibleBalance = balance / decimals;
 
     //   console.log(onChainBalance);
-    //   console.log(balance);
-    //   console.log(visibleBalance);
+    console.log(balance);
+    console.log(visibleBalance);
     //   return visibleBalance;
     // };
     dispatch({
@@ -66,6 +66,71 @@ export const hasPledged = () => {
     dispatch({
       type: "SET_PLEGED",
       payload: pledgedBool,
+    });
+  };
+};
+
+export const setPledgedIncome = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().user.currentAccount;
+    const pledgedIncome = await staking.pledgeIncome(address);
+
+    dispatch({
+      type: "SET_PLEGED_INCOME",
+      payload: pledgedIncome,
+    });
+  };
+};
+
+export const setPledgedBalance = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().user.currentAccount;
+    const pledgedBal = await staking.pledgeBalance(address);
+
+    dispatch({
+      type: "SET_PLEGED_BALANCE",
+      payload: pledgedBal,
+    });
+  };
+};
+
+export const setCumulatedPledgeIncome = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().user.currentAccount;
+    const cumPledgedIncome = await staking.cumulatedPledgeIncome(address);
+
+    dispatch({
+      type: "SET_CUMULATED_PLEDGE_INCOME",
+      payload: cumPledgedIncome,
+    });
+  };
+};
+
+export const setCumulatedPledgeBalance = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().user.currentAccount;
+    const cumPledgedBal = await staking.cumulatedPledgeBalance(address);
+
+    dispatch({
+      type: "SET_CUMULATED_PLEDGE_BALANCE",
+      payload: cumPledgedBal,
+    });
+  };
+};
+
+export const setHourlyIncome = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().user.currentAccount;
+    const hourlyIncome = await staking.hourlyIncome(address);
+
+    dispatch({
+      type: "SET_HOURLY_INCOME",
+      payload: hourlyIncome,
     });
   };
 };

@@ -10,7 +10,15 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import "./nft-card.css";
 
 import FormInput from "../forminput/form-input.component";
-import { hasPledged, hasStaked } from "../../../redux/user/user.actions";
+import {
+  hasPledged,
+  hasStaked,
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setHourlyIncome,
+  setPledgedBalance,
+  setPledgedIncome,
+} from "../../../redux/user/user.actions";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -26,9 +34,13 @@ const NftCard = ({
   onChainBalance,
   decimals,
   currentAccount,
-  days,
+  setPledgeBalance,
+  setPledgeIncome,
+  setCumulatedPledgeIncome,
+  setCumulatedPledgeBalance,
+  setHourlyIncome,
 }) => {
-  const { title, id, currentBid, imgUrl, creator, percent } = item;
+  const { title, id, currentBid, imgUrl, creator, percent, days } = item;
 
   const [inputData, setInputData] = useState({
     amountPledged: "",
@@ -66,14 +78,16 @@ const NftCard = ({
 
     // These needs to be mapped into state
 
-    const secondResult = await staking.hasStaked(currentAccount);
-    console.log(secondResult);
+    // const secondResult = await staking.hasStaked(currentAccount);
+    // console.log(secondResult);
+    hasStaked();
 
     const thirdCall = await staking.stakingTime(currentAccount);
     console.log(thirdCall);
 
-    const fourthCall = await staking.hourlyIncome(currentAccount);
-    console.log(fourthCall);
+    // const fourthCall = await staking.hourlyIncome(currentAccount);
+    // console.log(fourthCall);
+    setHourlyIncome();
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
@@ -93,20 +107,25 @@ const NftCard = ({
     const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
-    const thirdCall = await staking.hasPledged(currentAccount);
-    console.log(thirdCall);
+    // const thirdCall = await staking.hasPledged(currentAccount);
+    // console.log(thirdCall);
+    hasPledged();
 
-    const fourthCall = await staking.pledgeIncome(currentAccount);
-    console.log(fourthCall);
+    // const fourthCall = await staking.pledgeIncome(currentAccount);
+    // console.log(fourthCall);
+    setPledgeIncome();
 
-    const fifthCall = await staking.pledgeBalance(currentAccount);
-    console.log(fifthCall);
+    // const fifthCall = await staking.pledgeBalance(currentAccount);
+    // console.log(fifthCall);
+    setPledgeBalance();
 
-    const sixthCall = await staking.cumulatedPledgeIncome(currentAccount);
-    console.log(sixthCall);
+    // const sixthCall = await staking.cumulatedPledgeIncome(currentAccount);
+    // console.log(sixthCall);
+    setCumulatedPledgeIncome();
 
-    const seventhCall = await staking.cumulatedPledgeBalance(currentAccount);
-    console.log(seventhCall);
+    // const seventhCall = await staking.cumulatedPledgeBalance(currentAccount);
+    // console.log(seventhCall);
+    setCumulatedPledgeBalance();
   };
 
   const [belowRange, setBelowRange] = useState(false);
@@ -169,6 +188,19 @@ const NftCard = ({
             </div>
           </div>
         </div>
+
+        {pledge && (
+          <div>
+            <div className="creator__breakline">
+              <hr />
+            </div>
+
+            <div className="creator__period">
+              <h6>Total period</h6>
+              <p>{days}</p>
+            </div>
+          </div>
+        )}
 
         {pledge ? (
           <div className="nft-pledge">
@@ -275,6 +307,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   hasStaked: () => dispatch(hasStaked()),
   hasPledged: () => dispatch(hasPledged()),
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftCard);

@@ -72,6 +72,26 @@
   color: #fff;
 }
 
+.creator__breakline {
+  color: #fff;
+}
+
+.creator__period {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.creator__period h6 {
+  font-size: 0.85rem;
+}
+
+.creator__period p {
+  font-size: 0.85rem;
+}
+
 @media only screen and (max-width: 767px) {
   .history__link {
     width: 200px;
