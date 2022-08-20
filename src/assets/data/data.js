@@ -120,9 +120,9 @@ export const NFT__DATA = [
 
   {
     id: "22",
-    title: "Exe dream hight",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img07,
+    imgUrl: ava09,
     creator: "1000",
     creatorImg: ava01,
     currentBid: "4999",
@@ -132,9 +132,9 @@ export const NFT__DATA = [
 
   {
     id: "23",
-    title: "walking on air",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img08,
+    imgUrl: ava01,
     creator: "5000",
     creatorImg: ava02,
     currentBid: "9999",
@@ -144,9 +144,9 @@ export const NFT__DATA = [
 
   {
     id: "24",
-    title: "scarecrow in daylight",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img09,
+    imgUrl: ava02,
     creator: "10000",
     creatorImg: ava03,
     currentBid: "49999",
@@ -156,9 +156,9 @@ export const NFT__DATA = [
 
   {
     id: "25",
-    title: "Neon cube NFTx",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img04,
+    imgUrl: ava03,
     creator: "50000",
     creatorImg: ava04,
     currentBid: "99999",
@@ -168,9 +168,9 @@ export const NFT__DATA = [
 
   {
     id: "26",
-    title: "Fly on high",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img05,
+    imgUrl: ava04,
     creator: "100000",
     creatorImg: ava05,
     currentBid: "199999",
@@ -180,9 +180,9 @@ export const NFT__DATA = [
 
   {
     id: "27",
-    title: "Liquid wave",
+    title: "BoredApe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
-    imgUrl: img06,
+    imgUrl: ava05,
     creator: "200000",
     creatorImg: ava06,
     currentBid: "500000",

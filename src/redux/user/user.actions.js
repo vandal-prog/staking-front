@@ -1,3 +1,6 @@
+import USDT from "../../BlockchainData/build/IERC20.json";
+import { ethers } from "ethers";
+
 export const setCurrentAccount = (account) => ({
   type: "SET_CURRENT_ACCOUNT",
   payload: account,
@@ -14,9 +17,15 @@ export const setUSDTContract = (contract) => ({
 });
 
 export const setOnChainBalance = (account) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+
+  const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
+  const usdtContract = new ethers.Contract(USDTaddress, USDT.abi, signer);
+
   return async (dispatch, getState) => {
     // const getOnChainBalance = async (account) => {
-    const usdt = getState().user.usdt;
+    const usdt = new ethers.Contract(USDTaddress, USDT.abi, signer);
     const decimals = getState().user.decimals;
     const onChainBalance = await usdt.balanceOf(account);
 

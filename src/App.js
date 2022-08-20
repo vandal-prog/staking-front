@@ -7,11 +7,14 @@ import USDT from "./BlockchainData/build/IERC20.json";
 import { ethers } from "ethers";
 import { connect } from "react-redux";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   setCurrentAccount,
   setStakingContract,
   setUSDTContract,
+  setOnChainBalance,
+  hasPledged,
+  hasStaked,
 } from "./redux/user/user.actions";
 
 class App extends React.Component {
@@ -38,33 +41,33 @@ class App extends React.Component {
   //   await this.thirdPopulationIncome();
   // };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      account: "",
-      staking: {},
-      onChainBalance: "",
-      usdt: {},
-      decimals: 1000000,
-      staked: false,
-      pledged: false,
-      pledgeBalance: "",
-      pledgeIncome: "",
-      cumulatedPledgeBalance: "",
-      cumulatedPledgeIncome: "",
-      pledgingTime: "",
-      stakingTime: "",
-      hourlyIncome: "",
-      teamSize: "",
-      firstPopulationCount: "",
-      secondPopulationCount: "",
-      thirdPopulationCount: "",
-      referralIncome: "",
-      firstPopulationIncome: "",
-      secondPopulationIncome: "",
-      thirdPopulationIncome: "",
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     account: "",
+  //     staking: {},
+  //     onChainBalance: "",
+  //     usdt: {},
+  //     decimals: 1000000,
+  //     staked: false,
+  //     pledged: false,
+  //     pledgeBalance: "",
+  //     pledgeIncome: "",
+  //     cumulatedPledgeBalance: "",
+  //     cumulatedPledgeIncome: "",
+  //     pledgingTime: "",
+  //     stakingTime: "",
+  //     hourlyIncome: "",
+  //     teamSize: "",
+  //     firstPopulationCount: "",
+  //     secondPopulationCount: "",
+  //     thirdPopulationCount: "",
+  //     referralIncome: "",
+  //     firstPopulationIncome: "",
+  //     secondPopulationIncome: "",
+  //     thirdPopulationIncome: "",
+  //   };
+  // }
 
   loadWeb3 = async () => {
     if (window.ethereum) {
@@ -303,20 +306,30 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const { setCurrentAccount, setStakingContract, setUSDTContract } =
-      this.props;
+    const {
+      setCurrentAccount,
+      setStakingContract,
+      setUSDTContract,
+      setOnChainBalance,
+      hasStaked,
+      hasPledged,
+    } = this.props;
     const { ethereum } = window;
 
-    const contractAddress = "0xbF3aF2FA79ba903aCd7108D0A629B8CC9e33F4f8";
+    const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
     // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
     // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
-    const USDTaddress = "0xeE73506b3e775937157849dd384B2692f5cA3215";
+    const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
 
-    const provider = new ethers.providers.JsonRpcProvider(
-      `https:/\/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
-    );
-    // const provider = new ethers.providers.Web3Provider(ethereum);
+    let provider;
 
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(`https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`);
+    }
+
+    
     const getStakingContract = () => {
       const signer = provider.getSigner();
       const transactionContract = new ethers.Contract(
@@ -353,6 +366,10 @@ class App extends React.Component {
         if (accounts.length) {
           //getAllTransactions();
           setCurrentAccount(accounts[0]);
+          setOnChainBalance(accounts[0]);
+          hasStaked();
+          hasPledged();
+          
         } else {
           console.log("No accounts found");
         }
@@ -383,6 +400,9 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
   setStakingContract: (contract) => dispatch(setStakingContract(contract)),
   setUSDTContract: (contract) => dispatch(setUSDTContract(contract)),
+  setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
+  hasStaked: (stakedBool) => dispatch(hasStaked(stakedBool)),
+  hasPledged: (pledgedBool) => dispatch(hasStaked(pledgedBool)),
 });
 
 export default connect(null, mapDispatchToProps)(App);
