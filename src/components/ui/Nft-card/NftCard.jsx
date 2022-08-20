@@ -199,11 +199,9 @@ const NftCard = ({
               <h6>Total period</h6>
               <p>{days}</p>
             </div>
-          </div>
           
           
-          <div>
-            <div className="creator__breakline">
+           <div className="creator__breakline">
               <hr />
             </div>
              <div className="creator__period">
