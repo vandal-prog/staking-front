@@ -40,7 +40,7 @@ const NftCard = ({
   setCumulatedPledgeBalance,
   setHourlyIncome,
 }) => {
-  const { title, id, currentBid, imgUrl, creator, percent, days } = item;
+  const { title, id, currentBid, imgUrl, creator, percent, days, people } = item;
 
   const [inputData, setInputData] = useState({
     amountPledged: "",
@@ -206,7 +206,7 @@ const NftCard = ({
             </div>
              <div className="creator__period">
               <h6>Total people</h6>
-              <p>{days}</p>
+              <p>{people}</p>
             </div>
           </div>
         )}
