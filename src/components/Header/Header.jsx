@@ -27,6 +27,7 @@ import {
   setPledgedBalance,
   setPledgedIncome,
 } from "../../redux/user/user.actions";
+import TawkTo from 'tawkto-react'
 
 const NAV__LINKS = [
   {
@@ -127,6 +128,7 @@ const Header = ({
     });
   }, []);
   // console.log(currentAccount);
+
 
   return (
     <header className="header header__shrink">

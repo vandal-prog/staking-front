@@ -35,6 +35,7 @@
     "redux-thunk": "^2.4.1",
     "remixicon": "^2.5.0",
     "reselect": "^4.1.6",
+    "tawkto-react": "^3.0.1",
     "web-vitals": "^1.1.2",
     "web3": "^1.7.4"
   },
