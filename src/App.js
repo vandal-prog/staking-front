@@ -333,7 +333,7 @@ class App extends React.Component {
    
 
     if (!window.ethereum) {
-      alert("Please, install MetaMask and reload this page");
+      alert("Please, install ETH wallet and reload this page");
     }
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
