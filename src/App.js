@@ -19,6 +19,7 @@ import {
   setCumulatedPledgeIncome,
   setPledgedBalance,
   setPledgedIncome,
+  setHourlyIncome,
 } from "./redux/user/user.actions";
 
 class App extends React.Component {
@@ -321,6 +322,7 @@ class App extends React.Component {
       setPledgeIncome,
       setCumulatedPledgeIncome,
       setCumulatedPledgeBalance,
+      setHourlyIncome,
     } = this.props;
     const { ethereum } = window;
 
@@ -328,16 +330,13 @@ class App extends React.Component {
     // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
     // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
     const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
+   
 
-    let provider;
-
-    if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-    } else {
-      provider = new ethers.providers.JsonRpcProvider(
-        `https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
-      );
+    if (!window.ethereum) {
+      alert("Please, install MetaMask and reload this page");
     }
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     const getStakingContract = () => {
       const signer = provider.getSigner();
@@ -374,10 +373,15 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          setCurrentAccount(accounts[0]);
-          setOnChainBalance(accounts[0]);
-          hasStaked();
-          hasPledged();
+          await setCurrentAccount(accounts[0]);
+          await setOnChainBalance();
+          await hasStaked();
+          await hasPledged();
+          await setPledgeIncome();
+          await setPledgeBalance();
+          await setCumulatedPledgeIncome();
+          await setCumulatedPledgeBalance();
+          await setHourlyIncome();
         } else {
           console.log("No accounts found");
         }
@@ -415,6 +419,7 @@ const mapDispatchToProps = (dispatch) => ({
   setPledgeBalance: () => dispatch(setPledgedBalance()),
   setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
 });
 
 export default connect(null, mapDispatchToProps)(App);
