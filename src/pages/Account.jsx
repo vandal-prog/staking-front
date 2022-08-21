@@ -88,7 +88,7 @@ const Account = ({
           <button
             className="account-infobtn"
             onClick={() => {
-              withdrawTokens(withdrawalAmount);
+              withdrawTokens(withdrawalAmount * decimals);
             }}
           >
             Auto Withdrawal
