@@ -40,7 +40,8 @@ const NftCard = ({
   setCumulatedPledgeBalance,
   setHourlyIncome,
 }) => {
-  const { title, id, currentBid, imgUrl, creator, percent, days, people } = item;
+  const { title, id, currentBid, imgUrl, creator, percent, days, people } =
+    item;
 
   const [inputData, setInputData] = useState({
     amountPledged: "",
@@ -148,8 +149,8 @@ const NftCard = ({
       // alert(`purchase range ${creator}-${currentBid}`);
       setBelowRange(true);
     } else if (
-      Number(resultAmount) <= currentBid ||
-      Number(resultAmount) >= creator ||
+      // Number(resultAmount) >= currentBid ||
+      // Number(resultAmount) <= creator ||
       Number(resultAmount) > onChainBalance
     ) {
       setLowBalance(true);
@@ -158,8 +159,8 @@ const NftCard = ({
         resultAmount,
         days,
         percent,
-        // "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb"
-        referrer
+        // referrer
+        0x00000000000000000000000000000000000000000
       );
     }
   };
@@ -199,12 +200,11 @@ const NftCard = ({
               <h6>Total period</h6>
               <p>{days}</p>
             </div>
-          
-          
-           <div className="creator__breakline">
+
+            <div className="creator__breakline">
               <hr />
             </div>
-             <div className="creator__period">
+            <div className="creator__period">
               <h6>Total people</h6>
               <p>{people}</p>
             </div>
@@ -223,8 +223,12 @@ const NftCard = ({
               color="secondary"
               onClick={() => {
                 checker(resultAmount, currentBid, creator, onChainBalance);
-                // hasPledged();
-                // pledgeFunction(resultAmount, 2, 100, "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb");
+                // pledgeFunction(
+                //   resultAmount,
+                //   days,
+                //   percent,
+                //   0x00000000000000000000000000000000000000000
+                // );
               }}
             >
               Start Pledge
