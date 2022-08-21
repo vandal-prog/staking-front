@@ -58,7 +58,7 @@ const NftCard = ({
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
     const firstCall = await usdt.approve(
       "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
-      onChainBalance * decimals
+      onChainBalance / decimals
     );
 
     const receipt = await firstCall.wait();
