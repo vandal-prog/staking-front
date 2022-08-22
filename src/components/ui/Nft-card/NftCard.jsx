@@ -94,7 +94,6 @@ const NftCard = ({
     // const fourthCall = await staking.hourlyIncome(currentAccount);
     // console.log(fourthCall);
     setHourlyIncome();
-    setRate(percent);
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
@@ -225,6 +224,7 @@ const NftCard = ({
               startIcon={<LocalMallIcon />}
               color="secondary"
               onClick={() => {
+                setRate(percent);
                 checker(resultAmount, currentBid, creator, onChainBalance);
               }}
             >
@@ -279,7 +279,9 @@ const NftCard = ({
               loadingPosition="start"
               startIcon={<LocalMallIcon />}
               onClick={() => {
+                setRate(percent);
                 stakeFunction(creator, currentBid, percent);
+
                 // hasStaked();
               }}
             >
