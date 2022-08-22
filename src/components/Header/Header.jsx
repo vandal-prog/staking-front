@@ -15,6 +15,7 @@ import { NavLink, Link } from "react-router-dom";
 
 import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
+import TawkTo from "tawkto-react";
 
 import {
   setCurrentAccount,
@@ -27,7 +28,6 @@ import {
   setPledgedBalance,
   setPledgedIncome,
 } from "../../redux/user/user.actions";
-import TawkTo from 'tawkto-react'
 
 const NAV__LINKS = [
   {
@@ -83,7 +83,6 @@ const Header = ({
         method: "eth_requestAccounts",
       });
 
-
       setCurrentAccount(accounts[0]);
       setOnChainBalance();
       hasStaked();
@@ -110,7 +109,6 @@ const Header = ({
     });
   }, []);
   console.log(currentAccount);
-
 
   return (
     <header className="header header__shrink">

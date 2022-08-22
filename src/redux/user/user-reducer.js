@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   cumulatedPledgeIncome: 0,
   cumulatedPledgeBalance: 0,
   hourlyIncome: 0,
+  ratePercent: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -82,6 +83,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         hourlyIncome: action.payload,
+      };
+
+    case "SET_RATE":
+      return {
+        ...state,
+        ratePercent: action.payload,
       };
     default:
       return state;
