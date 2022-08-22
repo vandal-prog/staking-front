@@ -140,3 +140,8 @@ export const setHourlyIncome = () => {
     });
   };
 };
+
+export const setRate = (percent) => ({
+  type: "SET_RATE",
+  payload: percent,
+});

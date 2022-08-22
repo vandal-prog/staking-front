@@ -34,8 +34,8 @@
 
 .nav__menu {
   position: fixed;
-  top: 0;
-  right: 0px;
+  top: 70px;
+  left: 0px;
   width: 250px;
   height: 100%;
   background: linear-gradient(#14141f83, #14141f83);
@@ -46,7 +46,7 @@
 
 .active__menu {
   transition: 300ms ease;
-  right: -250px;
+  left: -250px;
 }
 
 .nav__list {

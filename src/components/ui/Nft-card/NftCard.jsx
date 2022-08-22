@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-// import { ethers } from "ethers";
+import { ethers } from "ethers";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { LoadingButton } from "@mui/lab";
 import { Snackbar, Alert } from "@mui/material";
@@ -18,7 +18,9 @@ import {
   setHourlyIncome,
   setPledgedBalance,
   setPledgedIncome,
+  setRate,
 } from "../../../redux/user/user.actions";
+
 import { utils } from "ethers";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
@@ -40,6 +42,7 @@ const NftCard = ({
   setCumulatedPledgeIncome,
   setCumulatedPledgeBalance,
   setHourlyIncome,
+  setRate,
 }) => {
   const { title, id, currentBid, imgUrl, creator, percent, days, people } =
     item;
@@ -91,6 +94,7 @@ const NftCard = ({
     // const fourthCall = await staking.hourlyIncome(currentAccount);
     // console.log(fourthCall);
     setHourlyIncome();
+    setRate(percent);
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
@@ -131,6 +135,7 @@ const NftCard = ({
     // const seventhCall = await staking.cumulatedPledgeBalance(currentAccount);
     // console.log(seventhCall);
     setCumulatedPledgeBalance();
+    setRate(percent);
   };
 
   const [belowRange, setBelowRange] = useState(false);
@@ -317,6 +322,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
+  setRate: (percent) => dispatch(setRate(percent)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftCard);

@@ -24,6 +24,10 @@ const Account = ({
   pledgeRecords,
   staking,
   decimals,
+  staked,
+  hourlyIncome,
+  pledged,
+  ratePercent,
 }) => {
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
@@ -67,7 +71,9 @@ const Account = ({
 
       <div className="account-container">
         <div className="account-info">
-          <div className="account-value">0</div>
+          <div className="account-value">
+            {staked ? hourlyIncome : pledgeIncome}
+          </div>
           <span className="account-valuetext">ACCOUNT BALANCE</span>
           <div className="account-timer">
             <img
@@ -97,8 +103,11 @@ const Account = ({
         <div className="account-container-header">NFT market making income</div>
         <div className="account-marketBal">
           <DataValues title="On-chain balance" value={`${onChainBalance}`} />
-          <DataValues title="Current rate of return" value={`${0}%`} />
-          <DataValues title="Today's income" value={`${0}USDT`} />
+          <DataValues
+            title="Current rate of return"
+            value={`${ratePercent}%`}
+          />
+          <DataValues title="Today's income" value={`${hourlyIncome}USDT`} />
           <DataValues title="Cummulative income" value={`${0}USDT`} />
         </div>
         <div className="account-container-header">NFT pledge income</div>
@@ -150,6 +159,10 @@ const mapStateToProps = (state) => ({
   pledgeRecords: state.user.pledgeRecords,
   decimals: state.user.decimals,
   staking: state.user.staking,
+  staked: state.user.staked,
+  pledged: state.user.pledged,
+  hourlyIncome: state.user.hourlyIncome,
+  ratePercent: state.user.ratePercent,
 });
 
 export default connect(mapStateToProps)(Account);
