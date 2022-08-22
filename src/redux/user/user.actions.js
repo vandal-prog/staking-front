@@ -16,7 +16,7 @@ export const setUSDTContract = (contract) => ({
   payload: contract,
 });
 
-export const setOnChainBalance = (account) => {
+export const setOnChainBalance = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 
@@ -27,6 +27,7 @@ export const setOnChainBalance = (account) => {
     // const getOnChainBalance = async (account) => {
     const usdt = new ethers.Contract(USDTaddress, USDT.abi, signer);
     const decimals = getState().user.decimals;
+    const account = getState().user.currentAccount;
     const onChainBalance = await usdt.balanceOf(account);
 
     const balance = onChainBalance.toString();
@@ -74,7 +75,8 @@ export const setPledgedIncome = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().user.currentAccount;
-    const pledgedIncome = await staking.pledgeIncome(address);
+    const Income = await staking.pledgeIncome(address);
+    const pledgedIncome = Income.toString();
 
     dispatch({
       type: "SET_PLEGED_INCOME",
@@ -87,7 +89,8 @@ export const setPledgedBalance = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().user.currentAccount;
-    const pledgedBal = await staking.pledgeBalance(address);
+    const pledgedBalance = await staking.pledgedBalance(address);
+    const pledgedBal = pledgedBalance.toString();
 
     dispatch({
       type: "SET_PLEGED_BALANCE",
@@ -100,7 +103,8 @@ export const setCumulatedPledgeIncome = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().user.currentAccount;
-    const cumPledgedIncome = await staking.cumulatedPledgeIncome(address);
+    const cumulatedPledgedIncome = await staking.cumulatedPledgeIncome(address);
+    const cumPledgedIncome = cumulatedPledgedIncome.toString();
 
     dispatch({
       type: "SET_CUMULATED_PLEDGE_INCOME",
@@ -113,7 +117,8 @@ export const setCumulatedPledgeBalance = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().user.currentAccount;
-    const cumPledgedBal = await staking.cumulatedPledgeBalance(address);
+    const cumPledgedBalance = await staking.cumulatedPledgeBalance(address);
+    const cumPledgedBal = cumPledgedBalance.toString();
 
     dispatch({
       type: "SET_CUMULATED_PLEDGE_BALANCE",
@@ -126,7 +131,8 @@ export const setHourlyIncome = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().user.currentAccount;
-    const hourlyIncome = await staking.hourlyIncome(address);
+    const hourlyIncomes = await staking.hourlyIncome(address);
+    const hourlyIncome = hourlyIncomes.toString();
 
     dispatch({
       type: "SET_HOURLY_INCOME",

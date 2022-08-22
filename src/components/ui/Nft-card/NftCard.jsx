@@ -19,6 +19,7 @@ import {
   setPledgedBalance,
   setPledgedIncome,
 } from "../../../redux/user/user.actions";
+import { utils } from "ethers";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -40,7 +41,8 @@ const NftCard = ({
   setCumulatedPledgeBalance,
   setHourlyIncome,
 }) => {
-  const { title, id, currentBid, imgUrl, creator, percent, days } = item;
+  const { title, id, currentBid, imgUrl, creator, percent, days, people } =
+    item;
 
   const [inputData, setInputData] = useState({
     amountPledged: "",
@@ -50,7 +52,8 @@ const NftCard = ({
     const { name, value } = e.target;
     setInputData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const resultAmount = Number(inputData.amountPledged);
+  const Amount = Number(inputData.amountPledged);
+  const resultAmount = Amount.toString();
   console.log(resultAmount);
 
   // Function to stake
@@ -92,10 +95,12 @@ const NftCard = ({
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
     const amountValue = amount * decimals;
+    const pledgeAmount = utils.formatEther(amountValue);
+    console.log(pledgeAmount);
     const percentageValue = percentage * 100;
 
     const firstCall = await staking.pledgeTokens(
-      amountValue,
+      pledgeAmount,
       duration,
       percentageValue,
       referrer
@@ -148,19 +153,13 @@ const NftCard = ({
       // alert(`purchase range ${creator}-${currentBid}`);
       setBelowRange(true);
     } else if (
-      Number(resultAmount) <= currentBid ||
-      Number(resultAmount) >= creator ||
+      // Number(resultAmount) >= currentBid ||
+      // Number(resultAmount) <= creator ||
       Number(resultAmount) > onChainBalance
     ) {
       setLowBalance(true);
     } else {
-      pledgeFunction(
-        resultAmount,
-        days,
-        percent,
-        // "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb"
-        referrer
-      );
+      pledgeFunction(resultAmount, days, percent, ethers.costants.AddressZero);
     }
   };
 
@@ -199,6 +198,14 @@ const NftCard = ({
               <h6>Total period</h6>
               <p>{days}</p>
             </div>
+
+            <div className="creator__breakline">
+              <hr />
+            </div>
+            <div className="creator__period">
+              <h6>Total people</h6>
+              <p>{people}</p>
+            </div>
           </div>
         )}
 
@@ -214,8 +221,6 @@ const NftCard = ({
               color="secondary"
               onClick={() => {
                 checker(resultAmount, currentBid, creator, onChainBalance);
-                // hasPledged();
-                // pledgeFunction(resultAmount, 2, 100, "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb");
               }}
             >
               Start Pledge
