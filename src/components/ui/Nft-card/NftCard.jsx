@@ -19,6 +19,7 @@ import {
   setPledgedBalance,
   setPledgedIncome,
 } from "../../../redux/user/user.actions";
+import { utils } from "ethers";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -51,7 +52,8 @@ const NftCard = ({
     const { name, value } = e.target;
     setInputData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const resultAmount = Number(inputData.amountPledged);
+  const Amount = Number(inputData.amountPledged);
+  const resultAmount = Amount.toString();
   console.log(resultAmount);
 
   // Function to stake
@@ -93,10 +95,12 @@ const NftCard = ({
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
     const amountValue = amount * decimals;
+    const pledgeAmount = utils.formatEther(amountValue);
+    console.log(pledgeAmount);
     const percentageValue = percentage * 100;
 
     const firstCall = await staking.pledgeTokens(
-      amountValue,
+      pledgeAmount,
       duration,
       percentageValue,
       referrer
@@ -155,13 +159,7 @@ const NftCard = ({
     ) {
       setLowBalance(true);
     } else {
-      pledgeFunction(
-        resultAmount,
-        days,
-        percent,
-        // referrer
-        0x00000000000000000000000000000000000000000
-      );
+      pledgeFunction(resultAmount, days, percent, ethers.costants.AddressZero);
     }
   };
 
@@ -223,12 +221,6 @@ const NftCard = ({
               color="secondary"
               onClick={() => {
                 checker(resultAmount, currentBid, creator, onChainBalance);
-                // pledgeFunction(
-                //   resultAmount,
-                //   days,
-                //   percent,
-                //   0x00000000000000000000000000000000000000000
-                // );
               }}
             >
               Start Pledge
