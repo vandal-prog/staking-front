@@ -15,7 +15,7 @@ import { NavLink, Link } from "react-router-dom";
 
 import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
-import TawkTo from "tawkto-react";
+
 import {
   setCurrentAccount,
   setOnChainBalance,
@@ -82,34 +82,16 @@ const Header = ({
         method: "eth_requestAccounts",
       });
 
-      // const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
-      // const provider = new ethers.providers.Web3Provider(window.ethereum);
-      // const signer = provider.getSigner();
-      // const transactionContract = new ethers.Contract(
-      //   contractAddress,
-      //   Staking.abi,
-      //   signer
-      // );
-
-      // const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
-      // const usdtContract = new ethers.Contract(USDTaddress, USDT.abi, signer);
-
-      // console.log("contract loaded");
-
-      // const chainBalance = await usdtContract.balanceOf(accounts[0]);
-
-      // console.log(chainBalance.toString());
-
-      // const accounts = await provider.send("eth_requestAccounts", []);
 
       setCurrentAccount(accounts[0]);
-      setOnChainBalance(accounts[0]);
+      setOnChainBalance();
       hasStaked();
       hasPledged();
       setPledgeBalance();
       setPledgeIncome();
       setCumulatedPledgeBalance();
       setCumulatedPledgeIncome();
+      setHourlyIncome();
 
       // console.log(state);
     } catch (error) {
@@ -126,7 +108,7 @@ const Header = ({
       console.log("status");
     });
   }, []);
-  // console.log(currentAccount);
+  console.log(currentAccount);
 
   return (
     <header className="header header__shrink">
