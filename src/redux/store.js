@@ -9,9 +9,9 @@ import storage from "redux-persist/lib/storage";
 const middlewares = [logger, thunk];
 
 const persistConfig = {
-  key: "root",
+  key: "user",
   storage,
-  //   whitelist: ["user"],
+  whitelist: ["account", "user", "boolean", "data"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -57,13 +57,14 @@ const NftCard = ({
   };
   const Amount = Number(inputData.amountPledged);
   const resultAmount = Amount.toString();
-  console.log(resultAmount);
+  // console.log(resultAmount);
 
   // Function to stake
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
+    const balance = onChainBalance / decimals;
     const firstCall = await usdt.approve(
       "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
-      onChainBalance / decimals
+      balance
     );
 
     const receipt = await firstCall.wait();
@@ -309,11 +310,11 @@ const NftCard = ({
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.user.currentAccount,
+  currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
   decimals: state.user.decimals,
-  onChainBalance: state.user.onChainBalance,
+  onChainBalance: state.data.onChainBalance,
 });
 
 const mapDispatchToProps = (dispatch) => ({

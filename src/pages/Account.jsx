@@ -151,18 +151,18 @@ const Account = ({
 };
 
 const mapStateToProps = (state) => ({
-  onChainBalance: state.user.onChainBalance,
-  pledgeIncome: state.user.pledgeIncome,
-  pledgeBalance: state.user.pledgeBalance,
-  cumulatedPledgeIncome: state.user.cumulatedPledgeIncome,
-  cumulatedPledgeBalance: state.user.cumulatedPledgeBalance,
+  onChainBalance: state.data.onChainBalance,
+  pledgeIncome: state.data.pledgeIncome,
+  pledgeBalance: state.data.pledgeBalance,
+  cumulatedPledgeIncome: state.data.cumulatedPledgeIncome,
+  cumulatedPledgeBalance: state.data.cumulatedPledgeBalance,
   pledgeRecords: state.user.pledgeRecords,
   decimals: state.user.decimals,
   staking: state.user.staking,
   staked: state.user.staked,
   pledged: state.user.pledged,
-  hourlyIncome: state.user.hourlyIncome,
-  ratePercent: state.user.ratePercent,
+  hourlyIncome: state.data.hourlyIncome,
+  ratePercent: state.data.ratePercent,
 });
 
 export default connect(mapStateToProps)(Account);

@@ -310,6 +310,53 @@ class App extends React.Component {
     });
   };
 
+  // UNSAFE_componentWillMount = async () => {
+  //   const {
+  //     setCurrentAccount,
+  //     setStakingContract,
+  //     setUSDTContract,
+  //     setOnChainBalance,
+  //     hasStaked,
+  //     hasPledged,
+  //     setPledgeBalance,
+  //     setPledgeIncome,
+  //     setCumulatedPledgeIncome,
+  //     setCumulatedPledgeBalance,
+  //     setHourlyIncome,
+  //   } = this.props;
+  //   const { ethereum } = window;
+
+  //   try {
+  //     //if no wallet is found in browser it returns this
+  //     if (!ethereum) return alert("Please install metamask");
+
+  //     const accounts = await ethereum.request({
+  //       method: "eth_accounts",
+  //     });
+
+  //     console.log(accounts);
+
+  //     if (accounts.length) {
+  //       //getAllTransactions();
+  //       setCurrentAccount(accounts[0]);
+  //       setOnChainBalance();
+  //       hasStaked();
+  //       hasPledged();
+  //       setPledgeIncome();
+  //       setPledgeBalance();
+  //       setCumulatedPledgeIncome();
+  //       setCumulatedPledgeBalance();
+  //       setHourlyIncome();
+  //     } else {
+  //       console.log("No accounts found");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+
+  //     throw new Error("No ethereum object.");
+  //   }
+  // };
+
   componentDidMount() {
     const {
       setCurrentAccount,
@@ -330,7 +377,6 @@ class App extends React.Component {
     // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
     // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
     const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
-   
 
     if (!window.ethereum) {
       alert("Please, install ETH wallet and reload this page");
@@ -397,6 +443,8 @@ class App extends React.Component {
     setStakingContract(stakingContract);
     setUSDTContract(usdtContract);
     checkIfWalletIsConnected();
+    hasStaked();
+    hasPledged();
   }
 
   render() {
@@ -412,7 +460,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
   setStakingContract: (contract) => dispatch(setStakingContract(contract)),
   setUSDTContract: (contract) => dispatch(setUSDTContract(contract)),
-  setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
   hasStaked: () => dispatch(hasStaked()),
   hasPledged: () => dispatch(hasPledged()),
   setPledgeIncome: () => dispatch(setPledgedIncome()),
