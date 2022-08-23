@@ -108,7 +108,7 @@ const Header = ({
       console.log("status");
     });
   }, []);
-  console.log(currentAccount);
+  // console.log(currentAccount);
 
   return (
     <header className="header header__shrink">
@@ -191,7 +191,7 @@ const Header = ({
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.user.currentAccount,
+  currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
   decimals: state.user.decimals,
@@ -199,7 +199,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
-  setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
   hasStaked: (stakedBool) => dispatch(hasStaked(stakedBool)),
   hasPledged: (pledgedBool) => dispatch(hasPledged(pledgedBool)),
   setPledgeIncome: () => dispatch(setPledgedIncome()),

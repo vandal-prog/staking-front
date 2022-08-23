@@ -27,15 +27,15 @@ export const setOnChainBalance = () => {
     // const getOnChainBalance = async (account) => {
     const usdt = new ethers.Contract(USDTaddress, USDT.abi, signer);
     const decimals = getState().user.decimals;
-    const account = getState().user.currentAccount;
+    const account = getState().account.currentAccount;
     const onChainBalance = await usdt.balanceOf(account);
 
     const balance = onChainBalance.toString();
     const visibleBalance = balance / decimals;
 
     //   console.log(onChainBalance);
-    console.log(balance);
-    console.log(visibleBalance);
+    // console.log(balance);
+    // console.log(visibleBalance);
     //   return visibleBalance;
     // };
     dispatch({
@@ -48,7 +48,7 @@ export const setOnChainBalance = () => {
 export const hasStaked = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const stakedBool = await staking.hasStaked(address);
 
     dispatch({
@@ -61,7 +61,7 @@ export const hasStaked = () => {
 export const hasPledged = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const pledgedBool = await staking.hasPledged(address);
 
     dispatch({
@@ -74,7 +74,7 @@ export const hasPledged = () => {
 export const setPledgedIncome = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const Income = await staking.pledgeIncome(address);
     const pledgedIncome = Income.toString();
 
@@ -88,7 +88,7 @@ export const setPledgedIncome = () => {
 export const setPledgedBalance = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const pledgedBalance = await staking.pledgedBalance(address);
     const pledgedBal = pledgedBalance.toString();
 
@@ -102,7 +102,7 @@ export const setPledgedBalance = () => {
 export const setCumulatedPledgeIncome = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const cumulatedPledgedIncome = await staking.cumulatedPledgeIncome(address);
     const cumPledgedIncome = cumulatedPledgedIncome.toString();
 
@@ -116,7 +116,7 @@ export const setCumulatedPledgeIncome = () => {
 export const setCumulatedPledgeBalance = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const cumPledgedBalance = await staking.cumulatedPledgeBalance(address);
     const cumPledgedBal = cumPledgedBalance.toString();
 
@@ -130,7 +130,7 @@ export const setCumulatedPledgeBalance = () => {
 export const setHourlyIncome = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const hourlyIncomes = await staking.hourlyIncome(address);
     const hourlyIncome = hourlyIncomes.toString();
 
