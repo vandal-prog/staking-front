@@ -61,17 +61,16 @@ const NftCard = ({
 
   // Function to stake
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
-    const balance = onChainBalance / decimals;
     const firstCall = await usdt.approve(
       "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
-      balance
+      onChainBalance
     );
 
     const receipt = await firstCall.wait();
     console.log(receipt);
 
-    const minValue = parseFloat(minPrice);
-    const maxValue = parseFloat(maxPrice);
+    const minValue = parseFloat(minPrice) * decimals;
+    const maxValue = parseFloat(maxPrice) * decimals;
     const percentValue = percentage * 100;
 
     console.log(minValue, maxValue, percentValue);
@@ -83,57 +82,43 @@ const NftCard = ({
     );
     console.log(secondCall);
 
-    // These needs to be mapped into state
-
-    // const secondResult = await staking.hasStaked(currentAccount);
-    // console.log(secondResult);
     hasStaked();
 
     const thirdCall = await staking.stakingTime(currentAccount);
     console.log(thirdCall);
 
-    // const fourthCall = await staking.hourlyIncome(currentAccount);
-    // console.log(fourthCall);
     setHourlyIncome();
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
     const amountValue = amount * decimals;
-    const pledgeAmount = utils.formatEther(amountValue);
-    console.log(pledgeAmount);
     const percentageValue = percentage * 100;
+    console.log(amountValue, duration, percentageValue, referrer);
 
     const firstCall = await staking.pledgeTokens(
-      pledgeAmount,
+      amountValue,
       duration,
       percentageValue,
-      referrer
+      referrer,
+      {
+        from: currentAccount,
+        gasLimit: 300000,
+        // nonce: nonce || undefined,
+      }
     );
     console.log(firstCall);
-
-    // These need to be mapped into state
 
     const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
-    // const thirdCall = await staking.hasPledged(currentAccount);
-    // console.log(thirdCall);
     hasPledged();
 
-    // const fourthCall = await staking.pledgeIncome(currentAccount);
-    // console.log(fourthCall);
     setPledgeIncome();
 
-    // const fifthCall = await staking.pledgeBalance(currentAccount);
-    // console.log(fifthCall);
     setPledgeBalance();
 
-    // const sixthCall = await staking.cumulatedPledgeIncome(currentAccount);
-    // console.log(sixthCall);
     setCumulatedPledgeIncome();
 
-    // const seventhCall = await staking.cumulatedPledgeBalance(currentAccount);
-    // console.log(seventhCall);
     setCumulatedPledgeBalance();
     setRate(percent);
   };
@@ -151,8 +136,7 @@ const NftCard = ({
     creator,
     onChainBalance,
     days,
-    percent,
-    referrer
+    percent
   ) => {
     if (resultAmount > currentBid || resultAmount < creator) {
       // alert(`purchase range ${creator}-${currentBid}`);
@@ -164,7 +148,7 @@ const NftCard = ({
     ) {
       setLowBalance(true);
     } else {
-      pledgeFunction(resultAmount, days, percent, ethers.costants.AddressZero);
+      pledgeFunction(resultAmount, days, percent, ethers.constants.AddressZero);
     }
   };
 
@@ -226,7 +210,14 @@ const NftCard = ({
               color="secondary"
               onClick={() => {
                 setRate(percent);
-                checker(resultAmount, currentBid, creator, onChainBalance);
+                checker(
+                  resultAmount,
+                  currentBid,
+                  creator,
+                  onChainBalance,
+                  days,
+                  percent
+                );
               }}
             >
               Start Pledge
