@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, forwardRef } from "react";
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
 import { connect } from "react-redux";
@@ -14,6 +14,12 @@ import Timer from "../components/ui/timer/timer.component";
 import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { TimeConverter } from "../utils/timeConverter";
+import { Snackbar, Alert } from "@mui/material";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} {...props} />;
+});
 
 const Account = ({
   onChainBalance,
@@ -29,6 +35,10 @@ const Account = ({
   pledged,
   ratePercent,
 }) => {
+  const [minWithdrawal, setMinWithdrawal] = useState(false);
+  const handleClose = () => {
+    setMinWithdrawal(false);
+  };
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
   // const futureDate = 1659697200;
@@ -54,15 +64,25 @@ const Account = ({
     setInputData((prevState) => ({ ...prevState, [name]: value }));
   };
   const withdrawalAmount = Number(inputData.withdrawalAmount);
+
   let nowTime = TimeConverter(1661002435000);
   console.log(nowTime);
 
   // Function to withdraw
   const withdrawTokens = async (amount) => {
-    const withdraw = await staking.withdrawReward(amount * decimals);
+    const newAmount = amount * decimals;
+    const withdraw = await staking.withdrawReward(newAmount);
     const reciept = withdraw.wait();
+    console.log(reciept);
   };
 
+  const checkwithdrawalAmount = (withdrawalAmount) => {
+    if (withdrawalAmount < 10) {
+      setMinWithdrawal(true);
+    } else {
+      withdrawTokens(withdrawalAmount);
+    }
+  };
   // console.log(reciept);
 
   return (
@@ -94,12 +114,25 @@ const Account = ({
           <button
             className="account-infobtn"
             onClick={() => {
-              withdrawTokens(withdrawalAmount * decimals);
+              checkwithdrawalAmount(withdrawalAmount);
             }}
           >
             Auto Withdrawal
           </button>
         </div>
+        <Snackbar
+          open={minWithdrawal}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <SnackbarAlert onClose={handleClose} severity="warning">
+            Less than minimum withdrawal
+          </SnackbarAlert>
+        </Snackbar>
         <div className="account-container-header">NFT market making income</div>
         <div className="account-marketBal">
           <DataValues title="On-chain balance" value={`${onChainBalance}`} />
