@@ -28,7 +28,7 @@ import {
   setPledgedBalance,
   setPledgedIncome,
 } from "../../redux/user/user.actions";
-import TawkTo from 'tawkto-react'
+
 
 const NAV__LINKS = [
   {
