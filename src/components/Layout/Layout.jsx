@@ -8,12 +8,12 @@ import "./layout.css";
 
 const Layout = () => {
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 4000);
+  // }, []);
   return (
     <div>
       {loading ? (

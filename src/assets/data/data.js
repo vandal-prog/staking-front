@@ -128,6 +128,7 @@ export const NFT__DATA = [
     currentBid: "4999",
     percent: 1.4,
     days: 2,
+    people: 43100,
   },
 
   {
@@ -140,6 +141,7 @@ export const NFT__DATA = [
     currentBid: "9999",
     percent: 1.9,
     days: 4,
+    people: 41700,
   },
 
   {
@@ -152,6 +154,7 @@ export const NFT__DATA = [
     currentBid: "49999",
     percent: 2.5,
     days: 7,
+    people: 44800,
   },
 
   {
@@ -164,6 +167,7 @@ export const NFT__DATA = [
     currentBid: "99999",
     percent: 3,
     days: 14,
+    people: 47100,
   },
 
   {
@@ -176,6 +180,7 @@ export const NFT__DATA = [
     currentBid: "199999",
     percent: 3.5,
     days: 21,
+    people: 46300,
   },
 
   {
@@ -188,6 +193,7 @@ export const NFT__DATA = [
     currentBid: "500000",
     percent: 4,
     days: 30,
+    people: 43900,
   },
 ];
 

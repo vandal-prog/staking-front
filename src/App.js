@@ -15,6 +15,11 @@ import {
   setOnChainBalance,
   hasPledged,
   hasStaked,
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setPledgedBalance,
+  setPledgedIncome,
+  setHourlyIncome,
 } from "./redux/user/user.actions";
 
 class App extends React.Component {
@@ -305,6 +310,53 @@ class App extends React.Component {
     });
   };
 
+  // UNSAFE_componentWillMount = async () => {
+  //   const {
+  //     setCurrentAccount,
+  //     setStakingContract,
+  //     setUSDTContract,
+  //     setOnChainBalance,
+  //     hasStaked,
+  //     hasPledged,
+  //     setPledgeBalance,
+  //     setPledgeIncome,
+  //     setCumulatedPledgeIncome,
+  //     setCumulatedPledgeBalance,
+  //     setHourlyIncome,
+  //   } = this.props;
+  //   const { ethereum } = window;
+
+  //   try {
+  //     //if no wallet is found in browser it returns this
+  //     if (!ethereum) return alert("Please install metamask");
+
+  //     const accounts = await ethereum.request({
+  //       method: "eth_accounts",
+  //     });
+
+  //     console.log(accounts);
+
+  //     if (accounts.length) {
+  //       //getAllTransactions();
+  //       setCurrentAccount(accounts[0]);
+  //       setOnChainBalance();
+  //       hasStaked();
+  //       hasPledged();
+  //       setPledgeIncome();
+  //       setPledgeBalance();
+  //       setCumulatedPledgeIncome();
+  //       setCumulatedPledgeBalance();
+  //       setHourlyIncome();
+  //     } else {
+  //       console.log("No accounts found");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+
+  //     throw new Error("No ethereum object.");
+  //   }
+  // };
+
   componentDidMount() {
     const {
       setCurrentAccount,
@@ -313,6 +365,11 @@ class App extends React.Component {
       setOnChainBalance,
       hasStaked,
       hasPledged,
+      setPledgeBalance,
+      setPledgeIncome,
+      setCumulatedPledgeIncome,
+      setCumulatedPledgeBalance,
+      setHourlyIncome,
     } = this.props;
     const { ethereum } = window;
 
@@ -321,15 +378,12 @@ class App extends React.Component {
     // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
     const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
 
-    let provider;
-
-    if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-    } else {
-      provider = new ethers.providers.JsonRpcProvider(`https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`);
+    if (!window.ethereum) {
+      alert("Please, install ETH wallet and reload this page");
     }
 
-    
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
     const getStakingContract = () => {
       const signer = provider.getSigner();
       const transactionContract = new ethers.Contract(
@@ -366,10 +420,14 @@ class App extends React.Component {
         if (accounts.length) {
           //getAllTransactions();
           setCurrentAccount(accounts[0]);
-          setOnChainBalance(accounts[0]);
+          setOnChainBalance();
           hasStaked();
           hasPledged();
-          
+          setPledgeIncome();
+          setPledgeBalance();
+          setCumulatedPledgeIncome();
+          setCumulatedPledgeBalance();
+          setHourlyIncome();
         } else {
           console.log("No accounts found");
         }
@@ -385,6 +443,8 @@ class App extends React.Component {
     setStakingContract(stakingContract);
     setUSDTContract(usdtContract);
     checkIfWalletIsConnected();
+    // hasStaked();
+    // hasPledged();
   }
 
   render() {
@@ -400,9 +460,14 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
   setStakingContract: (contract) => dispatch(setStakingContract(contract)),
   setUSDTContract: (contract) => dispatch(setUSDTContract(contract)),
-  setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
-  hasStaked: (stakedBool) => dispatch(hasStaked(stakedBool)),
-  hasPledged: (pledgedBool) => dispatch(hasStaked(pledgedBool)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
+  hasStaked: () => dispatch(hasStaked()),
+  hasPledged: () => dispatch(hasPledged()),
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
 });
 
 export default connect(null, mapDispatchToProps)(App);

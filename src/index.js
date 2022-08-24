@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./App";
 
@@ -11,7 +12,7 @@ import "remixicon/fonts/remixicon.css";
 // import Web3 from "web3";
 
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import { store, persistor } from "./redux/store";
 
 // import { TransactionProvider } from "./context/TransactionContext";
 
@@ -20,13 +21,14 @@ import store from "./redux/store";
 // }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
       <Router>
-     
-        <App />
+        <PersistGate persistor={persistor}>
+          <App />
+        </PersistGate>
       </Router>
-    </React.StrictMode>
-  </Provider>,
+    </Provider>
+  </React.StrictMode>,
   document.getElementById("root")
 );

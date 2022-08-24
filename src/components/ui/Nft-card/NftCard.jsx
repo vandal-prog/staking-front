@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-// import { ethers } from "ethers";
+import { ethers } from "ethers";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { LoadingButton } from "@mui/lab";
 import { Snackbar, Alert } from "@mui/material";
@@ -10,7 +10,18 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import "./nft-card.css";
 
 import FormInput from "../forminput/form-input.component";
-import { hasPledged, hasStaked } from "../../../redux/user/user.actions";
+import {
+  hasPledged,
+  hasStaked,
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setHourlyIncome,
+  setPledgedBalance,
+  setPledgedIncome,
+  setRate,
+} from "../../../redux/user/user.actions";
+
+import { utils } from "ethers";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -26,9 +37,15 @@ const NftCard = ({
   onChainBalance,
   decimals,
   currentAccount,
-  days,
+  setPledgeBalance,
+  setPledgeIncome,
+  setCumulatedPledgeIncome,
+  setCumulatedPledgeBalance,
+  setHourlyIncome,
+  setRate,
 }) => {
-  const { title, id, currentBid, imgUrl, creator, percent } = item;
+  const { title, id, currentBid, imgUrl, creator, percent, days, people } =
+    item;
 
   const [inputData, setInputData] = useState({
     amountPledged: "",
@@ -38,21 +55,25 @@ const NftCard = ({
     const { name, value } = e.target;
     setInputData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const resultAmount = Number(inputData.amountPledged);
-  console.log(resultAmount);
+  const Amount = Number(inputData.amountPledged);
+  const resultAmount = Amount.toString();
+  // console.log(resultAmount);
 
   // Function to stake
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
+    const approvalAmount = onChainBalance; // * decimals;
     const firstCall = await usdt.approve(
       "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
-      onChainBalance * decimals
+      approvalAmount,
+      {
+        gasLimit: 500000,
+      }
     );
 
     const receipt = await firstCall.wait();
-    console.log(receipt);
 
-    const minValue = parseFloat(minPrice);
-    const maxValue = parseFloat(maxPrice);
+    const minValue = parseFloat(minPrice) * decimals;
+    const maxValue = parseFloat(maxPrice) * decimals;
     const percentValue = percentage * 100;
 
     console.log(minValue, maxValue, percentValue);
@@ -60,53 +81,61 @@ const NftCard = ({
     const secondCall = await staking.stakeTokens(
       minValue,
       maxValue,
-      percentValue
+      percentValue,
+      {
+        gasLimit: 500000,
+      }
     );
     console.log(secondCall);
 
-    // These needs to be mapped into state
-
-    const secondResult = await staking.hasStaked(currentAccount);
-    console.log(secondResult);
+    hasStaked();
 
     const thirdCall = await staking.stakingTime(currentAccount);
     console.log(thirdCall);
 
-    const fourthCall = await staking.hourlyIncome(currentAccount);
-    console.log(fourthCall);
+    setHourlyIncome();
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
     const amountValue = amount * decimals;
     const percentageValue = percentage * 100;
+    console.log(amountValue, duration, percentageValue, referrer);
+
+    const initialCall = await usdt.approve(
+      "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2",
+      amountValue,
+      {
+        gasLimit: 500000,
+      }
+    );
+
+    const receipt = await initialCall.wait();
 
     const firstCall = await staking.pledgeTokens(
       amountValue,
       duration,
       percentageValue,
-      referrer
+      referrer,
+      {
+        gasLimit: 3000000,
+        // nonce: nonce || undefined,
+      }
     );
     console.log(firstCall);
-
-    // These need to be mapped into state
 
     const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
-    const thirdCall = await staking.hasPledged(currentAccount);
-    console.log(thirdCall);
+    hasPledged();
 
-    const fourthCall = await staking.pledgeIncome(currentAccount);
-    console.log(fourthCall);
+    setPledgeIncome();
 
-    const fifthCall = await staking.pledgeBalance(currentAccount);
-    console.log(fifthCall);
+    setPledgeBalance();
 
-    const sixthCall = await staking.cumulatedPledgeIncome(currentAccount);
-    console.log(sixthCall);
+    setCumulatedPledgeIncome();
 
-    const seventhCall = await staking.cumulatedPledgeBalance(currentAccount);
-    console.log(seventhCall);
+    setCumulatedPledgeBalance();
+    setRate(percent);
   };
 
   const [belowRange, setBelowRange] = useState(false);
@@ -122,26 +151,19 @@ const NftCard = ({
     creator,
     onChainBalance,
     days,
-    percent,
-    referrer
+    percent
   ) => {
     if (resultAmount > currentBid || resultAmount < creator) {
       // alert(`purchase range ${creator}-${currentBid}`);
       setBelowRange(true);
     } else if (
-      Number(resultAmount) <= currentBid ||
-      Number(resultAmount) >= creator ||
+      // Number(resultAmount) >= currentBid ||
+      // Number(resultAmount) <= creator ||
       Number(resultAmount) > onChainBalance
     ) {
       setLowBalance(true);
     } else {
-      pledgeFunction(
-        resultAmount,
-        days,
-        percent,
-        // "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb"
-        referrer
-      );
+      pledgeFunction(resultAmount, days, percent, ethers.constants.AddressZero);
     }
   };
 
@@ -170,6 +192,27 @@ const NftCard = ({
           </div>
         </div>
 
+        {pledge && (
+          <div>
+            <div className="creator__breakline">
+              <hr />
+            </div>
+
+            <div className="creator__period">
+              <h6>Total period</h6>
+              <p>{days}</p>
+            </div>
+
+            <div className="creator__breakline">
+              <hr />
+            </div>
+            <div className="creator__period">
+              <h6>Total people</h6>
+              <p>{people}</p>
+            </div>
+          </div>
+        )}
+
         {pledge ? (
           <div className="nft-pledge">
             <div>
@@ -181,9 +224,15 @@ const NftCard = ({
               startIcon={<LocalMallIcon />}
               color="secondary"
               onClick={() => {
-                checker(resultAmount, currentBid, creator, onChainBalance);
-                // hasPledged();
-                // pledgeFunction(resultAmount, 2, 100, "0xdb339be8e04db248ea2bdd7c308c5589c121c6bb");
+                setRate(percent);
+                checker(
+                  resultAmount,
+                  currentBid,
+                  creator,
+                  onChainBalance,
+                  days,
+                  percent
+                );
               }}
             >
               Start Pledge
@@ -237,7 +286,9 @@ const NftCard = ({
               loadingPosition="start"
               startIcon={<LocalMallIcon />}
               onClick={() => {
+                setRate(percent);
                 stakeFunction(creator, currentBid, percent);
+
                 // hasStaked();
               }}
             >
@@ -265,16 +316,22 @@ const NftCard = ({
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.user.currentAccount,
+  currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
   decimals: state.user.decimals,
-  onChainBalance: state.user.onChainBalance,
+  onChainBalance: state.data.onChainBalance,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   hasStaked: () => dispatch(hasStaked()),
   hasPledged: () => dispatch(hasPledged()),
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
+  setRate: (percent) => dispatch(setRate(percent)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftCard);

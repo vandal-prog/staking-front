@@ -16,7 +16,7 @@ export const setUSDTContract = (contract) => ({
   payload: contract,
 });
 
-export const setOnChainBalance = (account) => {
+export const setOnChainBalance = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 
@@ -27,14 +27,15 @@ export const setOnChainBalance = (account) => {
     // const getOnChainBalance = async (account) => {
     const usdt = new ethers.Contract(USDTaddress, USDT.abi, signer);
     const decimals = getState().user.decimals;
+    const account = getState().account.currentAccount;
     const onChainBalance = await usdt.balanceOf(account);
 
     const balance = onChainBalance.toString();
     const visibleBalance = balance / decimals;
 
     //   console.log(onChainBalance);
-    //   console.log(balance);
-    //   console.log(visibleBalance);
+    // console.log(balance);
+    // console.log(visibleBalance);
     //   return visibleBalance;
     // };
     dispatch({
@@ -47,7 +48,7 @@ export const setOnChainBalance = (account) => {
 export const hasStaked = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const stakedBool = await staking.hasStaked(address);
 
     dispatch({
@@ -60,7 +61,7 @@ export const hasStaked = () => {
 export const hasPledged = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
-    const address = getState().user.currentAccount;
+    const address = getState().account.currentAccount;
     const pledgedBool = await staking.hasPledged(address);
 
     dispatch({
@@ -69,3 +70,88 @@ export const hasPledged = () => {
     });
   };
 };
+
+export const setPledgedIncome = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().account.currentAccount;
+    const Income = await staking.pledgeIncome(address);
+    const pledgedIncome = Income.toString();
+
+    dispatch({
+      type: "SET_PLEGED_INCOME",
+      payload: pledgedIncome,
+    });
+  };
+};
+
+export const setPledgedBalance = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().account.currentAccount;
+    const pledgedBalance = await staking.pledgedBalance(address);
+    const pledgedBal = pledgedBalance.toString();
+
+    dispatch({
+      type: "SET_PLEGED_BALANCE",
+      payload: pledgedBal,
+    });
+  };
+};
+
+export const setCumulatedPledgeIncome = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().account.currentAccount;
+    const cumulatedPledgedIncome = await staking.cumulatedPledgeIncome(address);
+    const cumPledgedIncome = cumulatedPledgedIncome.toString();
+
+    dispatch({
+      type: "SET_CUMULATED_PLEDGE_INCOME",
+      payload: cumPledgedIncome,
+    });
+  };
+};
+
+export const setCumulatedPledgeBalance = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().account.currentAccount;
+    const cumPledgedBalance = await staking.cumulatedPledgeBalance(address);
+    const cumPledgedBal = cumPledgedBalance.toString();
+
+    dispatch({
+      type: "SET_CUMULATED_PLEDGE_BALANCE",
+      payload: cumPledgedBal,
+    });
+  };
+};
+
+export const setHourlyIncome = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().account.currentAccount;
+    const hourlyIncomes = await staking.hourlyIncome(address);
+    const hourlyIncome = hourlyIncomes.toString();
+
+    dispatch({
+      type: "SET_HOURLY_INCOME",
+      payload: hourlyIncome,
+    });
+  };
+};
+
+export const setRate = (percent) => ({
+  type: "SET_RATE",
+  payload: percent,
+});
+
+export const setMode = (mode) => ({
+  type: "SET_MODE",
+  payload: mode,
+});
+
+export const setSecondsLeft = (seconds) => ({
+  type: "SET_SECONDS_LEFT",
+  payload: seconds,
+});

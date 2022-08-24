@@ -6,7 +6,30 @@ import { getRemainingTimeUntilMsTimestamp } from "../../../utils/countdownTimer"
 import { TransactionContext } from "../../../context/TransactionContext";
 import { useTicker } from "../../../hooks/useTicker";
 
-const Timer = (staked, user) => {
+import {
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setHourlyIncome,
+  setMode,
+  setPledgedBalance,
+  setPledgedIncome,
+  setSecondsLeft,
+} from "../../../redux/user/user.actions";
+
+const Timer = ({
+  staked,
+  setPledgeBalance,
+  setPledgeIncome,
+  setCumulatedPledgeIncome,
+  setCumulatedPledgeBalance,
+  setHourlyIncome,
+  mode,
+  workMinutes,
+  breakMinutes,
+  secondsLeft,
+  setMode,
+  setSecondsLeft,
+}) => {
   //   let { futureDate } = useContext(TransactionContext);
 
   //   const { days, hours, minutes, seconds } = remainingTime;
@@ -18,13 +41,13 @@ const Timer = (staked, user) => {
   //   remainingTime = useTicker(futureDate);
   // const settingsInfo = useContext(TransactionContext);
 
-  const [workMinutes, setWorkMinutes] = useState(60);
-  const [breakMinutes, setBreakMinutes] = useState(60);
+  // const [workMinutes, setWorkMinutes] = useState(60);
+  // const [breakMinutes, setBreakMinutes] = useState(60);
 
   // const { isPaused, setIsPaused } = settingsInfo;
   // const [isPaused, setIsPaused] = useState(true);
-  const [mode, setMode] = useState("work"); // work/break/null
-  const [secondsLeft, setSecondsLeft] = useState(0);
+  // const [mode, setMode] = useState("work"); // work/break/null
+  // const [secondsLeft, setSecondsLeft] = useState(0);
 
   const secondsLeftRef = useRef(secondsLeft);
   // const isPausedRef = useRef(staked);
@@ -34,8 +57,6 @@ const Timer = (staked, user) => {
     secondsLeftRef.current--;
     setSecondsLeft(secondsLeftRef.current);
   }
-
-  
 
   useEffect(() => {
     function switchMode() {
@@ -50,16 +71,24 @@ const Timer = (staked, user) => {
       secondsLeftRef.current = nextSeconds;
     }
 
+    const update = () => {
+      setPledgeBalance();
+      setPledgeIncome();
+      setCumulatedPledgeBalance();
+      setCumulatedPledgeIncome();
+      setHourlyIncome();
+    };
+
     secondsLeftRef.current = workMinutes * 60;
     setSecondsLeft(secondsLeftRef.current);
 
     const interval = setInterval(() => {
-      if (staked.staked === false) {
-        console.log(staked);
+      if (staked === false) {
         return;
       }
       if (secondsLeftRef.current === 0) {
-        return switchMode();
+        switchMode();
+        update();
       }
 
       tick();
@@ -80,7 +109,21 @@ const Timer = (staked, user) => {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  staked: state.user.staked,
+  staked: state.boolean.staked,
+  mode: state.mode.mode,
+  breakMinutes: state.timer.breakMinutes,
+  workMinutes: state.timer.workMinutes,
+  secondsLeft: state.timer.secondsLeft,
 });
 
-export default connect(mapStateToProps)(Timer);
+const mapDispatchToProps = (dispatch) => ({
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
+  setMode: (mode) => dispatch(setMode(mode)),
+  setSecondsLeft: (seconds) => dispatch(setSecondsLeft(seconds)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
