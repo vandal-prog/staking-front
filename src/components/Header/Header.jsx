@@ -15,13 +15,20 @@ import { NavLink, Link } from "react-router-dom";
 
 import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
+import TawkTo from "tawkto-react";
+
 import {
   setCurrentAccount,
   setOnChainBalance,
   hasStaked,
   hasPledged,
+  setCumulatedPledgeBalance,
+  setCumulatedPledgeIncome,
+  setHourlyIncome,
+  setPledgedBalance,
+  setPledgedIncome,
 } from "../../redux/user/user.actions";
-import TawkTo from 'tawkto-react';
+import TawkTo from 'tawkto-react'
 
 const NAV__LINKS = [
   {
@@ -53,6 +60,11 @@ const Header = ({
   setOnChainBalance,
   hasStaked,
   hasPledged,
+  setPledgeBalance,
+  setPledgeIncome,
+  setCumulatedPledgeIncome,
+  setCumulatedPledgeBalance,
+  setHourlyIncome,
 }) => {
   // const { currentAccount, connectWallet, setOnChainBalance } =
   //   useContext(TransactionContext);
@@ -104,18 +116,14 @@ const Header = ({
     }
   };
 
-  useEffect( () => {
+  useEffect(() => {
+    var tawk = new TawkTo("6300d08a54f06e12d88fbe4d", "1gatit7mf");
 
-    var tawk = new TawkTo("62ff470f54f06e12d88f87f1", "1gaqir5gs")
-
-    tawk.onStatusChange((status) => 
-    {
-        console.log("status")
-    })
-    
-  }, [] )
-
-  console.log(currentAccount);
+    tawk.onStatusChange((status) => {
+      console.log("status");
+    });
+  }, []);
+  // console.log(currentAccount);
 
   return (
     <header className="header header__shrink">
@@ -198,7 +206,7 @@ const Header = ({
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.user.currentAccount,
+  currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
   decimals: state.user.decimals,
@@ -206,9 +214,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
-  setOnChainBalance: (balance) => dispatch(setOnChainBalance(balance)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
   hasStaked: (stakedBool) => dispatch(hasStaked(stakedBool)),
   hasPledged: (pledgedBool) => dispatch(hasPledged(pledgedBool)),
+  setPledgeIncome: () => dispatch(setPledgedIncome()),
+  setPledgeBalance: () => dispatch(setPledgedBalance()),
+  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
+  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setHourlyIncome: () => dispatch(setHourlyIncome()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
