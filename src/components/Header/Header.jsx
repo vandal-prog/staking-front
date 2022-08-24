@@ -21,7 +21,7 @@ import {
   hasStaked,
   hasPledged,
 } from "../../redux/user/user.actions";
-import TawkTo from 'tawkto-react'
+import TawkTo from 'tawkto-react';
 
 const NAV__LINKS = [
   {
