@@ -159,8 +159,8 @@ const mapStateToProps = (state) => ({
   pledgeRecords: state.user.pledgeRecords,
   decimals: state.user.decimals,
   staking: state.user.staking,
-  staked: state.user.staked,
-  pledged: state.user.pledged,
+  staked: state.boolean.staked,
+  pledged: state.boolean.pledged,
   hourlyIncome: state.data.hourlyIncome,
   ratePercent: state.data.ratePercent,
 });

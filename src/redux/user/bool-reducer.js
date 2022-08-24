@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   pledged: true,
 };
 
-const truthReducer = (state = INITIAL_STATE, action) => {
+const boolReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "SET_STAKED":
       return {
@@ -22,4 +22,4 @@ const truthReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default truthReducer;
+export default boolReducer;

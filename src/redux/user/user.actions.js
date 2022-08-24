@@ -145,3 +145,13 @@ export const setRate = (percent) => ({
   type: "SET_RATE",
   payload: percent,
 });
+
+export const setMode = (mode) => ({
+  type: "SET_MODE",
+  payload: mode,
+});
+
+export const setSecondsLeft = (seconds) => ({
+  type: "SET_SECONDS_LEFT",
+  payload: seconds,
+});
