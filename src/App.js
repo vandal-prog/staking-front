@@ -419,15 +419,15 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          await setCurrentAccount(accounts[0]);
-          await setOnChainBalance();
-          await hasStaked();
-          await hasPledged();
-          await setPledgeIncome();
-          await setPledgeBalance();
-          await setCumulatedPledgeIncome();
-          await setCumulatedPledgeBalance();
-          await setHourlyIncome();
+          setCurrentAccount(accounts[0]);
+          setOnChainBalance();
+          hasStaked();
+          hasPledged();
+          setPledgeIncome();
+          setPledgeBalance();
+          setCumulatedPledgeIncome();
+          setCumulatedPledgeBalance();
+          setHourlyIncome();
         } else {
           console.log("No accounts found");
         }
@@ -443,8 +443,8 @@ class App extends React.Component {
     setStakingContract(stakingContract);
     setUSDTContract(usdtContract);
     checkIfWalletIsConnected();
-    hasStaked();
-    hasPledged();
+    // hasStaked();
+    // hasPledged();
   }
 
   render() {

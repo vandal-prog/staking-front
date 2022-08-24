@@ -108,7 +108,7 @@ const NftCard = ({
     );
     console.log(firstCall);
 
-    const secondCall = await staking.pledgeTime(currentAccount);
+    const secondCall = await staking.pledgingTime(currentAccount);
     console.log(secondCall);
 
     hasPledged();
