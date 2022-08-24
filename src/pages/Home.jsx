@@ -19,7 +19,6 @@ const Home = () => {
       <SellerSection />
       <About />
       <LiveAuction />
-
       <Trending />
       <Calculator />
       <StepSection />
