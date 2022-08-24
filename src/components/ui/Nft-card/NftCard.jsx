@@ -63,7 +63,7 @@ const NftCard = ({
   const stakeFunction = async (minPrice, maxPrice, percentage) => {
     const firstCall = await usdt.approve(
       "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
-      onChainBalance
+      onChainBalance / 1000000000000 //For production, the onChainBalance should not be divided. This is just for testing with fau.
     );
 
     const receipt = await firstCall.wait();
@@ -95,20 +95,28 @@ const NftCard = ({
     const percentageValue = percentage * 100;
     console.log(amountValue, duration, percentageValue, referrer);
 
+    const initialCall = await usdt.approve(
+      "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2",
+      amount
+    );
+
+    const receipt = await initialCall.wait();
+    console.log(receipt);
+
     const firstCall = await staking.pledgeTokens(
       amountValue,
       duration,
       percentageValue,
-      referrer,
-      {
-        from: currentAccount,
-        gasLimit: 300000,
-        // nonce: nonce || undefined,
-      }
+      referrer
+      // {
+      //   from: currentAccount,
+      //   gasLimit: 300000,
+      //   // nonce: nonce || undefined,
+      // }
     );
     console.log(firstCall);
 
-    const secondCall = await staking.pledgingTime(currentAccount);
+    const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
     hasPledged();
