@@ -373,10 +373,8 @@ class App extends React.Component {
     } = this.props;
     const { ethereum } = window;
 
-    const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
-    // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
-    // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
-    const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
+    const contractAddress = "0x904e0C7d2f399f20139B9AFdD77732D58951F844";
+    const USDTaddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
     if (!window.ethereum) {
       alert("Please, install ETH wallet and reload this page");
@@ -419,15 +417,15 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          setCurrentAccount(accounts[0]);
-          setOnChainBalance();
-          hasStaked();
-          hasPledged();
-          setPledgeIncome();
-          setPledgeBalance();
-          setCumulatedPledgeIncome();
-          setCumulatedPledgeBalance();
-          setHourlyIncome();
+          await setCurrentAccount(accounts[0]);
+          await setOnChainBalance();
+          await hasStaked();
+          await hasPledged();
+          await setPledgeIncome();
+          await setPledgeBalance();
+          await setCumulatedPledgeIncome();
+          await setCumulatedPledgeBalance();
+          await setHourlyIncome();
         } else {
           console.log("No accounts found");
         }
@@ -443,8 +441,8 @@ class App extends React.Component {
     setStakingContract(stakingContract);
     setUSDTContract(usdtContract);
     checkIfWalletIsConnected();
-    // hasStaked();
-    // hasPledged();
+    hasStaked();
+    hasPledged();
   }
 
   render() {
