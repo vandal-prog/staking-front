@@ -60,10 +60,10 @@ const NftCard = ({
   // console.log(resultAmount);
 
   // Function to stake
-  const stakeFunction = async (minPrice, maxPrice, percentage) => {
-    const approvalAmount = onChainBalance; // * decimals;
+  const stakeFunction = async (minPrice, percentage) => {
+    const approvalAmount = onChainBalance * decimals;
     const firstCall = await usdt.approve(
-      "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
+      "0x88a94055AB22Ac80306cc0f00bb13c85205afd3d",
       approvalAmount,
       {
         gasLimit: 500000,
@@ -73,19 +73,13 @@ const NftCard = ({
     const receipt = await firstCall.wait();
 
     const minValue = parseFloat(minPrice) * decimals;
-    const maxValue = parseFloat(maxPrice) * decimals;
     const percentValue = percentage * 100;
 
-    console.log(minValue, maxValue, percentValue);
+    console.log(minValue, percentValue);
 
-    const secondCall = await staking.stakeTokens(
-      minValue,
-      maxValue,
-      percentValue,
-      {
-        gasLimit: 500000,
-      }
-    );
+    const secondCall = await staking.stakeTokens(minValue, percentValue, {
+      gasLimit: 500000,
+    });
     console.log(secondCall);
 
     hasStaked();
@@ -102,7 +96,7 @@ const NftCard = ({
     console.log(amountValue, duration, percentageValue, referrer);
 
     const initialCall = await usdt.approve(
-      "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2",
+      "0x904e0C7d2f399f20139B9AFdD77732D58951F844",
       amountValue,
       {
         gasLimit: 500000,
@@ -287,7 +281,7 @@ const NftCard = ({
               startIcon={<LocalMallIcon />}
               onClick={() => {
                 setRate(percent);
-                stakeFunction(creator, currentBid, percent);
+                stakeFunction(creator, percent);
 
                 // hasStaked();
               }}
