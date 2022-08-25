@@ -10,10 +10,13 @@ const Progress = ({ pledgeRecords }) => {
       <div className="account-records">
         {pledgeRecords.length ? (
           <>
-            <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-            <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-            <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-            <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
+            {pledgeRecords.map((record, index) => (
+              <RecordDataValues
+                key={index}
+                date={record.pledgeTime}
+                value={record.pledgeAmount}
+              />
+            ))}
           </>
         ) : (
           <div className="acount-records-empty">
@@ -33,7 +36,7 @@ const Progress = ({ pledgeRecords }) => {
 };
 
 const mapStateToProps = (state) => ({
-  pledgeRecords: state.user.pledgeRecords,
+  pledgeRecords: state.array.pledgeRecords,
 });
 
 export default connect(mapStateToProps)(Progress);

@@ -11,11 +11,22 @@ import { TransactionContext } from "../context/TransactionContext";
 
 import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
+import Time from "../components/ui/timer/newTimer.component";
+
 import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { TimeConverter } from "../utils/timeConverter";
 import { Snackbar, Alert } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import {
+  selectAccountArrayCount,
+  selectCumIncomeCount,
+  selecttodayIncomeCount,
+} from "../redux/user/array.selectors";
+import {
+  setAccountBalance,
+  setPledgeRecords,
+} from "../redux/user/user.actions";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -31,9 +42,12 @@ const Account = ({
   staking,
   decimals,
   staked,
-  hourlyIncome,
   pledged,
   ratePercent,
+  accountBalance,
+  cummulativeIncome,
+  todayIncome,
+  setAccountBalance,
 }) => {
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const handleClose = () => {
@@ -65,8 +79,9 @@ const Account = ({
   };
   const withdrawalAmount = Number(inputData.withdrawalAmount);
 
-  let nowTime = TimeConverter(1661002435000);
-  console.log(nowTime);
+  // const now = new Date();
+  // let nowTime = TimeConverter(1661002435000);
+  // console.log(nowTime);
 
   // Function to withdraw
   const withdrawTokens = async (amount) => {
@@ -81,6 +96,7 @@ const Account = ({
       setMinWithdrawal(true);
     } else {
       withdrawTokens(withdrawalAmount);
+      setAccountBalance(-withdrawalAmount);
     }
   };
   // console.log(reciept);
@@ -91,9 +107,7 @@ const Account = ({
 
       <div className="account-container">
         <div className="account-info">
-          <div className="account-value">
-            {staked ? hourlyIncome : pledgeIncome}
-          </div>
+          <div className="account-value">{accountBalance}</div>
           <span className="account-valuetext">ACCOUNT BALANCE</span>
           <div className="account-timer">
             <img
@@ -101,9 +115,14 @@ const Account = ({
               className="timer-icon"
               src={TimerImg}
             />
-            <span className="account-timer-text">NEXT BENEFIT</span>
+            <span className="account-timer-text">NEXT BENEFIT IN 1hr</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
-            <Timer />
+
+            {/* <Timer /> */}
+            {staked && <Time localStorage="timer1" />}
+            {pledged && <Timer localStorage="timer2" />}
+            {staked || pledged || <Time />}
+            {/* <Time localStorage="timer1" /> */}
           </div>
           <input
             name="withdrawalAmount"
@@ -140,8 +159,11 @@ const Account = ({
             title="Current rate of return"
             value={`${ratePercent}%`}
           />
-          <DataValues title="Today's income" value={`${hourlyIncome}USDT`} />
-          <DataValues title="Cummulative income" value={`${0}USDT`} />
+          <DataValues title="Today's income" value={`${todayIncome}USDT`} />
+          <DataValues
+            title="Cummulative income"
+            value={`${cummulativeIncome}USDT`}
+          />
         </div>
         <div className="account-container-header">NFT pledge income</div>
         <div className="accoount-pledge">
@@ -160,10 +182,13 @@ const Account = ({
         <div className="account-records">
           {pledgeRecords.length ? (
             <>
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
+              {pledgeRecords.map((record, index) => (
+                <RecordDataValues
+                  key={index}
+                  date={record.pledgeTime}
+                  value={record.pledgeAmount}
+                />
+              ))}
             </>
           ) : (
             <div className="acount-records-empty">
@@ -189,13 +214,20 @@ const mapStateToProps = (state) => ({
   pledgeBalance: state.data.pledgeBalance,
   cumulatedPledgeIncome: state.data.cumulatedPledgeIncome,
   cumulatedPledgeBalance: state.data.cumulatedPledgeBalance,
-  pledgeRecords: state.user.pledgeRecords,
+  pledgeRecords: state.array.pledgeRecords,
   decimals: state.user.decimals,
   staking: state.user.staking,
   staked: state.boolean.staked,
   pledged: state.boolean.pledged,
-  hourlyIncome: state.data.hourlyIncome,
   ratePercent: state.data.ratePercent,
+  accountBalance: selectAccountArrayCount(state),
+  cummulativeIncome: selectCumIncomeCount(state),
+  todayIncome: selecttodayIncomeCount(state),
 });
 
-export default connect(mapStateToProps)(Account);
+const mapDispatchToProps = (dispatch) => ({
+  setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
+  setPledgeRecords: () => dispatch(setPledgeRecords()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

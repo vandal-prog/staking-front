@@ -15,6 +15,7 @@ import {
   hasStaked,
   setCumulatedPledgeBalance,
   setCumulatedPledgeIncome,
+  setDays,
   setHourlyIncome,
   setPledgedBalance,
   setPledgedIncome,
@@ -43,6 +44,7 @@ const NftCard = ({
   setCumulatedPledgeBalance,
   setHourlyIncome,
   setRate,
+  setDays,
 }) => {
   const { title, id, currentBid, imgUrl, creator, percent, days, people } =
     item;
@@ -83,6 +85,7 @@ const NftCard = ({
     console.log(secondCall);
 
     hasStaked();
+    setRate(percent);
 
     const thirdCall = await staking.stakingTime(currentAccount);
     console.log(thirdCall);
@@ -121,6 +124,8 @@ const NftCard = ({
     console.log(secondCall);
 
     hasPledged();
+    setDays(days);
+    setRate(percent);
 
     setPledgeIncome();
 
@@ -148,13 +153,8 @@ const NftCard = ({
     percent
   ) => {
     if (resultAmount > currentBid || resultAmount < creator) {
-      // alert(`purchase range ${creator}-${currentBid}`);
       setBelowRange(true);
-    } else if (
-      // Number(resultAmount) >= currentBid ||
-      // Number(resultAmount) <= creator ||
-      Number(resultAmount) > onChainBalance
-    ) {
+    } else if (Number(resultAmount) > onChainBalance) {
       setLowBalance(true);
     } else {
       pledgeFunction(resultAmount, days, percent, ethers.constants.AddressZero);
@@ -218,7 +218,6 @@ const NftCard = ({
               startIcon={<LocalMallIcon />}
               color="secondary"
               onClick={() => {
-                setRate(percent);
                 checker(
                   resultAmount,
                   currentBid,
@@ -231,16 +230,7 @@ const NftCard = ({
             >
               Start Pledge
             </LoadingButton>
-            {/* <Snackbar
-              message={`purchase range ${creator}-${currentBid}`}
-              autoHideDuration={4000}
-              open={belowRange}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            /> */}
+
             <Snackbar
               open={belowRange}
               autoHideDuration={6000}
@@ -280,7 +270,6 @@ const NftCard = ({
               loadingPosition="start"
               startIcon={<LocalMallIcon />}
               onClick={() => {
-                setRate(percent);
                 stakeFunction(creator, percent);
 
                 // hasStaked();
@@ -326,6 +315,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
   setRate: (percent) => dispatch(setRate(percent)),
+  setDays: (days) => dispatch(setDays(days)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftCard);

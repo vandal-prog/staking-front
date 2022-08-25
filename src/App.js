@@ -20,6 +20,9 @@ import {
   setPledgedBalance,
   setPledgedIncome,
   setHourlyIncome,
+  setAccountBalance,
+  setTodayIncome,
+  setCumulativeIncome,
 } from "./redux/user/user.actions";
 
 class App extends React.Component {
@@ -370,6 +373,10 @@ class App extends React.Component {
       setCumulatedPledgeIncome,
       setCumulatedPledgeBalance,
       setHourlyIncome,
+      hourlyIncome,
+      setAccountBalance,
+      setTodayIncome,
+      setCumulativeIncome,
     } = this.props;
     const { ethereum } = window;
 
@@ -417,15 +424,18 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          await setCurrentAccount(accounts[0]);
-          await setOnChainBalance();
-          await hasStaked();
-          await hasPledged();
-          await setPledgeIncome();
-          await setPledgeBalance();
-          await setCumulatedPledgeIncome();
-          await setCumulatedPledgeBalance();
+          setCurrentAccount(accounts[0]);
+          setOnChainBalance();
+          hasPledged();
+          hasStaked();
+          setPledgeIncome();
+          setPledgeBalance();
+          setCumulatedPledgeIncome();
+          setCumulatedPledgeBalance();
           await setHourlyIncome();
+          setAccountBalance(hourlyIncome);
+          setTodayIncome(hourlyIncome);
+          setCumulativeIncome(hourlyIncome);
         } else {
           console.log("No accounts found");
         }
@@ -441,8 +451,8 @@ class App extends React.Component {
     setStakingContract(stakingContract);
     setUSDTContract(usdtContract);
     checkIfWalletIsConnected();
-    hasStaked();
-    hasPledged();
+    // hasStaked();
+    // hasPledged();
   }
 
   render() {
@@ -453,6 +463,10 @@ class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  hourlyIncome: state.data.hourlyIncome,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
@@ -466,6 +480,10 @@ const mapDispatchToProps = (dispatch) => ({
   setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
+  setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
+  setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
+  setCumulativeIncome: (hourlyIncome) =>
+    dispatch(setCumulativeIncome(hourlyIncome)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

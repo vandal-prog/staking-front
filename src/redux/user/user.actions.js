@@ -20,11 +20,9 @@ export const setOnChainBalance = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 
-  const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
-  const usdtContract = new ethers.Contract(USDTaddress, USDT.abi, signer);
+  const USDTaddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
   return async (dispatch, getState) => {
-    // const getOnChainBalance = async (account) => {
     const usdt = new ethers.Contract(USDTaddress, USDT.abi, signer);
     const decimals = getState().user.decimals;
     const account = getState().account.currentAccount;
@@ -33,11 +31,7 @@ export const setOnChainBalance = () => {
     const balance = onChainBalance.toString();
     const visibleBalance = balance / decimals;
 
-    //   console.log(onChainBalance);
-    // console.log(balance);
-    // console.log(visibleBalance);
-    //   return visibleBalance;
-    // };
+    
     dispatch({
       type: "SET_ONCHAIN_BALANCE",
       payload: visibleBalance,
@@ -46,6 +40,7 @@ export const setOnChainBalance = () => {
 };
 
 export const hasStaked = () => {
+
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
@@ -73,70 +68,81 @@ export const hasPledged = () => {
 
 export const setPledgedIncome = () => {
   return async (dispatch, getState) => {
+    const decimals = getState().user.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const Income = await staking.pledgeIncome(address);
     const pledgedIncome = Income.toString();
+    const visiblePledgedIncome = pledgedIncome / decimals
 
     dispatch({
       type: "SET_PLEGED_INCOME",
-      payload: pledgedIncome,
+      payload: visiblePledgedIncome,
     });
   };
 };
 
 export const setPledgedBalance = () => {
   return async (dispatch, getState) => {
+    const decimals = getState().user.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const pledgedBalance = await staking.pledgedBalance(address);
     const pledgedBal = pledgedBalance.toString();
+    const visiblePledgedBal = pledgedBal / decimals;
 
     dispatch({
       type: "SET_PLEGED_BALANCE",
-      payload: pledgedBal,
+      payload: visiblePledgedBal,
     });
   };
 };
 
 export const setCumulatedPledgeIncome = () => {
   return async (dispatch, getState) => {
+    const decimals = getState().user.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const cumulatedPledgedIncome = await staking.cumulatedPledgeIncome(address);
     const cumPledgedIncome = cumulatedPledgedIncome.toString();
+    const visiblecumPledgedIncome = cumPledgedIncome / decimals;
+
 
     dispatch({
       type: "SET_CUMULATED_PLEDGE_INCOME",
-      payload: cumPledgedIncome,
+      payload: visiblecumPledgedIncome,
     });
   };
 };
 
 export const setCumulatedPledgeBalance = () => {
   return async (dispatch, getState) => {
+    const decimals = getState().user.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const cumPledgedBalance = await staking.cumulatedPledgeBalance(address);
     const cumPledgedBal = cumPledgedBalance.toString();
+    const visiblecumPledgedBal = cumPledgedBal / decimals;
 
     dispatch({
       type: "SET_CUMULATED_PLEDGE_BALANCE",
-      payload: cumPledgedBal,
+      payload: visiblecumPledgedBal,
     });
   };
 };
 
 export const setHourlyIncome = () => {
   return async (dispatch, getState) => {
+    const decimals = getState().user.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const hourlyIncomes = await staking.hourlyIncome(address);
     const hourlyIncome = hourlyIncomes.toString();
+    const visiblehourlyIncome = hourlyIncome / decimals;
 
     dispatch({
       type: "SET_HOURLY_INCOME",
-      payload: hourlyIncome,
+      payload: visiblehourlyIncome,
     });
   };
 };
@@ -154,4 +160,41 @@ export const setMode = (mode) => ({
 export const setSecondsLeft = (seconds) => ({
   type: "SET_SECONDS_LEFT",
   payload: seconds,
+});
+
+export const setPledgeRecords = () => {
+  return async (dispatch, getState) => {
+    const staking = getState().user.staking;
+    const address = getState().account.currentAccount;
+    const pledgeRecords = await staking.pledgeHistory(address);
+
+    dispatch({
+      type: "SET_PLEDGE_RECORDS",
+      payload: pledgeRecords,
+    });
+  };
+};
+
+export const setAccountBalance = (balance) => ({
+  type: "SET_ACCOUNT_BALANCE",
+  payload: balance,
+});
+
+export const setTodayIncome = (hourlyIncome) => ({
+  type: "SET_TODAY_INCOME",
+  payload: hourlyIncome,
+});
+
+export const resetTodayIncome = () => ({
+  type: "RESET_TODAY_INCOME",
+});
+
+export const setCumulativeIncome = (hourlyIncome) => ({
+  type: "SET_CUMULATIVE_INCOME",
+  payload: hourlyIncome,
+});
+
+export const setDays = (days) => ({
+  type: "SET_DAYS",
+  payload: days,
 });
