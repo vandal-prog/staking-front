@@ -26,20 +26,11 @@ const PledgeRecords = () => {
       </h6>
 
       <div className="pledgerecords-navigation">
-        {/* <div className="pledgerecords-navigation-item">
-          <Link to="/records/transferring">Transferring</Link>
-        </div>
-        <div className="pledgerecords-navigation-item">
-          <Link to="/records/progress">In progress</Link>
-        </div>
-        <div className="pledgerecords-navigation-item">
-          <Link to="/records/completed">Completed</Link>
-        </div> */}
-
         {PLEDGE_LINKS.map((item, index) => (
           <div className="">
             <NavLink
               to={item.url}
+              key={index}
               className={(navClass) =>
                 navClass.isActive
                   ? "pledgelink-active pledgerecords-navigation-item"

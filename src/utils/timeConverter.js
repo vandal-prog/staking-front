@@ -9,6 +9,5 @@ export const TimeConverter = (timestamp) => {
   let seconds = dateObj.getSeconds();
 
   let time = `${year}/${month}/${date} ${hour}:${minute}:${seconds}`;
-  console.log(time);
   return time;
 };
