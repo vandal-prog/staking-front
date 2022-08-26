@@ -424,18 +424,18 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          setCurrentAccount(accounts[0]);
-          setOnChainBalance();
-          hasPledged();
-          hasStaked();
-          setPledgeIncome();
-          setPledgeBalance();
-          setCumulatedPledgeIncome();
-          setCumulatedPledgeBalance();
-          await setHourlyIncome();
-          setAccountBalance(hourlyIncome);
-          setTodayIncome(hourlyIncome);
-          setCumulativeIncome(hourlyIncome);
+          // setCurrentAccount(accounts[0]);
+          // setOnChainBalance();
+          // hasPledged();
+          // hasStaked();
+          // setPledgeIncome();
+          // setPledgeBalance();
+          // setCumulatedPledgeIncome();
+          // setCumulatedPledgeBalance();
+          // await setHourlyIncome();
+          // setAccountBalance(hourlyIncome);
+          // setTodayIncome(hourlyIncome);
+          // setCumulativeIncome(hourlyIncome);
         } else {
           console.log("No accounts found");
         }

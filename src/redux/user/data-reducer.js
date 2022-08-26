@@ -7,6 +7,9 @@ const INITIAL_STATE = {
   hourlyIncome: 0,
   ratePercent: 0,
   days: 0,
+  decimals: 1000000,
+  stakingTime: 0,
+  pledgingTime: 0,
 };
 
 const dataReducer = (state = INITIAL_STATE, action) => {

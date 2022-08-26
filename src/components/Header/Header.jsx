@@ -221,7 +221,7 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
-  decimals: state.user.decimals,
+  decimals: state.data.decimals,
   hourlyIncome: state.data.hourlyIncome,
 });
 

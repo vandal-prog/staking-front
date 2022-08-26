@@ -19,7 +19,7 @@ const RecordDataValues = ({ date, value, decimals }) => {
 };
 
 const mapStateToProps = (state) => ({
-  decimals: state.user.decimals,
+  decimals: state.data.decimals,
 });
 
 export default connect(mapStateToProps)(RecordDataValues);

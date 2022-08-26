@@ -12,7 +12,7 @@ const persistConfig = {
   key: "user",
   storage,
   whitelist: ["account", "user", "boolean", "data", "array"],
-  // whitelist: ["timer", "boolean"],
+  // whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
