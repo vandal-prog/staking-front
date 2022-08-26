@@ -424,8 +424,8 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          // setCurrentAccount(accounts[0]);
-          // setOnChainBalance();
+          setCurrentAccount(accounts[0]);
+          setOnChainBalance();
           // hasPledged();
           // hasStaked();
           // setPledgeIncome();

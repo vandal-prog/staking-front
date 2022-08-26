@@ -7,6 +7,8 @@ import {
   setHourlyIncome,
   setTodayIncome,
   setAccountBalance,
+  setRate,
+  setOnChainBalance,
 } from "../../../redux/user/user.actions";
 
 class Time extends Component {
@@ -113,6 +115,8 @@ class Time extends Component {
       setAccountBalance,
       setTodayIncome,
       setCumulativeIncome,
+      setRate,
+      setOnChainBalance,
     } = this.props;
 
     const timestamp = running ? Date.now() + value : value;
@@ -146,7 +150,18 @@ class Time extends Component {
       if (staked) {
         start();
       } else {
+        setRate(0);
+        setOnChainBalance();
         return;
+      }
+    }
+
+    if (m == 1) {
+      hasStaked();
+
+      if (!staked) {
+        setRate(0);
+        setOnChainBalance();
       }
     }
 
@@ -184,6 +199,8 @@ const mapDispatchToProps = (dispatch) => ({
   setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
   setCumulativeIncome: (hourlyIncome) =>
     dispatch(setCumulativeIncome(hourlyIncome)),
+  setRate: (percent) => dispatch(setRate(percent)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Time);
