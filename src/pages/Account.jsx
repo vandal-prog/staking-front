@@ -24,6 +24,7 @@ import {
   setAccountBalance,
   setCumulativeIncome,
   setPledgeRecords,
+  setRate,
 } from "../redux/user/user.actions";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
@@ -46,6 +47,7 @@ const Account = ({
   cummulativeIncome,
   todayIncome,
   setAccountBalance,
+  setRate,
 }) => {
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const [overWithdrawal, setOverWithdrawal] = useState(false);
@@ -102,6 +104,7 @@ const Account = ({
       withdrawTokens(withdrawalAmount);
       setAccountBalance(-withdrawalAmount);
       setSuccesfulPayment(true);
+      setRate(0);
     }
   };
   // console.log(reciept);
@@ -259,6 +262,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
   setPledgeRecords: () => dispatch(setPledgeRecords()),
+  setRate: (percent) => dispatch(setRate(percent)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
