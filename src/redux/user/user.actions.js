@@ -24,14 +24,13 @@ export const setOnChainBalance = () => {
 
   return async (dispatch, getState) => {
     const usdt = new ethers.Contract(USDTaddress, USDT.abi, signer);
-    const decimals = getState().user.decimals;
+    const decimals = getState().data.decimals;
     const account = getState().account.currentAccount;
     const onChainBalance = await usdt.balanceOf(account);
 
     const balance = onChainBalance.toString();
     const visibleBalance = balance / decimals;
 
-    
     dispatch({
       type: "SET_ONCHAIN_BALANCE",
       payload: visibleBalance,
@@ -40,7 +39,6 @@ export const setOnChainBalance = () => {
 };
 
 export const hasStaked = () => {
-
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
@@ -68,12 +66,12 @@ export const hasPledged = () => {
 
 export const setPledgedIncome = () => {
   return async (dispatch, getState) => {
-    const decimals = getState().user.decimals;
+    const decimals = getState().data.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const Income = await staking.pledgeIncome(address);
     const pledgedIncome = Income.toString();
-    const visiblePledgedIncome = pledgedIncome / decimals
+    const visiblePledgedIncome = pledgedIncome / decimals;
 
     dispatch({
       type: "SET_PLEGED_INCOME",
@@ -84,7 +82,7 @@ export const setPledgedIncome = () => {
 
 export const setPledgedBalance = () => {
   return async (dispatch, getState) => {
-    const decimals = getState().user.decimals;
+    const decimals = getState().data.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const pledgedBalance = await staking.pledgedBalance(address);
@@ -100,13 +98,12 @@ export const setPledgedBalance = () => {
 
 export const setCumulatedPledgeIncome = () => {
   return async (dispatch, getState) => {
-    const decimals = getState().user.decimals;
+    const decimals = getState().data.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const cumulatedPledgedIncome = await staking.cumulatedPledgeIncome(address);
     const cumPledgedIncome = cumulatedPledgedIncome.toString();
     const visiblecumPledgedIncome = cumPledgedIncome / decimals;
-
 
     dispatch({
       type: "SET_CUMULATED_PLEDGE_INCOME",
@@ -117,7 +114,7 @@ export const setCumulatedPledgeIncome = () => {
 
 export const setCumulatedPledgeBalance = () => {
   return async (dispatch, getState) => {
-    const decimals = getState().user.decimals;
+    const decimals = getState().data.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const cumPledgedBalance = await staking.cumulatedPledgeBalance(address);
@@ -133,7 +130,7 @@ export const setCumulatedPledgeBalance = () => {
 
 export const setHourlyIncome = () => {
   return async (dispatch, getState) => {
-    const decimals = getState().user.decimals;
+    const decimals = getState().data.decimals;
     const staking = getState().user.staking;
     const address = getState().account.currentAccount;
     const hourlyIncomes = await staking.hourlyIncome(address);
@@ -190,7 +187,7 @@ export const resetTodayIncome = () => ({
 });
 
 export const setCumulativeIncome = (hourlyIncome) => ({
-  type: "SET_CUMULATIVE_INCOME",
+  type: "SET_CUMMULATIVE_INCOME",
   payload: hourlyIncome,
 });
 

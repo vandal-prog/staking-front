@@ -7,15 +7,12 @@ import CommonSection from "../components/ui/Common-section/CommonSection";
 
 import TimerImg from "../assets/images/timer.svg";
 
-import { TransactionContext } from "../context/TransactionContext";
-
 import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
 import Time from "../components/ui/timer/newTimer.component";
 
 import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { TimeConverter } from "../utils/timeConverter";
 import { Snackbar, Alert } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import {
@@ -25,6 +22,7 @@ import {
 } from "../redux/user/array.selectors";
 import {
   setAccountBalance,
+  setCumulativeIncome,
   setPledgeRecords,
 } from "../redux/user/user.actions";
 
@@ -50,8 +48,12 @@ const Account = ({
   setAccountBalance,
 }) => {
   const [minWithdrawal, setMinWithdrawal] = useState(false);
+  const [overWithdrawal, setOverWithdrawal] = useState(false);
+  const [successfulPayment, setSuccesfulPayment] = useState(false);
   const handleClose = () => {
     setMinWithdrawal(false);
+    setOverWithdrawal(false);
+    setSuccesfulPayment(false);
   };
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
@@ -92,11 +94,14 @@ const Account = ({
   };
 
   const checkwithdrawalAmount = (withdrawalAmount) => {
-    if (withdrawalAmount < 10) {
+    if (withdrawalAmount > accountBalance) {
+      setOverWithdrawal(true);
+    } else if (withdrawalAmount < 10) {
       setMinWithdrawal(true);
     } else {
       withdrawTokens(withdrawalAmount);
       setAccountBalance(-withdrawalAmount);
+      setSuccesfulPayment(true);
     }
   };
   // console.log(reciept);
@@ -150,6 +155,32 @@ const Account = ({
         >
           <SnackbarAlert onClose={handleClose} severity="warning">
             Less than minimum withdrawal
+          </SnackbarAlert>
+        </Snackbar>
+        <Snackbar
+          open={overWithdrawal}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <SnackbarAlert onClose={handleClose} severity="warning">
+            withdrawal amount cannot be greater than account balance
+          </SnackbarAlert>
+        </Snackbar>
+        <Snackbar
+          open={successfulPayment}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <SnackbarAlert
+            onClose={handleClose}
+            variant="filled"
+            severity="success"
+          >
+            Transaction Succesful
           </SnackbarAlert>
         </Snackbar>
         <div className="account-container-header">NFT market making income</div>
@@ -215,7 +246,7 @@ const mapStateToProps = (state) => ({
   cumulatedPledgeIncome: state.data.cumulatedPledgeIncome,
   cumulatedPledgeBalance: state.data.cumulatedPledgeBalance,
   pledgeRecords: state.array.pledgeRecords,
-  decimals: state.user.decimals,
+  decimals: state.data.decimals,
   staking: state.user.staking,
   staked: state.boolean.staked,
   pledged: state.boolean.pledged,
