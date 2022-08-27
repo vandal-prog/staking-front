@@ -136,6 +136,19 @@
   color: #fff;
 }
 
+.logout-btn {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #343444;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 .mobile__menu {
   color: #fff;
   font-size: 1.3rem;
