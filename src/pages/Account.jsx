@@ -109,6 +109,7 @@ const Account = ({
     const withdraw = await staking.withdrawReward(newAmount);
     const reciept = withdraw.wait();
     console.log(reciept);
+    setSuccesfulPayment(true);
   };
 
   const checkwithdrawalAmount = (withdrawalAmount) => {
@@ -119,7 +120,6 @@ const Account = ({
     } else {
       withdrawTokens(withdrawalAmount);
       setAccountBalance(-withdrawalAmount);
-      setSuccesfulPayment(true);
       setRate(0);
     }
   };
