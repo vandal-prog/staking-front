@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   pledgeRecords: [],
+  stakeRecords: [],
   accountBalance: [],
   todayIncome: [],
   cummulativeIncome: [],
@@ -11,6 +12,12 @@ const arrayReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         pledgeRecords: action.payload,
+      };
+
+    case "SET_STAKE_RECORDS":
+      return {
+        ...state,
+        stakeRecords: [...state.stakeRecords, action.payload],
       };
 
     case "SET_ACCOUNT_BALANCE":

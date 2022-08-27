@@ -7,7 +7,7 @@ const Transferring = ({ pledgeRecords }) => {
   return (
     <div className="account-container">
       <div className="account-records">
-        {pledgeRecords.length ? (
+        {/* {pledgeRecords.length ? (
           <>
             {pledgeRecords.map((record, index) => (
               <RecordDataValues
@@ -17,18 +17,18 @@ const Transferring = ({ pledgeRecords }) => {
               />
             ))}
           </>
-        ) : (
-          <div className="acount-records-empty">
-            <DeleteForeverIcon
-              sx={{
-                width: 100,
-                height: 100,
-                opacity: 0.5,
-              }}
-            />
-            <p className="acount-records-icon-text">No Data</p>
-          </div>
-        )}
+        ) : ( */}
+        <div className="acount-records-empty">
+          <DeleteForeverIcon
+            sx={{
+              width: 100,
+              height: 100,
+              opacity: 0.5,
+            }}
+          />
+          <p className="acount-records-icon-text">No Data</p>
+        </div>
+        {/* )} */}
       </div>
     </div>
   );

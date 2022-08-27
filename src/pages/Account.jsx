@@ -26,10 +26,25 @@ import {
   setPledgeRecords,
   setRate,
 } from "../redux/user/user.actions";
+import { TimeConverter } from "../utils/timeConverter";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
 });
+
+const StakeDataValues = ({ date, value }) => {
+  const displayDate = TimeConverter(date);
+
+  return (
+    <div className="recordvalue">
+      <div className="recordvalue-date">
+        <span className="recordvalue-date-text">Income</span>
+        <div className="recordvalue-date-time">{displayDate}</div>
+      </div>
+      <div className="recordvalue-value">+{value}USDT</div>
+    </div>
+  );
+};
 
 const Account = ({
   onChainBalance,
@@ -38,6 +53,7 @@ const Account = ({
   cumulatedPledgeIncome,
   cumulatedPledgeBalance,
   pledgeRecords,
+  stakeRecords,
   staking,
   decimals,
   staked,
@@ -214,13 +230,13 @@ const Account = ({
         </div>
         <div className="account-container-header">Change account records</div>
         <div className="account-records">
-          {pledgeRecords.length ? (
+          {stakeRecords.length ? (
             <>
-              {pledgeRecords.map((record, index) => (
-                <RecordDataValues
+              {stakeRecords.map((record, index) => (
+                <StakeDataValues
                   key={index}
-                  date={record.pledgeTime}
-                  value={record.pledgeAmount}
+                  date={record[0]}
+                  value={record[1]}
                 />
               ))}
             </>
@@ -249,6 +265,7 @@ const mapStateToProps = (state) => ({
   cumulatedPledgeIncome: state.data.cumulatedPledgeIncome,
   cumulatedPledgeBalance: state.data.cumulatedPledgeBalance,
   pledgeRecords: state.array.pledgeRecords,
+  stakeRecords: state.array.stakeRecords,
   decimals: state.data.decimals,
   staking: state.user.staking,
   staked: state.boolean.staked,

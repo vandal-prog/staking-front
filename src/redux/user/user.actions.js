@@ -172,6 +172,11 @@ export const setPledgeRecords = () => {
   };
 };
 
+export const setStakeRecords = (record) => ({
+  type: "SET_STAKE_RECORDS",
+  payload: record,
+});
+
 export const setAccountBalance = (balance) => ({
   type: "SET_ACCOUNT_BALANCE",
   payload: balance,
