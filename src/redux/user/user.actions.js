@@ -200,3 +200,7 @@ export const setDays = (days) => ({
   type: "SET_DAYS",
   payload: days,
 });
+
+export const logout = () => ({
+  type: "LOGOUT_USER",
+});

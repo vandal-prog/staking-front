@@ -28,6 +28,7 @@ import {
   setAccountBalance,
   setTodayIncome,
   setCumulativeIncome,
+  logout,
 } from "../../redux/user/user.actions";
 
 const NAV__LINKS = [
@@ -69,6 +70,7 @@ const Header = ({
   setAccountBalance,
   setCumulativeIncome,
   setTodayIncome,
+  logout,
 }) => {
   // const { currentAccount, connectWallet, setOnChainBalance } =
   //   useContext(TransactionContext);
@@ -171,6 +173,10 @@ const Header = ({
           <div className="nav__right d-flex align-items-center gap-5 ">
             {currentAccount ? (
               <div className="login-buttons">
+                <button className="logout-btn" onClick={logout}>
+                  logout
+                </button>
+
                 <div className="erc">
                   <span>ERC</span>
                 </div>
@@ -239,6 +245,7 @@ const mapDispatchToProps = (dispatch) => ({
   setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
   setCumulativeIncome: (hourlyIncome) =>
     dispatch(setCumulativeIncome(hourlyIncome)),
+  logout: () => dispatch(logout()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
