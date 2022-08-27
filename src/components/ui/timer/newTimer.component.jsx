@@ -9,6 +9,7 @@ import {
   setAccountBalance,
   setRate,
   setOnChainBalance,
+  setStakeRecords,
 } from "../../../redux/user/user.actions";
 
 class Time extends Component {
@@ -117,6 +118,8 @@ class Time extends Component {
       setCumulativeIncome,
       setRate,
       setOnChainBalance,
+      setStakeRecords,
+      stakeRecords,
     } = this.props;
 
     const timestamp = running ? Date.now() + value : value;
@@ -139,6 +142,9 @@ class Time extends Component {
       setAccountBalance(hourlyIncome);
       setTodayIncome(hourlyIncome);
       setCumulativeIncome(hourlyIncome);
+      // const nowTime = new Date();
+      // const recordArray = [nowTime, hourlyIncome];
+      // setStakeRecords(recordArray);
     };
 
     // console.log("i love myself");
@@ -156,7 +162,11 @@ class Time extends Component {
       }
     }
 
-    if (m == 1) {
+    if (s === 59) {
+      // const nowTime = Date.now();
+      // const recordArray = [nowTime, hourlyIncome];
+      // setStakeRecords(recordArray);
+      // console.log(stakeRecords);
       hasStaked();
 
       if (!staked) {
@@ -190,6 +200,7 @@ class Time extends Component {
 const mapStateToProps = (state) => ({
   staked: state.boolean.staked,
   hourlyIncome: state.data.hourlyIncome,
+  stakeRecords: state.array.stakeRecords,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -201,6 +212,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setCumulativeIncome(hourlyIncome)),
   setRate: (percent) => dispatch(setRate(percent)),
   setOnChainBalance: () => dispatch(setOnChainBalance()),
+  setStakeRecords: (record) => dispatch(setStakeRecords(record)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Time);
