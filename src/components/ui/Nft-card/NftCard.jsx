@@ -88,7 +88,7 @@ const NftCard = ({
     // setstakeLoading(true);
     const approvalAmount = onChainBalance / decimals;
     const firstCall = await usdt.approve(
-      "0xdb339be8E04Db248ea2bdD7C308c5589c121C68b",
+      "0xDb339BE8E04dB248ea2Bdd7C308C5589C121C68b",
       //"0x88a94055AB22Ac80306cc0f00bb13c85205afd3d",
       approvalAmount,
       {
