@@ -379,9 +379,12 @@ class App extends React.Component {
       setCumulativeIncome,
     } = this.props;
     const { ethereum } = window;
+    
+    const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
+    const USDTaddress = "0xFab46E002BbF0b4509813474841E0716E6730136";
 
-    const contractAddress = "0x904e0C7d2f399f20139B9AFdD77732D58951F844";
-    const USDTaddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
+    //const contractAddress = "0x904e0C7d2f399f20139B9AFdD77732D58951F844";
+    //const USDTaddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
     if (!window.ethereum) {
       alert("Please, install ETH wallet and reload this page");
