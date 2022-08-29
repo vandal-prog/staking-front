@@ -53,6 +53,8 @@ const NftCard = ({
   setHourlyIncome,
   setRate,
   setDays,
+  staked,
+  pledged,
 }) => {
   const { title, id, currentBid, imgUrl, creator, percent, days, people } =
     item;
@@ -105,15 +107,20 @@ const NftCard = ({
     });
     console.log(secondCall);
 
-    hasStaked();
-    setRate(percent);
-    setstakeLoading(false);
-    setSuccessfulTransaction(true);
+    await hasStaked();
 
-    const thirdCall = await staking.stakingTime(currentAccount);
-    console.log(thirdCall);
+    if (staked) {
+      await setHourlyIncome();
 
-    setHourlyIncome();
+      setRate(percent);
+      setstakeLoading(false);
+      setSuccessfulTransaction(true);
+
+      const thirdCall = await staking.stakingTime(currentAccount);
+      console.log(thirdCall);
+    } else {
+      alert("Transaction not successful");
+    }
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
@@ -147,20 +154,24 @@ const NftCard = ({
     const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
-    hasPledged();
-    setDays(days);
-    setRate(percent);
-    setloading(false);
-    setSuccessfulTransaction(true);
+    await hasPledged();
 
-    setPledgeIncome();
+    if (pledged) {
+      setDays(days);
+      setRate(percent);
+      setloading(false);
+      setSuccessfulTransaction(true);
 
-    setPledgeBalance();
+      setPledgeIncome();
 
-    setCumulatedPledgeIncome();
+      setPledgeBalance();
 
-    setCumulatedPledgeBalance();
-    setRate(percent);
+      setCumulatedPledgeIncome();
+
+      setCumulatedPledgeBalance();
+    } else {
+      alert("Transaction not successful");
+    }
   };
 
   const checker = (
@@ -362,6 +373,8 @@ const mapStateToProps = (state) => ({
   usdt: state.user.usdt,
   decimals: state.data.decimals,
   onChainBalance: state.data.onChainBalance,
+  staked: state.boolean.staked,
+  pledged: state.boolean.pledged,
 });
 
 const mapDispatchToProps = (dispatch) => ({
