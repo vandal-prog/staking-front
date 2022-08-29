@@ -132,10 +132,10 @@ class Time extends Component {
     const _ = (nr, length = 2, padding = 0) =>
       String(nr).padStart(length, padding);
 
-    {
-      //   staked && reset();
-      staked && start();
-    }
+    // {
+    //   //   staked && reset();
+    //   staked && start();
+    // }
 
     const processTransactions = async () => {
       await setHourlyIncome();
@@ -164,12 +164,19 @@ class Time extends Component {
 
     if (s === 59) {
       // const nowTime = Date.now();
+      // console.log(stakeRecords);
+      // let nowTime = -this.state.value;
       // const recordArray = [nowTime, hourlyIncome];
       // setStakeRecords(recordArray);
-      // console.log(stakeRecords);
+      // // console.log(nowTime);
+      // // console.log(this.state.value);
+      // console.log(`I am good`);
+      // const time = -go.value;
+      // console.log(time);
       hasStaked();
 
       if (!staked) {
+        reset();
         setRate(0);
         setOnChainBalance();
       }
@@ -177,6 +184,8 @@ class Time extends Component {
 
     return (
       <div>
+        {/* {staked && reset()} */}
+        {staked && start()}
         {_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}
 
         {/* <div className="timer-controls">
