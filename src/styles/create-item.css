@@ -177,4 +177,13 @@ text-align: center;
   margin: 10px 0px;
   cursor: pointer;
   }
+.kettle {
+  color: white;
+  font-weight: 200;
+  text-align: center;
+  border-color: blue;
+  font-style: oblique;
+  
+  font-size: x-large ;
+}
 
