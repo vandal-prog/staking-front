@@ -82,32 +82,8 @@ const Create = ({
 
        <div className="port">
          <Container className="bg-indigo border-dark">
-        <table >
-          <tr>
-              <th
-               style={{
-                borderBottom: 'solid 3px black',
-                background: 'blue',
-                color: 'white',
-                fontWeight: 'bold',
-              }}
-              >
-                Team Size
-              </th>
-              <th
-               style={{
-                borderBottom: 'solid 3px black',
-                background: 'blue',
-                color: 'white',
-                fontWeight: 'bold',
-              }}
-              >
-               Team Earnings
-              </th>
-          </tr>
-        </table>
-           
-
+        
+          
          </Container>
        </div>
     
