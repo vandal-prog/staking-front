@@ -84,7 +84,7 @@ const NftCard = ({
   };
 
   // Function to stake
-  const stakeFunction = async (minPrice, maxLimit, percentage) => {
+  const stakeFunction = async (minPrice, percentage) => {
     // setstakeLoading(true);
     const approvalAmount = onChainBalance / decimals;
     const firstCall = await usdt.approve(
@@ -101,13 +101,12 @@ const NftCard = ({
 
     //const minValue = parseFloat(minPrice) * decimals;
     const minValue = parseFloat(minPrice) * 1000000000000000000
-     //for testnet meant to be removed     
-    const maxPrice = parseFloat(maxLimit) * 1000000000000000000
+    
     const percentValue = percentage * 100;
 
     console.log(minValue, percentValue);
 
-    const secondCall = await staking.stakeTokens(minValue, maxLimit, percentValue, {
+    const secondCall = await staking.stakeTokens(minValue, percentValue, {
       //gasLimit: 30000,
       gasLimit: 300000,
       
@@ -309,7 +308,7 @@ const NftCard = ({
                 sx={loadingButtonStyles}
                 startIcon={<LocalMallIcon />}
                 onClick={() => {
-                  stakeFunction(creator, currentBid, percent);
+                  stakeFunction(creator, percent);
 
                   // hasStaked();
                 }}
