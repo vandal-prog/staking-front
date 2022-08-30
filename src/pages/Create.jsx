@@ -91,58 +91,15 @@ const Create = ({
 
        <br></br>
 
-    <Container className="bg-blue">
-    <div className="kettle">
-    <Table striped bordered hover variant="dark">
-      <thead>
-        <tr>
-          
-          <th>Team Size
-            <DataValues/>
-          </th>
-          <th>Team Earnings
-            <DataValues/>
-          </th>
-          
-        </tr>
-      </thead>
-      </Table>
-    </div>
+       <div className="port">
+         <Container className="bg-indigo border-dark">
+           
 
-    <div className="account-container-header">1st Population</div>
-        <div className="account-marketBal">
-          <DataValues title="income:" value={`${firstPopulationIncome}USDT`} />
-          <DataValues
-            title="people:"
-            value={`${firstPopulationCount}`}
-          />
-    </div>
-
-    <div className="account-container-header">2nd Population</div>
-        <div className="account-marketBal">
-          <DataValues title="income:" value={`${secondPopulationIncome}USDT`} />
-          <DataValues
-            title="people:"
-            value={`${firstPopulationCount}`}
-          />
-    </div>
-
-    <div className="account-container-header">3rd Population</div>
-        <div className="account-marketBal">
-          <DataValues title="income:" value={`${thridPopulationIncome}USDT`} />
-          <DataValues
-            title="people:"
-            value={`${firstPopulationCount}`}
-          />
-    </div>
-
-    </Container>
-
-     
-       
+         </Container>
+       </div>
     
-        
-  
+          
+
       </section>
    </>
  );
