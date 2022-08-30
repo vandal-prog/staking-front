@@ -8,6 +8,11 @@ export const TimeConverter = (timestamp) => {
   let minute = dateObj.getMinutes();
   let seconds = dateObj.getSeconds();
 
-  let time = `${year}/${month}/${date} ${hour}:${minute}:${seconds}`;
+  const _ = (nr, length = 2, padding = 0) =>
+    String(nr).padStart(length, padding);
+
+  let time = `${year}/${_(month)}/${_(date)} ${_(hour)}:${_(minute)}:${_(
+    seconds
+  )}`;
   return time;
 };

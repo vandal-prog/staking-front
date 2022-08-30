@@ -19,7 +19,7 @@ export const setUSDTContract = (contract) => ({
 export const setOnChainBalance = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
-  
+
   // const USDTaddress = "0xFab46E002BbF0b4509813474841E0716E6730136";
 
   const USDTaddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";

