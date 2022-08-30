@@ -151,6 +151,10 @@ class Time extends Component {
     if (h == 1) {
       reset();
       processTransactions();
+      const nowTime = Date.now();
+      // let nowTime = -this.state.value;
+      const recordArray = [nowTime, hourlyIncome];
+      setStakeRecords(recordArray);
       hasStaked();
 
       if (staked) {
@@ -163,16 +167,6 @@ class Time extends Component {
     }
 
     if (s === 59) {
-      // const nowTime = Date.now();
-      // console.log(stakeRecords);
-      // let nowTime = -this.state.value;
-      // const recordArray = [nowTime, hourlyIncome];
-      // setStakeRecords(recordArray);
-      // // console.log(nowTime);
-      // // console.log(this.state.value);
-      // console.log(`I am good`);
-      // const time = -go.value;
-      // console.log(time);
       hasStaked();
 
       if (!staked) {

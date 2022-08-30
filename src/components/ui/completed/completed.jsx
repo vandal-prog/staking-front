@@ -9,15 +9,18 @@ const Completed = ({ pledgeRecords }) => {
     <div className="account-container">
       <div className="account-records">
         {pledgeRecords.length ? (
-          <>
-            {pledgeRecords.map((record, index) => (
-              <RecordDataValues
-                key={index}
-                date={record.pledgeTime}
-                value={record.pledgeAmount}
-              />
-            ))}
-          </>
+          <div className="records-arr">
+            {pledgeRecords
+              .slice(0)
+              .reverse()
+              .map((record, index) => (
+                <RecordDataValues
+                  key={index}
+                  date={record.pledgeTime}
+                  value={record.pledgeAmount}
+                />
+              ))}
+          </div>
         ) : (
           <div className="acount-records-empty">
             <DeleteForeverIcon

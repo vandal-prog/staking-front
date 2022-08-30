@@ -11,7 +11,6 @@ import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
 import Time from "../components/ui/timer/newTimer.component";
 
-import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Snackbar, Alert } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
@@ -22,7 +21,7 @@ import {
 } from "../redux/user/array.selectors";
 import {
   setAccountBalance,
-  setCumulativeIncome,
+  setOnChainBalance,
   setPledgeRecords,
   setRate,
 } from "../redux/user/user.actions";
@@ -52,7 +51,6 @@ const Account = ({
   pledgeBalance,
   cumulatedPledgeIncome,
   cumulatedPledgeBalance,
-  pledgeRecords,
   stakeRecords,
   staking,
   decimals,
@@ -64,6 +62,7 @@ const Account = ({
   todayIncome,
   setAccountBalance,
   setRate,
+  setOnChainBalance,
 }) => {
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const [overWithdrawal, setOverWithdrawal] = useState(false);
@@ -110,6 +109,9 @@ const Account = ({
     const reciept = withdraw.wait();
     console.log(reciept);
     setSuccesfulPayment(true);
+    setAccountBalance(-withdrawalAmount);
+    setOnChainBalance();
+    setRate(0);
   };
 
   const checkwithdrawalAmount = (withdrawalAmount) => {
@@ -119,8 +121,6 @@ const Account = ({
       setMinWithdrawal(true);
     } else {
       withdrawTokens(withdrawalAmount);
-      setAccountBalance(-withdrawalAmount);
-      setRate(0);
     }
   };
   // console.log(reciept);
@@ -231,15 +231,18 @@ const Account = ({
         <div className="account-container-header">Change account records</div>
         <div className="account-records">
           {stakeRecords.length ? (
-            <>
-              {stakeRecords.map((record, index) => (
-                <StakeDataValues
-                  key={index}
-                  date={record[0]}
-                  value={record[1]}
-                />
-              ))}
-            </>
+            <div className="records-arr">
+              {stakeRecords
+                .slice(0)
+                .reverse()
+                .map((record, index) => (
+                  <StakeDataValues
+                    key={index}
+                    date={record[0]}
+                    value={record[1]}
+                  />
+                ))}
+            </div>
           ) : (
             <div className="acount-records-empty">
               <DeleteForeverIcon
@@ -280,6 +283,7 @@ const mapDispatchToProps = (dispatch) => ({
   setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
   setPledgeRecords: () => dispatch(setPledgeRecords()),
   setRate: (percent) => dispatch(setRate(percent)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);

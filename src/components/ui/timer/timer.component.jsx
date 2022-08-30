@@ -138,6 +138,8 @@ import {
   setCumulatedPledgeIncome,
   setPledgedBalance,
   setPledgedIncome,
+  setPledgeRecords,
+  setRate,
 } from "../../../redux/user/user.actions";
 
 class Timer extends Component {
@@ -245,7 +247,9 @@ class Timer extends Component {
       setCumulatedPledgeIncome,
       setPledgeBalance,
       setPledgeIncome,
+      setPledgeRecords,
       days,
+      setRate,
     } = this.props;
 
     const timestamp = running ? Date.now() + value : value;
@@ -268,12 +272,14 @@ class Timer extends Component {
       setPledgeBalance();
       setCumulatedPledgeBalance();
       setCumulatedPledgeIncome();
+      setPledgeRecords();
     };
 
     // console.log("i love myself");
-    if (d == days) {
+    if (d === days) {
       reset();
       processPledgeTransactions();
+      setRate(0);
     }
 
     return (
@@ -311,6 +317,8 @@ const mapDispatchToProps = (dispatch) => ({
   setPledgeBalance: () => dispatch(setPledgedBalance()),
   setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
+  setPledgeRecords: () => dispatch(setPledgeRecords()),
+  setRate: (percent) => dispatch(setRate(percent)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);
