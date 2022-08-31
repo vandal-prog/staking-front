@@ -60,6 +60,7 @@ const dataReducer = (state = INITIAL_STATE, action) => {
         ...state,
         days: action.payload,
       };
+
     default:
       return state;
   }

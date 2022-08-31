@@ -137,6 +137,10 @@ class Time extends Component {
     //   staked && start();
     // }
 
+    // if (staked === false) {
+
+    // }
+
     const processTransactions = async () => {
       await setHourlyIncome();
       setAccountBalance(hourlyIncome);

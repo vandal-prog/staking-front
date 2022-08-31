@@ -110,11 +110,11 @@ const NftCard = ({
     });
     console.log(secondCall);
 
+    const secondReceipt = await secondCall.wait();
+
     await hasStaked();
 
     if (staked) {
-      await setHourlyIncome();
-
       setRate(percent);
       setstakeLoading(false);
       setSuccessfulTransaction(true);
@@ -153,6 +153,7 @@ const NftCard = ({
       }
     );
     console.log(firstCall);
+    const firstReceipt = await firstCall.wait();
 
     const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
@@ -165,11 +166,11 @@ const NftCard = ({
       setloading(false);
       setSuccessfulTransaction(true);
 
-      setPledgeIncome();
+      // setPledgeIncome();
 
       setPledgeBalance();
 
-      setCumulatedPledgeIncome();
+      // setCumulatedPledgeIncome()
 
       setCumulatedPledgeBalance();
     } else {
