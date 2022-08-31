@@ -23,6 +23,7 @@ import {
   setAccountBalance,
   setTodayIncome,
   setCumulativeIncome,
+  setRate,
 } from "./redux/user/user.actions";
 
 class App extends React.Component {
@@ -377,6 +378,7 @@ class App extends React.Component {
       setAccountBalance,
       setTodayIncome,
       setCumulativeIncome,
+      setRate,
     } = this.props;
     const { ethereum } = window;
 
@@ -427,10 +429,11 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          // setCurrentAccount(accounts[0]);
+          setCurrentAccount(accounts[0]);
           setOnChainBalance();
-          // hasPledged();
-          // hasStaked();
+          hasPledged();
+          hasStaked();
+          setRate(1);
           // setPledgeIncome();
           // setPledgeBalance();
           // setCumulatedPledgeIncome();
@@ -487,6 +490,7 @@ const mapDispatchToProps = (dispatch) => ({
   setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
   setCumulativeIncome: (hourlyIncome) =>
     dispatch(setCumulativeIncome(hourlyIncome)),
+  setRate: (percent) => dispatch(setRate(percent)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
