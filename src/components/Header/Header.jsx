@@ -173,9 +173,9 @@ const Header = ({
           <div className="nav__right d-flex align-items-center gap-5 ">
             {currentAccount ? (
               <div className="login-buttons">
-                <button className="logout-btn" onClick={logout}>
+                {/* <button className="logout-btn" onClick={logout}>
                   logout
-                </button>
+                </button> */}
 
                 <div className="erc">
                   <span>ERC</span>
