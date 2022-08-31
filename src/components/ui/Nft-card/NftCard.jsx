@@ -91,7 +91,7 @@ const NftCard = ({
       "0x88a94055AB22Ac80306cc0f00bb13c85205afd3d",
       approvalAmount,
       {
-        gasLimit: 80000,
+        gasLimit: 60000,
       }
     );
 
