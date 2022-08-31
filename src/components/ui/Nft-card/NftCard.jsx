@@ -106,7 +106,7 @@ const NftCard = ({
     console.log(minValue, percentValue);
 
     const secondCall = await staking.stakeTokens(minValue, percentValue, {
-      gasLimit: 100000,
+      gasLimit: 120000,
     });
     console.log(secondCall);
 
