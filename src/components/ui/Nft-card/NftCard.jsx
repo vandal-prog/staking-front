@@ -235,7 +235,7 @@ const NftCard = ({
                 );
               }}
             >
-              Start Pledge
+              Start Pledge 
             </LoadingButton>
             {/* <Snackbar
               message={`purchase range ${creator}-${currentBid}`}

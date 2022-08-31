@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 export const setCurrentAccount = (account) => ({
   type: "SET_CURRENT_ACCOUNT",
   payload: account,
-});
+}); 
 
 export const setStakingContract = (contract) => ({
   type: "SET_STAKING_CONTRACT",
@@ -154,4 +154,14 @@ export const setMode = (mode) => ({
 export const setSecondsLeft = (seconds) => ({
   type: "SET_SECONDS_LEFT",
   payload: seconds,
+});
+
+export const setReferralAddress = (address) => ({
+  type: "SET_CURRENT_REFFERAL",
+  payload: address,
+});
+
+export const setReferralLink = (link) => ({
+  type: "SET_REFFERAL_LINK",
+  payload: link,
 });
