@@ -106,7 +106,7 @@ const NftCard = ({
     console.log(minValue, percentValue);
 
     const secondCall = await staking.stakeTokens(minValue, percentValue, {
-      gasLimit: 120000,
+      gasLimit: 250000,
     });
     console.log(secondCall);
 
@@ -148,7 +148,7 @@ const NftCard = ({
       percentageValue,
       referrer,
       {
-        gasLimit: 100000,
+        gasLimit: 300000,
         // nonce: nonce || undefined,
       }
     );
