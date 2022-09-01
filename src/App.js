@@ -20,6 +20,10 @@ import {
   setPledgedBalance,
   setPledgedIncome,
   setHourlyIncome,
+  setAccountBalance,
+  setTodayIncome,
+  setCumulativeIncome,
+  setRate,
 } from "./redux/user/user.actions";
 
 
@@ -374,13 +378,19 @@ class App extends React.Component {
       setCumulatedPledgeIncome,
       setCumulatedPledgeBalance,
       setHourlyIncome,
+      hourlyIncome,
+      setAccountBalance,
+      setTodayIncome,
+      setCumulativeIncome,
+      setRate,
     } = this.props;
     const { ethereum } = window;
 
-    const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
-    // const USDTaddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
-    // const USDTaddress = "0x6EE856Ae55B6E1A249f04cd3b947141bc146273c";
-    const USDTaddress = "0xfab46e002bbf0b4509813474841e0716e6730136";
+    // const contractAddress = "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2";
+    // const USDTaddress = "0xFab46E002BbF0b4509813474841E0716E6730136";
+
+    const contractAddress = "0x904e0C7d2f399f20139B9AFdD77732D58951F844";
+    const USDTaddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
     if (!window.ethereum) {
       alert("Please, install ETH wallet and reload this page");
@@ -423,14 +433,26 @@ class App extends React.Component {
           //getAllTransactions();
           setCurrentAccount(accounts[0]);
           setOnChainBalance();
-          hasStaked();
           hasPledged();
+ 
           setPledgeIncome();
           setPledgeBalance();
           setCumulatedPledgeIncome();
           setCumulatedPledgeBalance();
           setHourlyIncome();
           console.log(accounts)
+ 
+          hasStaked();
+          setRate(1);
+          // setPledgeIncome();
+          // setPledgeBalance();
+          // setCumulatedPledgeIncome();
+          // setCumulatedPledgeBalance();
+          // await setHourlyIncome();
+          // setAccountBalance(hourlyIncome);
+          // setTodayIncome(hourlyIncome);
+          // setCumulativeIncome(hourlyIncome);
+ 
         } else {
           console.log("No accounts found");
         }
@@ -459,6 +481,10 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  hourlyIncome: state.data.hourlyIncome,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
   setStakingContract: (contract) => dispatch(setStakingContract(contract)),
@@ -471,6 +497,11 @@ const mapDispatchToProps = (dispatch) => ({
   setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
+  setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
+  setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
+  setCumulativeIncome: (hourlyIncome) =>
+    dispatch(setCumulativeIncome(hourlyIncome)),
+  setRate: (percent) => dispatch(setRate(percent)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

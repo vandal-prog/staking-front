@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   staked: true,
-  pledged: true,
+  pledged: false,
 };
 
 const boolReducer = (state = INITIAL_STATE, action) => {

@@ -32,6 +32,11 @@
   color: rgb(14, 212, 14);
 }
 
+.records-arr {
+  height: 600px;
+  overflow-x: scroll;
+}
+
 .account-container {
   padding: 2rem;
   cursor: pointer;

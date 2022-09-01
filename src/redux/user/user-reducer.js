@@ -1,11 +1,6 @@
 const INITIAL_STATE = {
   staking: {},
   usdt: {},
-  decimals: 1000000,
-
-  pledgeRecords: [],
-  stakingTime: 0,
-  pledgingTime: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {

@@ -1,4 +1,7 @@
+//  
 import React, { useContext, useState, forwardRef, } from "react";
+//  
+//  
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
 import { connect } from "react-redux";
@@ -7,19 +10,43 @@ import CommonSection from "../components/ui/Common-section/CommonSection";
 
 import TimerImg from "../assets/images/timer.svg";
 
-import { TransactionContext } from "../context/TransactionContext";
-
 import "../styles/account.css";
 import Timer from "../components/ui/timer/timer.component";
-import RecordDataValues from "../components/ui/RecordDataValues/RecordDataValues";
+import Time from "../components/ui/timer/newTimer.component";
+
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { TimeConverter } from "../utils/timeConverter";
 import { Snackbar, Alert } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import {
+  selectAccountArrayCount,
+  selectCumIncomeCount,
+  selecttodayIncomeCount,
+} from "../redux/user/array.selectors";
+import {
+  setAccountBalance,
+  setOnChainBalance,
+  setPledgeRecords,
+  setRate,
+} from "../redux/user/user.actions";
+import { TimeConverter } from "../utils/timeConverter";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
 });
+
+const StakeDataValues = ({ date, value }) => {
+  const displayDate = TimeConverter(date);
+
+  return (
+    <div className="recordvalue">
+      <div className="recordvalue-date">
+        <span className="recordvalue-date-text">Income</span>
+        <div className="recordvalue-date-time">{displayDate}</div>
+      </div>
+      <div className="recordvalue-value">+{value}USDT</div>
+    </div>
+  );
+};
 
 const Account = ({
   onChainBalance,
@@ -27,18 +54,27 @@ const Account = ({
   pledgeBalance,
   cumulatedPledgeIncome,
   cumulatedPledgeBalance,
-  pledgeRecords,
+  stakeRecords,
   staking,
   decimals,
   staked,
-  hourlyIncome,
   pledged,
   ratePercent,
+  accountBalance,
+  cummulativeIncome,
+  todayIncome,
+  setAccountBalance,
+  setRate,
+  setOnChainBalance,
 }) => {
 
   const [minWithdrawal, setMinWithdrawal] = useState(false);
+  const [overWithdrawal, setOverWithdrawal] = useState(false);
+  const [successfulPayment, setSuccesfulPayment] = useState(false);
   const handleClose = () => {
     setMinWithdrawal(false);
+    setOverWithdrawal(false);
+    setSuccesfulPayment(false);
   };
   // const { seconds, minutes, hours, days, isTimeUp } = useTicker(futureDate);
 
@@ -66,8 +102,9 @@ const Account = ({
   };
   const withdrawalAmount = Number(inputData.withdrawalAmount);
 
-  let nowTime = TimeConverter(1661002435000);
-  console.log(nowTime);
+  // const now = new Date();
+  // let nowTime = TimeConverter(1661002435000);
+  // console.log(nowTime);
 
   // Function to withdraw
   const withdrawTokens = async (amount) => {
@@ -75,10 +112,16 @@ const Account = ({
     const withdraw = await staking.withdrawReward(newAmount);
     const reciept = withdraw.wait();
     console.log(reciept);
+    setSuccesfulPayment(true);
+    setAccountBalance(-withdrawalAmount);
+    setOnChainBalance();
+    setRate(0);
   };
 
   const checkwithdrawalAmount = (withdrawalAmount) => {
-    if (withdrawalAmount < 10) {
+    if (withdrawalAmount > accountBalance) {
+      setOverWithdrawal(true);
+    } else if (withdrawalAmount < 10) {
       setMinWithdrawal(true);
     } else {
       withdrawTokens(withdrawalAmount);
@@ -92,9 +135,7 @@ const Account = ({
 
       <div className="account-container">
         <div className="account-info">
-          <div className="account-value">
-            {staked ? hourlyIncome : pledgeIncome}
-          </div>
+          <div className="account-value">{accountBalance}</div>
           <span className="account-valuetext">ACCOUNT BALANCE</span>
           <div className="account-timer">
             <img
@@ -102,9 +143,14 @@ const Account = ({
               className="timer-icon"
               src={TimerImg}
             />
-            <span className="account-timer-text">NEXT BENEFIT</span>
+            <span className="account-timer-text">NEXT BENEFIT IN 1hr</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
-            <Timer />
+
+            {/* <Timer /> */}
+            {staked && <Time localStorage="timer1" />}
+            {pledged && <Timer localStorage="timer2" />}
+            {staked || pledged || <Time />}
+            {/* <Time localStorage="timer1" /> */}
           </div>
           <input
             name="withdrawalAmount"
@@ -134,6 +180,32 @@ const Account = ({
             Less than minimum withdrawal
           </SnackbarAlert>
         </Snackbar>
+        <Snackbar
+          open={overWithdrawal}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <SnackbarAlert onClose={handleClose} severity="warning">
+            withdrawal amount cannot be greater than account balance
+          </SnackbarAlert>
+        </Snackbar>
+        <Snackbar
+          open={successfulPayment}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <SnackbarAlert
+            onClose={handleClose}
+            variant="filled"
+            severity="success"
+          >
+            Transaction Succesful
+          </SnackbarAlert>
+        </Snackbar>
         <div className="account-container-header">NFT market making income</div>
         <div className="account-marketBal">
           <DataValues title="On-chain balance" value={`${onChainBalance}`} />
@@ -141,8 +213,11 @@ const Account = ({
             title="Current rate of return"
             value={`${ratePercent}%`}
           />
-          <DataValues title="Today's income" value={`${hourlyIncome}USDT`} />
-          <DataValues title="Cummulative income" value={`${0}USDT`} />
+          <DataValues title="Today's income" value={`${todayIncome}USDT`} />
+          <DataValues
+            title="Cummulative income"
+            value={`${cummulativeIncome}USDT`}
+          />
         </div>
         <div className="account-container-header">NFT pledge income</div>
         <div className="accoount-pledge">
@@ -159,13 +234,19 @@ const Account = ({
         </div>
         <div className="account-container-header">Change account records</div>
         <div className="account-records">
-          {pledgeRecords.length ? (
-            <>
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-              <RecordDataValues date="2022/06/09 03:00" value="+0.1234545" />
-            </>
+          {stakeRecords.length ? (
+            <div className="records-arr">
+              {stakeRecords
+                .slice(0)
+                .reverse()
+                .map((record, index) => (
+                  <StakeDataValues
+                    key={index}
+                    date={record[0]}
+                    value={record[1]}
+                  />
+                ))}
+            </div>
           ) : (
             <div className="acount-records-empty">
               <DeleteForeverIcon
@@ -190,13 +271,23 @@ const mapStateToProps = (state) => ({
   pledgeBalance: state.data.pledgeBalance,
   cumulatedPledgeIncome: state.data.cumulatedPledgeIncome,
   cumulatedPledgeBalance: state.data.cumulatedPledgeBalance,
-  pledgeRecords: state.user.pledgeRecords,
-  decimals: state.user.decimals,
+  pledgeRecords: state.array.pledgeRecords,
+  stakeRecords: state.array.stakeRecords,
+  decimals: state.data.decimals,
   staking: state.user.staking,
   staked: state.boolean.staked,
   pledged: state.boolean.pledged,
-  hourlyIncome: state.data.hourlyIncome,
   ratePercent: state.data.ratePercent,
+  accountBalance: selectAccountArrayCount(state),
+  cummulativeIncome: selectCumIncomeCount(state),
+  todayIncome: selecttodayIncomeCount(state),
 });
 
-export default connect(mapStateToProps)(Account);
+const mapDispatchToProps = (dispatch) => ({
+  setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
+  setPledgeRecords: () => dispatch(setPledgeRecords()),
+  setRate: (percent) => dispatch(setRate(percent)),
+  setOnChainBalance: () => dispatch(setOnChainBalance()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

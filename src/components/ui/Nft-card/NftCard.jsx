@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import { ethers } from "ethers";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { LoadingButton } from "@mui/lab";
+// import { CircularProgress } from "@material/circular-progress";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { Snackbar, Alert } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
@@ -15,6 +18,7 @@ import {
   hasStaked,
   setCumulatedPledgeBalance,
   setCumulatedPledgeIncome,
+  setDays,
   setHourlyIncome,
   setPledgedBalance,
   setPledgedIncome,
@@ -26,6 +30,11 @@ import { utils } from "ethers";
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
 });
+
+const loadingButtonStyles = {
+  color: "white !important",
+  border: "2px solid #8a2be2",
+};
 
 const NftCard = ({
   item,
@@ -43,9 +52,15 @@ const NftCard = ({
   setCumulatedPledgeBalance,
   setHourlyIncome,
   setRate,
+  setDays,
+  staked,
+  pledged,
 }) => {
   const { title, id, currentBid, imgUrl, creator, percent, days, people } =
     item;
+
+  const [loading, setloading] = useState(false);
+  const [stakeLoading, setstakeLoading] = useState(false);
 
   const [inputData, setInputData] = useState({
     amountPledged: "",
@@ -59,53 +74,69 @@ const NftCard = ({
   const resultAmount = Amount.toString();
   // console.log(resultAmount);
 
+  const [belowRange, setBelowRange] = useState(false);
+  const [lowBalance, setLowBalance] = useState(false);
+  const [successfulTransaction, setSuccessfulTransaction] = useState(false);
+  const handleClose = () => {
+    setBelowRange(false);
+    setLowBalance(false);
+    setSuccessfulTransaction(false);
+  };
+
   // Function to stake
-  const stakeFunction = async (minPrice, maxPrice, percentage) => {
-    const approvalAmount = onChainBalance; // * decimals;
+  const stakeFunction = async (minPrice, percentage) => {
+    // setstakeLoading(true);
+    const approvalAmount = onChainBalance * decimals;
     const firstCall = await usdt.approve(
-      "0xdb339be8E04Db248ea2bdD7C308c5589c121C6Bb",
+      "0x88a94055AB22Ac80306cc0f00bb13c85205afd3d",
       approvalAmount,
       {
-        gasLimit: 500000,
+        gasLimit: 60000,
       }
     );
 
     const receipt = await firstCall.wait();
 
     const minValue = parseFloat(minPrice) * decimals;
-    const maxValue = parseFloat(maxPrice) * decimals;
+    // const minValue = parseFloat(minPrice) * 1000000000000000000
+    // const minValue = parseFloat(minPrice) * 1000;
+
     const percentValue = percentage * 100;
 
-    console.log(minValue, maxValue, percentValue);
+    console.log(minValue, percentValue);
 
-    const secondCall = await staking.stakeTokens(
-      minValue,
-      maxValue,
-      percentValue,
-      {
-        gasLimit: 500000,
-      }
-    );
+    const secondCall = await staking.stakeTokens(minValue, percentValue, {
+      gasLimit: 250000,
+    });
     console.log(secondCall);
 
-    hasStaked();
+    const secondReceipt = await secondCall.wait();
 
-    const thirdCall = await staking.stakingTime(currentAccount);
-    console.log(thirdCall);
+    await hasStaked();
 
-    setHourlyIncome();
+    if (staked) {
+      setRate(percent);
+      setstakeLoading(false);
+      setSuccessfulTransaction(true);
+
+      const thirdCall = await staking.stakingTime(currentAccount);
+      console.log(thirdCall);
+    } else {
+      alert("Transaction not successful");
+    }
   };
 
   const pledgeFunction = async (amount, duration, percentage, referrer) => {
+    setloading(true);
     const amountValue = amount * decimals;
     const percentageValue = percentage * 100;
     console.log(amountValue, duration, percentageValue, referrer);
 
     const initialCall = await usdt.approve(
-      "0xfF79f9C507ebA207a02C6c7ce6d13f30DF09d9d2",
+      "0x904e0C7d2f399f20139B9AFdD77732D58951F844",
       amountValue,
       {
-        gasLimit: 500000,
+        gasLimit: 80000,
       }
     );
 
@@ -117,32 +148,34 @@ const NftCard = ({
       percentageValue,
       referrer,
       {
-        gasLimit: 3000000,
+        gasLimit: 300000,
         // nonce: nonce || undefined,
       }
     );
     console.log(firstCall);
+    const firstReceipt = await firstCall.wait();
 
     const secondCall = await staking.pledgeTime(currentAccount);
     console.log(secondCall);
 
-    hasPledged();
+    await hasPledged();
 
-    setPledgeIncome();
+    if (pledged) {
+      setDays(days);
+      setRate(percent);
+      setloading(false);
+      setSuccessfulTransaction(true);
 
-    setPledgeBalance();
+      // setPledgeIncome();
 
-    setCumulatedPledgeIncome();
+      setPledgeBalance();
 
-    setCumulatedPledgeBalance();
-    setRate(percent);
-  };
+      // setCumulatedPledgeIncome()
 
-  const [belowRange, setBelowRange] = useState(false);
-  const [lowBalance, setLowBalance] = useState(false);
-  const handleClose = () => {
-    setBelowRange(false);
-    setLowBalance(false);
+      setCumulatedPledgeBalance();
+    } else {
+      alert("Transaction not successful");
+    }
   };
 
   const checker = (
@@ -154,13 +187,8 @@ const NftCard = ({
     percent
   ) => {
     if (resultAmount > currentBid || resultAmount < creator) {
-      // alert(`purchase range ${creator}-${currentBid}`);
       setBelowRange(true);
-    } else if (
-      // Number(resultAmount) >= currentBid ||
-      // Number(resultAmount) <= creator ||
-      Number(resultAmount) > onChainBalance
-    ) {
+    } else if (Number(resultAmount) > onChainBalance) {
       setLowBalance(true);
     } else {
       pledgeFunction(resultAmount, days, percent, ethers.constants.AddressZero);
@@ -218,6 +246,7 @@ const NftCard = ({
             <div>
               <FormInput name="amountPledged" onChange={handleChange} dollar />
             </div>
+ 
             <LoadingButton
               variant="contained"
               loadingPosition="start"
@@ -274,6 +303,53 @@ const NftCard = ({
                 Purchase range ${creator} - ${currentBid}
               </SnackbarAlert>
             </Snackbar> */}
+ 
+            {loading ? (
+              <LoadingButton
+                variant="contained"
+                loadingPosition="start"
+                loading={loading}
+                sx={loadingButtonStyles}
+                startIcon={<LocalMallIcon />}
+                // color="secondary"
+                onClick={() => {
+                  checker(
+                    resultAmount,
+                    currentBid,
+                    creator,
+                    onChainBalance,
+                    days,
+                    percent
+                  );
+                }}
+              >
+                {/* <CircularProgress size={20} /> */}
+                Start Pledge
+              </LoadingButton>
+            ) : (
+              <LoadingButton
+                variant="contained"
+                loadingPosition="start"
+                // loading={loading}
+                // sx={loadingButtonStyles}
+                startIcon={<LocalMallIcon />}
+                color="secondary"
+                onClick={() => {
+                  checker(
+                    resultAmount,
+                    currentBid,
+                    creator,
+                    onChainBalance,
+                    days,
+                    percent
+                  );
+                  setstakeLoading(true);
+                }}
+              >
+                Start Pledge
+              </LoadingButton>
+            )}
+ 
 
             <span className="nft-pledge-text">
               <Link to="/records/transferring">Pledge record</Link>
@@ -281,35 +357,74 @@ const NftCard = ({
           </div>
         ) : (
           <div className=" mt-3 nft-pledge">
-            <LoadingButton
-              variant="contained"
-              loadingPosition="start"
-              startIcon={<LocalMallIcon />}
-              onClick={() => {
-                setRate(percent);
-                stakeFunction(creator, currentBid, percent);
+            {stakeLoading ? (
+              <LoadingButton
+                variant="contained"
+                loadingPosition="start"
+                loading
+                sx={loadingButtonStyles}
+                startIcon={<LocalMallIcon />}
+                onClick={() => {
+                  stakeFunction(creator, percent);
 
-                // hasStaked();
-              }}
-            >
-              Start using
-            </LoadingButton>
-            {/* <button
-              className="bid__btn "
-              onClick={() => {
-                stakeFunction(creator, currentBid, percent);
-                // hasStaked();
-              }}
-            >
-
-              <i class="ri-shopping-bag-line"></i> Stake
-            </button> */}
+                  // hasStaked();
+                }}
+              >
+                Start using
+              </LoadingButton>
+            ) : (
+              <LoadingButton
+                variant="contained"
+                loadingPosition="start"
+                // loading
+                // sx={loadingButtonStyles}
+                startIcon={<LocalMallIcon />}
+                onClick={() => {
+                  stakeFunction(creator, percent);
+                  // hasStaked();
+                }}
+              >
+                Start using
+              </LoadingButton>
+            )}
           </div>
         )}
 
         <div className="history__link">
           <span>Day APY {percent}%</span>
         </div>
+
+        <Snackbar
+          open={belowRange}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <SnackbarAlert onClose={handleClose} severity="warning">
+            Purchase range ${creator} - ${currentBid}
+          </SnackbarAlert>
+        </Snackbar>
+        <Snackbar
+          open={lowBalance}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <SnackbarAlert onClose={handleClose} severity="warning">
+            low Balance
+          </SnackbarAlert>
+        </Snackbar>
+        <Snackbar
+          open={successfulTransaction}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <SnackbarAlert
+            onClose={handleClose}
+            variant="filled"
+            severity="success"
+          >
+            Transaction Succesful
+          </SnackbarAlert>
+        </Snackbar>
       </div>
     </div>
   );
@@ -319,8 +434,10 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
-  decimals: state.user.decimals,
+  decimals: state.data.decimals,
   onChainBalance: state.data.onChainBalance,
+  staked: state.boolean.staked,
+  pledged: state.boolean.pledged,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -332,6 +449,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
   setRate: (percent) => dispatch(setRate(percent)),
+  setDays: (days) => dispatch(setDays(days)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftCard);

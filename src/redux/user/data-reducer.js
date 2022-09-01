@@ -1,11 +1,15 @@
 const INITIAL_STATE = {
-  onChainBalance: 1,
+  onChainBalance: 0,
   pledgeIncome: 0,
   pledgeBalance: 0,
   cumulatedPledgeIncome: 0,
   cumulatedPledgeBalance: 0,
   hourlyIncome: 0,
   ratePercent: 0,
+  days: 0,
+  decimals: 1000000, 
+  stakingTime: 0,
+  pledgingTime: 0,
 };
 
 const dataReducer = (state = INITIAL_STATE, action) => {
@@ -50,6 +54,13 @@ const dataReducer = (state = INITIAL_STATE, action) => {
         ...state,
         ratePercent: action.payload,
       };
+
+    case "SET_DAYS":
+      return {
+        ...state,
+        days: action.payload,
+      };
+
     default:
       return state;
   }

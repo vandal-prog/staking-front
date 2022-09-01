@@ -12,8 +12,6 @@ import { HiMenuAlt4 } from "react-icons/hi";
 import "./header.css";
 import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
-
-import { TransactionContext } from "../../context/TransactionContext";
 import { shortenAddress } from "../../utils/shortenAddress";
 import TawkTo from "tawkto-react";
 
@@ -27,6 +25,10 @@ import {
   setHourlyIncome,
   setPledgedBalance,
   setPledgedIncome,
+  setAccountBalance,
+  setTodayIncome,
+  setCumulativeIncome,
+  logout,
 } from "../../redux/user/user.actions";
 
 const NAV__LINKS = [
@@ -64,6 +66,11 @@ const Header = ({
   setCumulatedPledgeIncome,
   setCumulatedPledgeBalance,
   setHourlyIncome,
+  hourlyIncome,
+  setAccountBalance,
+  setCumulativeIncome,
+  setTodayIncome,
+  logout,
 }) => {
   // const { currentAccount, connectWallet, setOnChainBalance } =
   //   useContext(TransactionContext);
@@ -104,9 +111,17 @@ const Header = ({
       // const accounts = await provider.send("eth_requestAccounts", []);
 
       setCurrentAccount(accounts[0]);
-      await setOnChainBalance(accounts[0]);
-      await hasStaked();
-      await hasPledged();
+      setOnChainBalance(accounts[0]);
+      hasStaked();
+      hasPledged();
+      setPledgeBalance();
+      setPledgeIncome();
+      setCumulatedPledgeBalance();
+      setCumulatedPledgeIncome();
+      await setHourlyIncome();
+      setAccountBalance(hourlyIncome);
+      setTodayIncome(hourlyIncome);
+      setCumulativeIncome(hourlyIncome);
       // console.log(state);
     } catch (error) {
       console.log(error);
@@ -158,6 +173,10 @@ const Header = ({
           <div className="nav__right d-flex align-items-center gap-5 ">
             {currentAccount ? (
               <div className="login-buttons">
+                {/* <button className="logout-btn" onClick={logout}>
+                  logout
+                </button> */}
+
                 <div className="erc">
                   <span>ERC</span>
                 </div>
@@ -208,19 +227,25 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   staking: state.user.staking,
   usdt: state.user.usdt,
-  decimals: state.user.decimals,
+  decimals: state.data.decimals,
+  hourlyIncome: state.data.hourlyIncome,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentAccount: (account) => dispatch(setCurrentAccount(account)),
   setOnChainBalance: () => dispatch(setOnChainBalance()),
-  hasStaked: (stakedBool) => dispatch(hasStaked(stakedBool)),
-  hasPledged: (pledgedBool) => dispatch(hasPledged(pledgedBool)),
+  hasStaked: () => dispatch(hasStaked()),
+  hasPledged: () => dispatch(hasPledged()),
   setPledgeIncome: () => dispatch(setPledgedIncome()),
   setPledgeBalance: () => dispatch(setPledgedBalance()),
   setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
   setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
+  setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
+  setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
+  setCumulativeIncome: (hourlyIncome) =>
+    dispatch(setCumulativeIncome(hourlyIncome)),
+  logout: () => dispatch(logout()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
