@@ -142,7 +142,7 @@ const Create = ({
           <div style={{ marginTop: 30, marginButtom: 30, display: "center"}}>
             <center>
               <QRCode
-               value= {shortenedUserLink} bgColor="white" fgColor="blue" style={{ marginRight: 28, borderRadius: 28 }}/>
+               value= {shortenedUserLink} bgColor="white" fgColor="black" style={{ marginRight: 28, borderRadius: 10 }}/>
             </center>
           </div>
        </Col>
@@ -155,7 +155,7 @@ const Create = ({
            
 
        <row className="justify-content-md-right">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', border: 'none' }}>
 
             <CopyToClipboard text={shortenedUserLink}>
                 <button className="button" onClick={ () => setCopySuccess('Copied!') } >
