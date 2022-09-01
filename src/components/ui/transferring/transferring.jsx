@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import RecordDataValues from "../RecordDataValues/RecordDataValues";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-const Transferring = ({ pledgeRecords }) => {
+
+const Transferring = ({ pledgeRecords,  }) => {
+
   return (
     <div className="account-container">
       <div className="account-records">

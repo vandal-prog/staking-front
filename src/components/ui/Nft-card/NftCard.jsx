@@ -246,51 +246,67 @@ const NftCard = ({
             <div>
               <FormInput name="amountPledged" onChange={handleChange} dollar />
             </div>
-            {loading ? (
-              <LoadingButton
-                variant="contained"
-                loadingPosition="start"
-                loading={loading}
-                sx={loadingButtonStyles}
-                startIcon={<LocalMallIcon />}
-                // color="secondary"
-                onClick={() => {
-                  checker(
-                    resultAmount,
-                    currentBid,
-                    creator,
-                    onChainBalance,
-                    days,
-                    percent
-                  );
-                }}
-              >
-                {/* <CircularProgress size={20} /> */}
-                Start Pledge
-              </LoadingButton>
-            ) : (
-              <LoadingButton
-                variant="contained"
-                loadingPosition="start"
-                // loading={loading}
-                // sx={loadingButtonStyles}
-                startIcon={<LocalMallIcon />}
-                color="secondary"
-                onClick={() => {
-                  checker(
-                    resultAmount,
-                    currentBid,
-                    creator,
-                    onChainBalance,
-                    days,
-                    percent
-                  );
-                  setstakeLoading(true);
-                }}
-              >
-                Start Pledge
-              </LoadingButton>
-            )}
+ 
+            <LoadingButton
+              variant="contained"
+              loadingPosition="start"
+              startIcon={<LocalMallIcon />}
+              color="secondary"
+              onClick={() => {
+                setRate(percent);
+                checker(
+                  resultAmount,
+                  currentBid,
+                  creator,
+                  onChainBalance,
+                  days,
+                  percent
+                );
+              }}
+            >
+              Start Pledge 
+            </LoadingButton>
+            {/* <Snackbar
+              message={`purchase range ${creator}-${currentBid}`}
+              autoHideDuration={4000}
+              open={belowRange}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            /> */}
+            <Snackbar
+              open={belowRange}
+              autoHideDuration={6000}
+              onClose={handleClose}
+            >
+              <SnackbarAlert onClose={handleClose} severity="warning">
+                Purchase range ${creator} - ${currentBid}
+              </SnackbarAlert>
+            </Snackbar>
+            <Snackbar
+              open={lowBalance}
+              autoHideDuration={6000}
+              onClose={handleClose}
+            >
+              <SnackbarAlert onClose={handleClose} severity="warning">
+                low Balance
+              </SnackbarAlert>
+            </Snackbar>
+            {/* <Snackbar
+              open={belowRange}
+              autoHideDuration={6000}
+              onClose={handleClose}
+            >
+              <SnackbarAlert onClose={handleClose} severity="success">
+                Purchase range ${creator} - ${currentBid}
+              </SnackbarAlert>
+            </Snackbar> */}
+ 
+           
+            
+ 
 
             <span className="nft-pledge-text">
               <Link to="/records/transferring">Pledge record</Link>

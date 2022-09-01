@@ -20,7 +20,8 @@ const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/home" element={<Home />}/>
+      <Route path="/:referral_id" element={<Home />}/> 
       <Route path="/records" element={<PledgeRecords />}>
         <Route path="transferring" element={<Transferring />} />
         <Route path="progress" element={<Progress />} />

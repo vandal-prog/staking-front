@@ -1,4 +1,7 @@
-import React, { useState, forwardRef } from "react";
+//  
+import React, { useContext, useState, forwardRef, } from "react";
+//  
+//  
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
 import { connect } from "react-redux";
@@ -68,6 +71,7 @@ const Account = ({
   hasPledged,
   hasStaked,
 }) => {
+
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const [overWithdrawal, setOverWithdrawal] = useState(false);
   const [successfulPayment, setSuccesfulPayment] = useState(false);

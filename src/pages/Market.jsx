@@ -17,7 +17,7 @@ const Market = () => {
 
   const handleItems = () => {};
 
-  // ====== SORTING DATA BY HIGH, MID, LOW RATE =========
+  // ====== SORTING DATA BY HIGH, MID, LOW RATE  ==
   const handleSort = (e) => {
     const filterValue = e.target.value;
 
