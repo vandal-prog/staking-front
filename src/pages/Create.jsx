@@ -37,7 +37,7 @@ const Create = ({
   const [copySuccess, setCopySuccess] = useState('');
   const textAreaRef = useRef(null);
 
-  const UserLink = `https://nftsmetapool.com/${Theuseraddress}`;
+  const UserLink = `https://www.nftsmetapool.com/${Theuseraddress}`;
   const [ shortenedUserLink, setshortenedUserLink ] = useState();
 
   const [ firstPopulationCount, setfirstPopulationCount ] = useState(2)
@@ -109,10 +109,10 @@ const Create = ({
   useEffect( () => {
 
     UserReferalLinkFunction()
-    firstPopulationCountFunction()
-    secondPopulationCountFunction()
-    thirdPopulationCountFunction()
-    firstPopulationIncomeFunction()
+    // firstPopulationCountFunction()
+    // secondPopulationCountFunction()
+    // thirdPopulationCountFunction()
+    // firstPopulationIncomeFunction()
 
   }, [] )
 

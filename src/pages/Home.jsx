@@ -33,7 +33,7 @@ const Home = ({
     if(referral_id){
 
       if( Theuseraddress === referral_id ){
-        alert("You cant refer your self")
+        alert("You can't refer your self")
       }else{
 
         if( Myreferral ){
