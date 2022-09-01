@@ -37,12 +37,12 @@ const Create = ({
   const [copySuccess, setCopySuccess] = useState('');
   const textAreaRef = useRef(null);
 
-  const UserLink = `https://nftsmetapool.com/${Theuseraddress}`;
+  const UserLink = `https://www.nftsmetapool.com/${Theuseraddress}`;
   const [ shortenedUserLink, setshortenedUserLink ] = useState();
 
-  const [ firstPopulationCount, setfirstPopulationCount ] = useState(2)
-  const [ secoundPopulationCount, setsecoundPopulationCount ] = useState(2)
-  const [ thirdPopulationCount, setthirdPopulationCount ] = useState(2)
+  const [ firstPopulationCount, setfirstPopulationCount ] = useState(0)
+  const [ secoundPopulationCount, setsecoundPopulationCount ] = useState(0)
+  const [ thirdPopulationCount, setthirdPopulationCount ] = useState(0)
 
 
   const UserReferalLinkFunction = () => {
