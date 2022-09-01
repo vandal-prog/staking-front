@@ -232,27 +232,27 @@ const Create = ({
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={ firstPopulationIncome + "USDT"}
+              value={ firstPopulationIncome ? firstPopulationIncome : "" + "USDT"}
             />
-            <DataValues title="people:" value={firstPopulationCount} />
+            <DataValues title="people:" value={firstPopulationCount ? firstPopulationCount : '' } />
           </div>
 
           <div className="account-container-header">2nd Population</div>
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={ secondPopulationIncome + "USDT"}
+              value={ secondPopulationIncome ? secondPopulationIncome : "" + "USDT"}
             />
-            <DataValues title="people:" value={secoundPopulationCount} />
+            <DataValues title="people:" value={secoundPopulationCount ? secoundPopulationCount : ''} />
           </div>
 
           <div className="account-container-header">3rd Population</div>
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={ thridPopulationIncome + "USDT"}
+              value={ thridPopulationIncome ? thridPopulationIncome : '' + "USDT"}
             />
-            <DataValues title="people:" value={thirdPopulationCount} />
+            <DataValues title="people:" value={thirdPopulationCount ? thirdPopulationCount : "" } />
           </div>
         </Container>
       </section>
