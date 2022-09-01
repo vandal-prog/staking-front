@@ -304,7 +304,7 @@ const NftCard = ({
               </SnackbarAlert>
             </Snackbar> */}
  
-            {loading ? (
+            {/* loading ? (
               <LoadingButton
                 variant="contained"
                 loadingPosition="start"
@@ -326,7 +326,7 @@ const NftCard = ({
                 {/* <CircularProgress size={20} /> */}
                 Start Pledge
               </LoadingButton>
-            ) : (
+            ) : ( */}
               <LoadingButton
                 variant="contained"
                 loadingPosition="start"
