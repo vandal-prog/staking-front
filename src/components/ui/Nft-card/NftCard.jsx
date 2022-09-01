@@ -55,6 +55,7 @@ const NftCard = ({
   setDays,
   staked,
   pledged,
+  referrerID
 }) => {
   const { title, id, currentBid, imgUrl, creator, percent, days, people } =
     item;
@@ -65,6 +66,8 @@ const NftCard = ({
   const [inputData, setInputData] = useState({
     amountPledged: "",
   });
+
+  var ThereferrerID = referrerID ? referrerID : ethers.constants.AddressZero;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -146,7 +149,7 @@ const NftCard = ({
       amountValue,
       duration,
       percentageValue,
-      referrer,
+      ThereferrerID,
       {
         gasLimit: 300000,
         // nonce: nonce || undefined,
@@ -178,20 +181,9 @@ const NftCard = ({
     }
   };
 
-  let currentURL;
-  let referrerID;
-  let referrer;
 
-  currentURL = window.location.href;
-  referrerID = currentURL.slice(29);
-  let referrerIDslice;
-  referrerIDslice = referrerID.slice(0, 2);
 
-  if (referrerIDslice == "0x") {
-    referrer = referrerID;
-  } else {
-    referrer = ethers.constants.AddressZero;
-  }
+
 
   const checker = (
     resultAmount,
@@ -276,7 +268,8 @@ const NftCard = ({
                   creator,
                   onChainBalance,
                   days,
-                  percent
+                  percent,
+                  ThereferrerID
                 );
               }}
             >
@@ -407,6 +400,7 @@ const mapStateToProps = (state) => ({
   onChainBalance: state.data.onChainBalance,
   staked: state.boolean.staked,
   pledged: state.boolean.pledged,
+  referrerID:state.referral.ReferralAddress
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -24,9 +24,6 @@ const Create = ({
   User,
   staking,
   decimals,
-  firstPopulationIncome,
-  secondPopulationIncome,
-  thridPopulationIncome,
   referralIncome,
   Data,
   Theuseraddress,
@@ -42,6 +39,10 @@ const Create = ({
   const [firstPopulationCount, setfirstPopulationCount] = useState(0);
   const [secoundPopulationCount, setsecoundPopulationCount] = useState(0);
   const [thirdPopulationCount, setthirdPopulationCount] = useState(0);
+  const [firstPopulationIncome, setfirstPopulationIncome] = useState(0);
+  const [secondPopulationIncome, setsecondPopulationIncome] = useState(0);
+  const [thridPopulationIncome, setthridPopulationIncome] = useState(0);
+  const [teamsize, setteamsize] = useState(0);
 
   const UserReferalLinkFunction = () => {
     if (TheuserreferallLink) {
@@ -63,80 +64,67 @@ const Create = ({
     let firstPopulationCountValue = await staking.firstGenerationReferral(
       Theuseraddress
     );
-    setfirstPopulationCount(firstPopulationCountValue);
+    setfirstPopulationCount(firstPopulationCountValue.toNumber());
   };
 
   const secondPopulationCountFunction = async () => {
     let secondPopulationCountValue = await staking.secondGenerationReferral(
       Theuseraddress
     );
-    setsecoundPopulationCount(secondPopulationCountValue);
+    setsecoundPopulationCount(secondPopulationCountValue.toNumber());
   };
 
   const thirdPopulationCountFunction = async () => {
     let thirdPopulationCountValue = await staking.thirdGenerationReferral(
       Theuseraddress
     );
-    setthirdPopulationCount(thirdPopulationCountValue);
+    setthirdPopulationCount(thirdPopulationCountValue.toNumber());
   };
 
   const firstPopulationIncomeFunction = async () => {
     let firstPopulationIncomeValue = await staking.firstGenerationIncome(
       Theuseraddress
     );
-    let firstPopulationIncome = firstPopulationIncomeValue / decimals;
+    let firstPopulationIncomereal = firstPopulationIncomeValue / decimals;
+    setfirstPopulationIncome(firstPopulationIncomereal)
   };
 
   const secondPopulationIncomeFunction = async () => {
     let secondPopulationIncomeValue =
       staking.secondGenerationIncome(Theuseraddress);
-    let secondPopulationIncome = secondPopulationIncomeValue / decimals;
+    let secondPopulationIncomereal = secondPopulationIncomeValue / decimals;
+    setsecondPopulationIncome(secondPopulationIncomereal)
   };
 
   const thirdPopulationIncomeFunction = async () => {
     let thirdPopulationIncomeValue =
       staking.thirdGenerationIncome(Theuseraddress);
-    let thirdPopulationIncome = thirdPopulationIncomeValue / decimals;
+    let thirdPopulationIncomereal = thirdPopulationIncomeValue / decimals;
+    setthridPopulationIncome(thirdPopulationIncomereal)
   };
+
+  const ReferralIncomeFunction = async () => {
+    let referallIncomeValue = 
+      staking.referralIncome(Theuseraddress);
+    // console.log(referallIncomeValue)
+  }
 
   const teamSizeFunction = async () => {
     let teamSize = staking.teamSize(Theuseraddress);
+    setteamsize(teamSize.BigNumber)
   };
 
-<<<<<<< HEAD
   useEffect( () => {
-
     UserReferalLinkFunction()
- 
-    // firstPopulationCountFunction()
-    // secondPopulationCountFunction()
-    // thirdPopulationCountFunction()
-    // firstPopulationIncomeFunction()
- 
-    //firstPopulationCountFunction()
-    //secondPopulationCountFunction()
-    //thirdPopulationCountFunction()
-   // firstPopulationIncomeFunction()
- 
-
+    firstPopulationCountFunction()
+    secondPopulationCountFunction()
+    thirdPopulationCountFunction()
+    firstPopulationIncomeFunction()
+    secondPopulationIncomeFunction()
+    thirdPopulationIncomeFunction()
+    teamSizeFunction()
+    ReferralIncomeFunction()
   }, [] )
-
-=======
-  useEffect(() => {
-    UserReferalLinkFunction();
-    //firstPopulationCountFunction()
-    //secondPopulationCountFunction()
-    //thirdPopulationCountFunction()
-    // firstPopulationIncomeFunction()
-  }, []);
->>>>>>> 7aeb306e134fd0bc4adf263be8bc4b03df8cd8ab
-
-  // function copyToClipboard(e) {
-  //   textAreaRef.current.select();
-  //   document.execCommand('copy');
-  //   e.target.focus();
-  //   setCopySuccess('Copied!');
-  // };
 
   const DataValues = ({ title, value }) => (
     <div className="datavalues">
@@ -244,27 +232,27 @@ const Create = ({
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={`${firstPopulationIncome}USDT`}
+              value={ firstPopulationIncome ? firstPopulationIncome : 0 + "USDT"}
             />
-            <DataValues title="people:" value={firstPopulationCount} />
+            <DataValues title="people:" value={firstPopulationCount ? firstPopulationCount : 0 } />
           </div>
 
           <div className="account-container-header">2nd Population</div>
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={`${secondPopulationIncome}USDT`}
+              value={ secondPopulationIncome ? secondPopulationIncome : 0 + "USDT"}
             />
-            <DataValues title="people:" value={`${secoundPopulationCount}`} />
+            <DataValues title="people:" value={secoundPopulationCount ? secoundPopulationCount : 0  } />
           </div>
 
           <div className="account-container-header">3rd Population</div>
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={`${thridPopulationIncome}USDT`}
+              value={ thridPopulationIncome ? thridPopulationIncome : 0 + "USDT"}
             />
-            <DataValues title="people:" value={`${thirdPopulationCount}`} />
+            <DataValues title="people:" value={thirdPopulationCount ? thirdPopulationCount : 0 } />
           </div>
         </Container>
       </section>
@@ -284,7 +272,7 @@ const mapStateToProps = (state) => ({
   User: state.user,
   Data: state.data,
   staking: state.user.staking,
-  decimals: state.user.decimals,
+  decimals: state.data.decimals,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Create);
