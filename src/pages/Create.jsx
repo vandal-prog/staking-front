@@ -36,13 +36,13 @@ const Create = ({
   const UserLink = `https://www.nftsmetapool.com/${Theuseraddress}`;
   const [shortenedUserLink, setshortenedUserLink] = useState();
 
-  const [firstPopulationCount, setfirstPopulationCount] = useState(0);
-  const [secoundPopulationCount, setsecoundPopulationCount] = useState(0);
-  const [thirdPopulationCount, setthirdPopulationCount] = useState(0);
-  const [firstPopulationIncome, setfirstPopulationIncome] = useState(0);
-  const [secondPopulationIncome, setsecondPopulationIncome] = useState(0);
-  const [thridPopulationIncome, setthridPopulationIncome] = useState(0);
-  const [teamsize, setteamsize] = useState(0);
+  const [firstPopulationCount, setfirstPopulationCount] = useState();
+  const [secoundPopulationCount, setsecoundPopulationCount] = useState();
+  const [thirdPopulationCount, setthirdPopulationCount] = useState();
+  const [firstPopulationIncome, setfirstPopulationIncome] = useState();
+  const [secondPopulationIncome, setsecondPopulationIncome] = useState();
+  const [thridPopulationIncome, setthridPopulationIncome] = useState();
+  const [teamsize, setteamsize] = useState();
 
   const UserReferalLinkFunction = () => {
     if (TheuserreferallLink) {
@@ -232,27 +232,27 @@ const Create = ({
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={ firstPopulationIncome ? firstPopulationIncome : 0 + "USDT"}
+              value={ firstPopulationIncome + "USDT"}
             />
-            <DataValues title="people:" value={firstPopulationCount ? firstPopulationCount : 0 } />
+            <DataValues title="people:" value={firstPopulationCount} />
           </div>
 
           <div className="account-container-header">2nd Population</div>
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={ secondPopulationIncome ? secondPopulationIncome : 0 + "USDT"}
+              value={ secondPopulationIncome + "USDT"}
             />
-            <DataValues title="people:" value={secoundPopulationCount ? secoundPopulationCount : 0  } />
+            <DataValues title="people:" value={secoundPopulationCount} />
           </div>
 
           <div className="account-container-header">3rd Population</div>
           <div className="account-marketBal">
             <DataValues
               title="income:"
-              value={ thridPopulationIncome ? thridPopulationIncome : 0 + "USDT"}
+              value={ thridPopulationIncome + "USDT"}
             />
-            <DataValues title="people:" value={thirdPopulationCount ? thirdPopulationCount : 0 } />
+            <DataValues title="people:" value={thirdPopulationCount} />
           </div>
         </Container>
       </section>
