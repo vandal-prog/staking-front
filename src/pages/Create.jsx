@@ -40,9 +40,9 @@ const Create = ({
   const UserLink = `https://www.nftsmetapool.com/${Theuseraddress}`;
   const [ shortenedUserLink, setshortenedUserLink ] = useState();
 
-  const [ firstPopulationCount, setfirstPopulationCount ] = useState(2)
-  const [ secoundPopulationCount, setsecoundPopulationCount ] = useState(2)
-  const [ thirdPopulationCount, setthirdPopulationCount ] = useState(2)
+  const [ firstPopulationCount, setfirstPopulationCount ] = useState(0)
+  const [ secoundPopulationCount, setsecoundPopulationCount ] = useState(0)
+  const [ thirdPopulationCount, setthirdPopulationCount ] = useState(0)
 
 
   const UserReferalLinkFunction = () => {
@@ -109,10 +109,17 @@ const Create = ({
   useEffect( () => {
 
     UserReferalLinkFunction()
+<<<<<<< HEAD
     // firstPopulationCountFunction()
     // secondPopulationCountFunction()
     // thirdPopulationCountFunction()
     // firstPopulationIncomeFunction()
+=======
+    //firstPopulationCountFunction()
+    //secondPopulationCountFunction()
+    //thirdPopulationCountFunction()
+   // firstPopulationIncomeFunction()
+>>>>>>> ed99c7a63612b930e715cceca2a5e0c1fc46e4e7
 
   }, [] )
 
@@ -142,20 +149,20 @@ const Create = ({
           <div style={{ marginTop: 30, marginButtom: 30, display: "center"}}>
             <center>
               <QRCode
-               value= {shortenedUserLink} bgColor="white" fgColor="blue" style={{ marginRight: 28, borderRadius: 28 }}/>
+               value= {shortenedUserLink} bgColor="white" fgColor="black" style={{ marginRight: 28, borderRadius: 10 }}/>
             </center>
           </div>
        </Col>
        </Row>
        <Row className="justify-content-md-center">
           <Col sm={5}>
-             <input type="text" disabled={true} ref={textAreaRef} className="newsletter" value={shortenedUserLink} />
+             <input type="text" disabled={true} ref={textAreaRef} className="newsletter" value={UserLink} />
           </Col>
        </Row>
            
 
        <row className="justify-content-md-right">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', border: 'none' }}>
 
             <CopyToClipboard text={shortenedUserLink}>
                 <button className="button" onClick={ () => setCopySuccess('Copied!') } >
