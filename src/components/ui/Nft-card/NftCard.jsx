@@ -160,8 +160,8 @@ const NftCard = ({
 
     await hasPledged();
 
+    setDays(days);
     if (pledged) {
-      setDays(days);
       setRate(percent);
       setloading(false);
       setSuccessfulTransaction(true);

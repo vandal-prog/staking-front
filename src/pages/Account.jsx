@@ -20,6 +20,8 @@ import {
   selecttodayIncomeCount,
 } from "../redux/user/array.selectors";
 import {
+  hasPledged,
+  hasStaked,
   setAccountBalance,
   setOnChainBalance,
   setPledgeRecords,
@@ -63,6 +65,8 @@ const Account = ({
   setAccountBalance,
   setRate,
   setOnChainBalance,
+  hasPledged,
+  hasStaked,
 }) => {
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const [overWithdrawal, setOverWithdrawal] = useState(false);
@@ -112,6 +116,7 @@ const Account = ({
     setAccountBalance(-withdrawalAmount);
     setOnChainBalance();
     setRate(0);
+    hasStaked();
   };
 
   const checkwithdrawalAmount = (withdrawalAmount) => {
@@ -142,10 +147,10 @@ const Account = ({
             <span className="account-timer-text">NEXT BENEFIT IN 1hr</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
 
-            {/* <Timer /> */}
-            {staked && <Time localStorage="timer1" />}
+            <Time localStorage="timer" />
+            {/* {staked && <Time localStorage="timer1" />}
             {pledged && <Timer localStorage="timer2" />}
-            {staked || pledged || <Time />}
+            {pledged || staked || <Time />} */}
             {/* <Time localStorage="timer1" /> */}
           </div>
           <input
@@ -283,6 +288,8 @@ const mapDispatchToProps = (dispatch) => ({
   setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
   setPledgeRecords: () => dispatch(setPledgeRecords()),
   setRate: (percent) => dispatch(setRate(percent)),
+  hasStaked: () => dispatch(hasStaked()),
+  hasPledged: () => dispatch(hasPledged()),
   setOnChainBalance: () => dispatch(setOnChainBalance()),
 });
 
