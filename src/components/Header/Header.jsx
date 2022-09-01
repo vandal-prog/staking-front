@@ -136,6 +136,7 @@ const Header = ({
     tawk.onStatusChange((status) => {
       console.log("status");
     });
+
   }, []);
   // console.log(currentAccount);
 

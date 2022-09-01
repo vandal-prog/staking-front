@@ -109,17 +109,17 @@ const Create = ({
   useEffect( () => {
 
     UserReferalLinkFunction()
-<<<<<<< HEAD
+ 
     // firstPopulationCountFunction()
     // secondPopulationCountFunction()
     // thirdPopulationCountFunction()
     // firstPopulationIncomeFunction()
-=======
+ 
     //firstPopulationCountFunction()
     //secondPopulationCountFunction()
     //thirdPopulationCountFunction()
    // firstPopulationIncomeFunction()
->>>>>>> ed99c7a63612b930e715cceca2a5e0c1fc46e4e7
+ 
 
   }, [] )
 
