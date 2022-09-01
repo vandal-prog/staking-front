@@ -149,7 +149,7 @@ const Create = ({
        </Row>
        <Row className="justify-content-md-center">
           <Col sm={5}>
-             <input type="text" disabled={true} ref={textAreaRef} className="newsletter" value={shortenedUserLink} />
+             <input type="text" disabled={true} ref={textAreaRef} className="newsletter" value={UserLink} />
           </Col>
        </Row>
            
