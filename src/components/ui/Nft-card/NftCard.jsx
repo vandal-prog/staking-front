@@ -305,28 +305,7 @@ const NftCard = ({
             </Snackbar> */}
  
            
-              <LoadingButton
-                variant="contained"
-                loadingPosition="start"
-                // loading={loading}
-                // sx={loadingButtonStyles}
-                startIcon={<LocalMallIcon />}
-                color="secondary"
-                onClick={() => {
-                  checker(
-                    resultAmount,
-                    currentBid,
-                    creator,
-                    onChainBalance,
-                    days,
-                    percent
-                  );
-                  setstakeLoading(true);
-                }}
-              >
-                Start Pledge
-              </LoadingButton>
-            )}
+            
  
 
             <span className="nft-pledge-text">
