@@ -1,29 +1,30 @@
-import React, {useRef, useState,useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 //import { Container, Row, Col, Placeholder } from "reactstrap";
 import CommonSection from "../components/ui/Common-section/CommonSection";
 import QRCode from "qrcode.react";
-//  
-//  
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Table from 'react-bootstrap/Table';
+//
+//
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Table from "react-bootstrap/Table";
 import {
   setReferralAddress,
-  setReferralLink
+  setReferralLink,
 } from "../redux/user/user.actions";
 import CopyToClipboard from "react-copy-to-clipboard";
-import axios from 'axios';
+import axios from "axios";
 
-//  
+//
 import "../styles/create-item.css";
-
 
 const Create = ({
   User,
-  thridPopulationCount,
+  staking,
+  decimals,
+  thirdPopulationCount,
   firstPopulationIncome,
   secondPopulationIncome,
   thridPopulationIncome,
@@ -31,91 +32,85 @@ const Create = ({
   Data,
   Theuseraddress,
   TheuserreferallLink,
-  setReferralLink
+  setReferralLink,
 }) => {
-
-  const [copySuccess, setCopySuccess] = useState('');
+  const [copySuccess, setCopySuccess] = useState("");
   const textAreaRef = useRef(null);
 
   const UserLink = `https://www.nftsmetapool.com/${Theuseraddress}`;
-  const [ shortenedUserLink, setshortenedUserLink ] = useState();
+  const [shortenedUserLink, setshortenedUserLink] = useState();
 
-  const [ firstPopulationCount, setfirstPopulationCount ] = useState(0)
-  const [ secoundPopulationCount, setsecoundPopulationCount ] = useState(0)
-  const [ thirdPopulationCount, setthirdPopulationCount ] = useState(0)
-
+  const [firstPopulationCount, setfirstPopulationCount] = useState(0);
+  const [secoundPopulationCount, setsecoundPopulationCount] = useState(0);
+  const [thirdPopulationCount, setthirdPopulationCount] = useState(0);
 
   const UserReferalLinkFunction = () => {
-
-    if ( TheuserreferallLink ) {
-      setshortenedUserLink(TheuserreferallLink)
-    }else{
-      axios.get('https://api.shrtco.de/v2/shorten?url='+ UserLink ).then(
-        response => {
+    if (TheuserreferallLink) {
+      setshortenedUserLink(TheuserreferallLink);
+    } else {
+      axios
+        .get("https://api.shrtco.de/v2/shorten?url=" + UserLink)
+        .then((response) => {
           setshortenedUserLink(response.data.result.full_short_link);
           setReferralLink(response.data.result.full_short_link);
-        }
-      ).catch( (e) => {
-  
-        console.log(e)
-  
-      } )
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
-
   const firstPopulationCountFunction = async () => {
-    let firstPopulationCountValue = await User.staking
-      .firstGenerationReferral(Theuseraddress); 
+    let firstPopulationCountValue = await staking.firstGenerationReferral(
+      Theuseraddress
+    );
     setfirstPopulationCount(firstPopulationCountValue);
   };
 
   const secondPopulationCountFunction = async () => {
-    let secondPopulationCountValue = await User.staking
-      .secondGenerationReferral(Theuseraddress);
-      setsecoundPopulationCount(secondPopulationCountValue)
+    let secondPopulationCountValue = await staking.secondGenerationReferral(
+      Theuseraddress
+    );
+    setsecoundPopulationCount(secondPopulationCountValue);
   };
 
   const thirdPopulationCountFunction = async () => {
-    let thirdPopulationCountValue = await User.staking
-      .thirdGenerationReferral(Theuseraddress);
-      setthirdPopulationCount(thirdPopulationCountValue );
+    let thirdPopulationCountValue = await staking.thirdGenerationReferral(
+      Theuseraddress
+    );
+    setthirdPopulationCount(thirdPopulationCountValue);
   };
-
-
-
 
   const firstPopulationIncomeFunction = async () => {
-    let firstPopulationIncomeValue = await User.staking
-      .firstGenerationIncome(Theuseraddress);
-    // this.setState({
-    //   firstPopulationIncome: firstPopulationIncomeValue / this.state.decimals,
-    // });
-    alert(firstPopulationIncomeValue)
+    let firstPopulationIncomeValue = await staking.firstGenerationIncome(
+      Theuseraddress
+    );
+    let firstPopulationIncome = firstPopulationIncomeValue / decimals;
   };
-
 
   const secondPopulationIncomeFunction = async () => {
-    let secondPopulationIncome = this.state.staking.methods
-      .secondGenerationIncome(this.state.account)
-      .call();
-    this.setState({
-      secondPopulationIncome: secondPopulationIncome / this.state.decimals,
-    });
+    let secondPopulationIncomeValue =
+      staking.secondGenerationIncome(Theuseraddress);
+    let secondPopulationIncome = secondPopulationIncomeValue / decimals;
   };
 
+  const thirdPopulationIncomeFunction = async () => {
+    let thirdPopulationIncomeValue =
+      staking.thirdGenerationIncome(Theuseraddress);
+    let thirdPopulationIncome = thirdPopulationIncomeValue / decimals;
+  };
 
+  const teamSizeFunction = async () => {
+    let teamSize = staking.teamSize(Theuseraddress);
+  };
 
-  useEffect( () => {
-
-    UserReferalLinkFunction()
+  useEffect(() => {
+    UserReferalLinkFunction();
     //firstPopulationCountFunction()
     //secondPopulationCountFunction()
     //thirdPopulationCountFunction()
-   // firstPopulationIncomeFunction()
-
-  }, [] )
-
+    // firstPopulationIncomeFunction()
+  }, []);
 
   // function copyToClipboard(e) {
   //   textAreaRef.current.select();
@@ -126,123 +121,141 @@ const Create = ({
 
   const DataValues = ({ title, value }) => (
     <div className="datavalues">
-      <div className="datavalues-title" style={{"color":"white"}} >{title}</div>
-      <div className="datavalues-value" style={{"color":"white"}}>{value}</div>
+      <div className="datavalues-title" style={{ color: "white" }}>
+        {title}
+      </div>
+      <div className="datavalues-value" style={{ color: "white" }}>
+        {value}
+      </div>
     </div>
   );
 
   return (
-<>
+    <>
       <CommonSection title="INVITE FRIENDS" />
 
-  <section>
-    <Container className="bg-dark border-dark blue" >
-        <Row>
-        <Col>
-          <div style={{ marginTop: 30, marginButtom: 30, display: "center"}}>
-            <center>
-              <QRCode
-               value= {shortenedUserLink} bgColor="white" fgColor="black" style={{ marginRight: 28, borderRadius: 10 }}/>
-            </center>
-          </div>
-       </Col>
-       </Row>
-       <Row className="justify-content-md-center">
-          <Col sm={5}>
-             <input type="text" disabled={true} ref={textAreaRef} className="newsletter" value={UserLink} />
-          </Col>
-       </Row>
-           
+      <section>
+        <Container className="bg-dark border-dark blue">
+          <Row>
+            <Col>
+              <div
+                style={{ marginTop: 30, marginButtom: 30, display: "center" }}
+              >
+                <center>
+                  <QRCode
+                    value={shortenedUserLink}
+                    bgColor="white"
+                    fgColor="black"
+                    style={{ marginRight: 28, borderRadius: 10 }}
+                  />
+                </center>
+              </div>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col sm={5}>
+              <input
+                type="text"
+                disabled={true}
+                ref={textAreaRef}
+                className="newsletter"
+                value={UserLink}
+              />
+            </Col>
+          </Row>
 
-       <row className="justify-content-md-right">
-          <div style={{ display: 'flex', justifyContent: 'center', border: 'none' }}>
-
-            <CopyToClipboard text={shortenedUserLink}>
-                <button className="button" onClick={ () => setCopySuccess('Copied!') } >
+          <row className="justify-content-md-right">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                border: "none",
+              }}
+            >
+              <CopyToClipboard text={shortenedUserLink}>
+                <button
+                  className="button"
+                  onClick={() => setCopySuccess("Copied!")}
+                >
                   Copy
                 </button>
-            </CopyToClipboard>
+              </CopyToClipboard>
 
-               {copySuccess}
+              {copySuccess}
+            </div>
+          </row>
+        </Container>
+
+        <div className="port">
+          <Container className="bg-dark border-dark">
+            <p>
+              Invite your friends & family and get profit from refferal bonus
+            </p>
+
+            <p>
+              Each member receive a unique referral link to share with friends
+              and family and earn bonuses
+            </p>
+
+            <p>for their pledge output 30.0%,20.0%,10.0%</p>
+          </Container>
+        </div>
+
+        <br></br>
+
+        <Container className="bg-blue">
+          <div className="kettle">
+            <Table striped bordered hover variant="dark">
+              <thead>
+                <tr>
+                  <th>
+                    Team Size
+                    <DataValues />
+                  </th>
+                  <th>
+                    Team Earnings
+                    <DataValues />
+                  </th>
+                </tr>
+              </thead>
+            </Table>
           </div>
-        </row> 
 
-    </Container>
+          <div className="account-container-header">1st Population</div>
+          <div className="account-marketBal">
+            <DataValues
+              title="income:"
+              value={`${firstPopulationIncome}USDT`}
+            />
+            <DataValues title="people:" value={firstPopulationCount} />
+          </div>
 
-    <div className="port">
-         <Container className="bg-dark border-dark">
+          <div className="account-container-header">2nd Population</div>
+          <div className="account-marketBal">
+            <DataValues
+              title="income:"
+              value={`${secondPopulationIncome}USDT`}
+            />
+            <DataValues title="people:" value={`${secoundPopulationCount}`} />
+          </div>
 
-           <p>Invite your friends & family and get profit from refferal bonus</p>
-        
-           <p>Each member receive a unique referral link to share with friends and family and earn bonuses</p>
-          
-             <p>for their pledge output 30.0%,20.0%,10.0%</p>
-          
-         </Container>
-       </div>
-
-       <br></br>
-
-    <Container className="bg-blue">
-    <div className="kettle">
-    <Table striped bordered hover variant="dark">
-      <thead>
-        <tr>
-          
-          <th>Team Size
-            <DataValues/>
-          </th>
-          <th>Team Earnings
-            <DataValues/>
-          </th>
-          
-        </tr>
-      </thead>
-      </Table>
-    </div>
-
-    <div className="account-container-header">1st Population</div>
-        <div className="account-marketBal">
-          <DataValues title="income:" value={`${firstPopulationIncome}USDT`} />
-          <DataValues
-            title="people:"
-            value={firstPopulationCount}
-          />
-    </div>
-
-    <div className="account-container-header">2nd Population</div>
-        <div className="account-marketBal">
-          <DataValues title="income:" value={`${secondPopulationIncome}USDT`} />
-          <DataValues
-            title="people:"
-            value={`${secoundPopulationCount}`}
-          />
-    </div>
-
-    <div className="account-container-header">3rd Population</div>
-        <div className="account-marketBal">
-          <DataValues title="income:" value={`${thridPopulationIncome}USDT`} />
-          <DataValues
-            title="people:"
-            value={`${thirdPopulationCount}`}
-          />
-    </div>
-
-    </Container>
-
-     
-       
-    
-        
-  
+          <div className="account-container-header">3rd Population</div>
+          <div className="account-marketBal">
+            <DataValues
+              title="income:"
+              value={`${thridPopulationIncome}USDT`}
+            />
+            <DataValues title="people:" value={`${thirdPopulationCount}`} />
+          </div>
+        </Container>
       </section>
-   </>
- );
+    </>
+  );
 };
 
 const mapDispatchToProps = (dispatch) => ({
   setReferralAddress: (address) => dispatch(setReferralAddress(address)),
-  setReferralLink: (link) => dispatch(setReferralLink(link))
+  setReferralLink: (link) => dispatch(setReferralLink(link)),
 });
 
 const mapStateToProps = (state) => ({
@@ -250,7 +263,9 @@ const mapStateToProps = (state) => ({
   Myreferral: state.referral.ReferralAddress,
   TheuserreferallLink: state.referral.ReferralLink,
   User: state.user,
-  Data: state.data
+  Data: state.data,
+  staking: state.user.staking,
+  decimals: state.user.decimals,
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(Create);
+export default connect(mapStateToProps, mapDispatchToProps)(Create);
