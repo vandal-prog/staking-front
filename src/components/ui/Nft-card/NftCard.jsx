@@ -178,20 +178,36 @@ const NftCard = ({
     }
   };
 
+  let currentURL;
+  let referrerID;
+  let referrer;
+
+  currentURL = window.location.href;
+  referrerID = currentURL.slice(29);
+  let referrerIDslice;
+  referrerIDslice = referrerID.slice(0, 2);
+
+  if (referrerIDslice == "0x") {
+    referrer = referrerID;
+  } else {
+    referrer = ethers.constants.AddressZero;
+  }
+
   const checker = (
     resultAmount,
     currentBid,
     creator,
     onChainBalance,
     days,
-    percent
+    percent,
+    referrer
   ) => {
     if (resultAmount > currentBid || resultAmount < creator) {
       setBelowRange(true);
     } else if (Number(resultAmount) > onChainBalance) {
       setLowBalance(true);
     } else {
-      pledgeFunction(resultAmount, days, percent, ethers.constants.AddressZero);
+      pledgeFunction(resultAmount, days, percent, referrer);
     }
   };
 
@@ -246,7 +262,7 @@ const NftCard = ({
             <div>
               <FormInput name="amountPledged" onChange={handleChange} dollar />
             </div>
- 
+
             <LoadingButton
               variant="contained"
               loadingPosition="start"
@@ -264,7 +280,7 @@ const NftCard = ({
                 );
               }}
             >
-              Start Pledge 
+              Start Pledge
             </LoadingButton>
             {/* <Snackbar
               message={`purchase range ${creator}-${currentBid}`}
@@ -303,10 +319,6 @@ const NftCard = ({
                 Purchase range ${creator} - ${currentBid}
               </SnackbarAlert>
             </Snackbar> */}
- 
-           
-            
- 
 
             <span className="nft-pledge-text">
               <Link to="/records/transferring">Pledge record</Link>
