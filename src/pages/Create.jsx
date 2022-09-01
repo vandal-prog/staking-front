@@ -114,7 +114,7 @@ const Create = ({
     thirdPopulationCountFunction()
     firstPopulationIncomeFunction()
 
-  }, [TheuserreferallLink] )
+  }, [] )
 
 
   // function copyToClipboard(e) {
