@@ -24,7 +24,6 @@ const Create = ({
   User,
   staking,
   decimals,
-  thirdPopulationCount,
   firstPopulationIncome,
   secondPopulationIncome,
   thridPopulationIncome,
