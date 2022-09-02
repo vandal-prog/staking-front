@@ -4,10 +4,10 @@ const INITIAL_STATE = {
   pledgeBalance: 0,
   cumulatedPledgeIncome: 0,
   cumulatedPledgeBalance: 0,
-  hourlyIncome: 0,
+  hourlyIncome: 1,
   ratePercent: 0,
   days: 0,
-  decimals: 1000000, 
+  decimals: 1000000,
   stakingTime: 0,
   pledgingTime: 0,
 };

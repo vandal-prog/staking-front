@@ -11,12 +11,12 @@ const middlewares = [logger, thunk];
 const persistConfig = {
   key: "user",
   storage,
-//  
-  whitelist: ["account", "user", "boolean", "data", "timer", "referral" ],
-//  
+
+  // whitelist: ["account", "user", "boolean", "data", "array", "referral"],
+
   // whitelist: ["account", "user", "boolean", "data", "array"],
-//  
-  // whitelist: ["user"],
+  //
+  whitelist: ["referral"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
