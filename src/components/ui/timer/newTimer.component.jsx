@@ -100,6 +100,19 @@ class Time extends Component {
     });
   };
 
+  componentDidMount() {
+    const {
+      start,
+      stop,
+      reset,
+      state: { running, value },
+    } = this;
+    const { staked } = this.props;
+    {
+      // staked && start();
+    }
+  }
+
   render() {
     const {
       start,
@@ -107,6 +120,8 @@ class Time extends Component {
       reset,
       state: { running, value },
     } = this;
+
+    console.log(`this is bad`);
 
     const {
       staked,
@@ -152,7 +167,6 @@ class Time extends Component {
       // setStakeRecords(recordArray);
     };
 
-
     for (let t = 0; t < 5; t++) {
       console.log("i love myself");
     }
@@ -171,33 +185,32 @@ class Time extends Component {
       } else {
         setRate(0);
         setOnChainBalance();
-        return; 
+        return;
       }
     }
 
-    if ( h > 1 ){
-      for (let i = 1; i < (h+1); i++) {
-        processTransactions()
-        let nowTime = Date.now() ;
+    if (h > 1) {
+      for (let i = 1; i < h + 1; i++) {
+        processTransactions();
+        let nowTime = Date.now();
         const recordArray = [nowTime, hourlyIncome];
         // setStakeRecords(recordArray);
       }
     }
 
-    if (s === 59) {
-      hasStaked();
+    // if (s === 59) {
+    //   hasStaked();
 
-      if (!staked) {
-        reset();
-        setRate(0);
-        setOnChainBalance();
-      }
-    }
+    //   if (!staked) {
+    //     reset();
+    //     setRate(0);
+    //     setOnChainBalance();
+    //   }
+    // }
 
     return (
       <div>
         {/* {staked && reset()} */}
-        {staked && start()}
         {_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}
 
         {/* <div className="timer-controls">

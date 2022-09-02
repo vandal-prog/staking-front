@@ -1,7 +1,7 @@
-//  
-import React, { useContext, useState, forwardRef, } from "react";
-//  
-//  
+//
+import React, { useContext, useState, forwardRef } from "react";
+//
+//
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
 import { connect } from "react-redux";
@@ -23,12 +23,16 @@ import {
   selecttodayIncomeCount,
 } from "../redux/user/array.selectors";
 import {
+  hasPledged,
+  hasStaked,
   setAccountBalance,
   setOnChainBalance,
   setPledgeRecords,
   setRate,
 } from "../redux/user/user.actions";
 import { TimeConverter } from "../utils/timeConverter";
+import TimeMAchine from "../components/ui/timer/TimeMachine";
+import Timerzilla from "../components/ui/timer/Timerzilla";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -66,8 +70,9 @@ const Account = ({
   setAccountBalance,
   setRate,
   setOnChainBalance,
+  hasPledged,
+  hasStaked,
 }) => {
-
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const [overWithdrawal, setOverWithdrawal] = useState(false);
   const [successfulPayment, setSuccesfulPayment] = useState(false);
@@ -116,6 +121,7 @@ const Account = ({
     setAccountBalance(-withdrawalAmount);
     setOnChainBalance();
     setRate(0);
+    hasStaked();
   };
 
   const checkwithdrawalAmount = (withdrawalAmount) => {
@@ -146,11 +152,13 @@ const Account = ({
             <span className="account-timer-text">NEXT BENEFIT IN 1hr</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
 
-            {/* <Timer /> */}
+            {/* <Time localStorage="timer" /> */}
             {staked && <Time localStorage="timer1" />}
             {pledged && <Timer localStorage="timer2" />}
             {staked || pledged || <Time />}
             {/* <Time localStorage="timer1" /> */}
+            {/* <TimeMAchine /> */}
+            {/* <Timerzilla localstorage="timeer" staked={staked} /> */}
           </div>
           <input
             name="withdrawalAmount"
@@ -287,6 +295,8 @@ const mapDispatchToProps = (dispatch) => ({
   setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
   setPledgeRecords: () => dispatch(setPledgeRecords()),
   setRate: (percent) => dispatch(setRate(percent)),
+  hasStaked: () => dispatch(hasStaked()),
+  hasPledged: () => dispatch(hasPledged()),
   setOnChainBalance: () => dispatch(setOnChainBalance()),
 });
 
