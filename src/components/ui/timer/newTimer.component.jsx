@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {
+  selectDays,
+  selectHours,
+  selectMinutes,
+  selectSeconds,
+} from "../../../redux/user/time-selectors";
 
 import {
   hasStaked,
@@ -10,6 +16,10 @@ import {
   setRate,
   setOnChainBalance,
   setStakeRecords,
+  setSecondsTime,
+  setMinuteTime,
+  setHourTime,
+  setDayTime,
 } from "../../../redux/user/user.actions";
 
 class Time extends Component {
@@ -28,14 +38,22 @@ class Time extends Component {
     }
   }
 
-  // UNSAFE_componentWillMount() {
-  //   if (this.state.running) {
-  //     this.timer = setInterval(
-  //       () => this.forceUpdate(),
-  //       this.props.interval | 0
-  //     );
-  //   }
-  // }
+  UNSAFE_componentWillMount() {
+    if (this.state.running) {
+      this.timer = setInterval(
+        () => this.forceUpdate(),
+        this.props.interval | 1000
+      );
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    const { s } = this.props;
+    console.log(nextProps);
+    if (nextProps.s !== s) {
+      setSecondsTime(s);
+    }
+  }
 
   componentWillUnmount() {
     if (this.state.running) {
@@ -100,19 +118,6 @@ class Time extends Component {
     });
   };
 
-  componentDidMount() {
-    const {
-      start,
-      stop,
-      reset,
-      state: { running, value },
-    } = this;
-    const { staked } = this.props;
-    {
-      // staked && start();
-    }
-  }
-
   render() {
     const {
       start,
@@ -120,8 +125,6 @@ class Time extends Component {
       reset,
       state: { running, value },
     } = this;
-
-    console.log(`this is bad`);
 
     const {
       staked,
@@ -135,14 +138,30 @@ class Time extends Component {
       setOnChainBalance,
       setStakeRecords,
       stakeRecords,
+      d,
+      h,
+      m,
+      s,
+      setDayTime,
+      setHourTime,
+      setMinuteTime,
+      setSecondsTime,
     } = this.props;
 
+    {
+      staked && start();
+    }
+
     const timestamp = running ? Date.now() + value : value;
-    const d = Math.floor(timestamp / 86400000);
-    const h = Math.floor(timestamp / 3600000) % 24;
-    const m = Math.floor(timestamp / 60000) % 60;
-    const s = Math.floor(timestamp / 1000) % 60;
+    const dayy = Math.floor(timestamp / 86400000);
+    const hourr = Math.floor(timestamp / 3600000) % 24;
+    const minn = Math.floor(timestamp / 60000) % 60;
+    const secc = Math.floor(timestamp / 1000) % 60;
     const ms = timestamp % 1000;
+    setDayTime(dayy);
+    setHourTime(hourr);
+    setMinuteTime(minn);
+    setSecondsTime(secc);
 
     const _ = (nr, length = 2, padding = 0) =>
       String(nr).padStart(length, padding);
@@ -157,7 +176,7 @@ class Time extends Component {
     // }
 
     const processTransactions = async () => {
-      await setHourlyIncome();
+      // await setHourlyIncome();
       setAccountBalance(hourlyIncome);
       setTodayIncome(hourlyIncome);
       setCumulativeIncome(hourlyIncome);
@@ -197,19 +216,20 @@ class Time extends Component {
       }
     }
 
-    // if (s === 59) {
-    //   hasStaked();
+    if (s === 59) {
+      hasStaked();
 
-    //   if (!staked) {
-    //     reset();
-    //     setRate(0);
-    //     setOnChainBalance();
-    //   }
-    // }
+      if (!staked) {
+        reset();
+        setRate(0);
+        setOnChainBalance();
+      }
+    }
 
     return (
       <div>
         {/* {staked && reset()} */}
+        {staked && start()}
         {_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}
 
         {/* <div className="timer-controls">
@@ -232,6 +252,10 @@ const mapStateToProps = (state) => ({
   staked: state.boolean.staked,
   hourlyIncome: state.data.hourlyIncome,
   stakeRecords: state.array.stakeRecords,
+  d: selectDays(state),
+  h: selectHours(state),
+  m: selectMinutes(state),
+  s: selectSeconds(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -244,6 +268,10 @@ const mapDispatchToProps = (dispatch) => ({
   setRate: (percent) => dispatch(setRate(percent)),
   setOnChainBalance: () => dispatch(setOnChainBalance()),
   setStakeRecords: (record) => dispatch(setStakeRecords(record)),
+  setDayTime: (day) => dispatch(setDayTime(day)),
+  setHourTime: (hour) => dispatch(setHourTime(hour)),
+  setMinuteTime: (minute) => dispatch(setMinuteTime(minute)),
+  setSecondsTime: (second) => dispatch(setSecondsTime(second)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Time);
