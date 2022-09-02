@@ -123,6 +123,7 @@ class Time extends Component {
     } = this.props;
 
     const timestamp = running ? Date.now() + value : value;
+    // alert(running)
     const d = Math.floor(timestamp / 86400000);
     const h = Math.floor(timestamp / 3600000) % 24;
     const m = Math.floor(timestamp / 60000) % 60;
@@ -203,11 +204,9 @@ class Time extends Component {
             <button className="btn btn-success" onClick={start}>
               Start Timer
             </button>
-
             <button className="btn btn-alert" onClick={stop}>
               Stop Timer
             </button>
-
             <button className="btn btn-danger" onClick={reset}>
               Reset!
             </button>
