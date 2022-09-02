@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 export const setCurrentAccount = (account) => ({
   type: "SET_CURRENT_ACCOUNT",
   payload: account,
-}); 
+});
 
 export const setStakingContract = (contract) => ({
   type: "SET_STAKING_CONTRACT",
@@ -166,7 +166,7 @@ export const setSecondsLeft = (seconds) => ({
   payload: seconds,
 });
 
-//  
+//
 export const setReferralAddress = (address) => ({
   type: "SET_CURRENT_REFFERAL",
   payload: address,
@@ -176,7 +176,7 @@ export const setReferralLink = (link) => ({
   type: "SET_REFFERAL_LINK",
   payload: link,
 });
-//  
+//
 export const setPledgeRecords = () => {
   return async (dispatch, getState) => {
     const staking = getState().user.staking;
@@ -222,4 +222,24 @@ export const setDays = (days) => ({
 export const logout = () => ({
   type: "LOGOUT_USER",
 });
-//  
+//
+
+export const setDayTime = (days) => ({
+  type: "SET_TIME_D",
+  payload: days,
+});
+
+export const setHourTime = (hour) => ({
+  type: "SET_TIME_H",
+  payload: hour,
+});
+
+export const setMinuteTime = (minute) => ({
+  type: "SET_TIME_M",
+  payload: minute,
+});
+
+export const setSecondsTime = (seconds) => ({
+  type: "SET_TIME_S",
+  payload: seconds,
+});

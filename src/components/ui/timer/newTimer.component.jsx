@@ -10,12 +10,6 @@ import {
   setRate,
   setOnChainBalance,
   setStakeRecords,
-  hasPledged,
-  setPledgedIncome,
-  setPledgedBalance,
-  setCumulatedPledgeIncome,
-  setCumulatedPledgeBalance,
-  setPledgeRecords,
 } from "../../../redux/user/user.actions";
 
 class Time extends Component {
@@ -32,6 +26,13 @@ class Time extends Component {
         value: 0,
       });
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(`Next state =>`, nextState);
+    console.log(`Current State =>`, this.state);
+
+    return true;
   }
 
   UNSAFE_componentWillMount() {
@@ -106,6 +107,19 @@ class Time extends Component {
     });
   };
 
+  componentDidMount() {
+    const {
+      start,
+      stop,
+      reset,
+      state: { running, value },
+    } = this;
+    const { staked } = this.props;
+    {
+      // staked && start();
+    }
+  }
+
   render() {
     const {
       start,
@@ -114,10 +128,11 @@ class Time extends Component {
       state: { running, value },
     } = this;
 
+    console.log(`this is bad`);
+
     const {
       staked,
       hasStaked,
-      hasPledged,
       setHourlyIncome,
       hourlyIncome,
       setAccountBalance,
@@ -127,14 +142,6 @@ class Time extends Component {
       setOnChainBalance,
       setStakeRecords,
       stakeRecords,
-      setCumulatedPledgeBalance,
-      setCumulatedPledgeIncome,
-      setPledgeBalance,
-      setPledgeIncome,
-      setPledgeRecords,
-      days,
-      pledgeIncome,
-      pledged,
     } = this.props;
 
     const timestamp = running ? Date.now() + value : value;
@@ -152,104 +159,61 @@ class Time extends Component {
     //   staked && start();
     // }
 
+    // if (staked === false) {
+
+    // }
+
     const processTransactions = async () => {
       await setHourlyIncome();
       setAccountBalance(hourlyIncome);
       setTodayIncome(hourlyIncome);
       setCumulativeIncome(hourlyIncome);
+      // const nowTime = new Date();
+      // const recordArray = [nowTime, hourlyIncome];
+      // setStakeRecords(recordArray);
     };
 
-    const processPledgeTransactions = async () => {
-      await setPledgeIncome();
-      setAccountBalance(pledgeIncome);
-      setPledgeBalance();
-      setCumulatedPledgeBalance();
-      setCumulatedPledgeIncome();
-      setPledgeRecords();
-    };
+    // // console.log("i love myself");
+    // if (h == 1) {
+    //   reset();
+    //   processTransactions();
+    //   const nowTime = Date.now();
+    //   // let nowTime = -this.state.value;
+    //   const recordArray = [nowTime, hourlyIncome];
+    //   setStakeRecords(recordArray);
+    //   hasStaked();
 
-    // console.log("i love myself");
+    //   if (staked) {
+    //     start();
+    //   } else {
+    //     setRate(0);
+    //     setOnChainBalance();
+    //     return;
+    //   }
+    // }
 
-    if (staked === true) {
-      this.start();
+    // if (s === 59) {
+    //   hasStaked();
 
-      if (h == 1) {
-        this.reset();
-        processTransactions();
-        const nowTime = Date.now();
-        // let nowTime = -this.state.value;
-        const recordArray = [nowTime, hourlyIncome];
-        setStakeRecords(recordArray);
-        hasStaked();
-
-        if (staked) {
-          this.start();
-        } else {
-          setRate(0);
-          setOnChainBalance();
-          return;
-        }
-      }
-
-      if (s === 59) {
-        hasStaked();
-
-        if (!staked) {
-          this.reset();
-          setRate(0);
-          setOnChainBalance();
-        }
-      }
-    } else {
-      this.reset();
-    }
-
-    if (pledged === true) {
-      if (pledged) {
-        this.reset();
-      }
-      this.start();
-
-      if (d === days) {
-        this.reset();
-        processPledgeTransactions();
-        setRate(0);
-      }
-    } else {
-      return (
-        <div>
-          {_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}
-
-          {/* <div className="timer-controls">
-              <button className="btn btn-success" onClick={start}>
-                Start Timer
-              </button>
-  
-              <button className="btn btn-alert" onClick={stop}>
-                Stop Timer
-              </button>
-  
-              <button className="btn btn-danger" onClick={reset}>
-                Reset!
-              </button>
-            </div> */}
-        </div>
-      );
-    }
+    //   if (!staked) {
+    //     reset();
+    //     setRate(0);
+    //     setOnChainBalance();
+    //   }
+    // }
 
     return (
       <div>
+        {/* {staked && reset()} */}
         {_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}
 
         {/* <div className="timer-controls">
             <button className="btn btn-success" onClick={start}>
               Start Timer
             </button>
-
             <button className="btn btn-alert" onClick={stop}>
               Stop Timer
             </button>
-
             <button className="btn btn-danger" onClick={reset}>
               Reset!
             </button>
@@ -263,14 +227,10 @@ const mapStateToProps = (state) => ({
   staked: state.boolean.staked,
   hourlyIncome: state.data.hourlyIncome,
   stakeRecords: state.array.stakeRecords,
-  pledged: state.boolean.pledged,
-  pledgeIncome: state.data.pledgeIncome,
-  days: state.data.days,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   hasStaked: () => dispatch(hasStaked()),
-  hasPledged: () => dispatch(hasPledged()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
   setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
   setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
@@ -279,11 +239,6 @@ const mapDispatchToProps = (dispatch) => ({
   setRate: (percent) => dispatch(setRate(percent)),
   setOnChainBalance: () => dispatch(setOnChainBalance()),
   setStakeRecords: (record) => dispatch(setStakeRecords(record)),
-  setPledgeIncome: () => dispatch(setPledgedIncome()),
-  setPledgeBalance: () => dispatch(setPledgedBalance()),
-  setCumulatedPledgeIncome: () => dispatch(setCumulatedPledgeIncome()),
-  setCumulatedPledgeBalance: () => dispatch(setCumulatedPledgeBalance()),
-  setPledgeRecords: () => dispatch(setPledgeRecords()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Time);

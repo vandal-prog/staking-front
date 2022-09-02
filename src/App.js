@@ -26,7 +26,6 @@ import {
   setRate,
 } from "./redux/user/user.actions";
 
-
 class App extends React.Component {
   // use a lifecycle method to run the loadBlockchainData function once page render
   // UNSAFE_componentWillMount = async () => {
@@ -103,7 +102,7 @@ class App extends React.Component {
     const web3 = window.web3;
     const account = await web3.eth.getAccounts();
 
-    console.log(web3,"wen") 
+    console.log(web3, "wen");
 
     this.setState({ account: account[0] });
     const networkId = await web3.eth.net.getId();
@@ -431,19 +430,17 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          setCurrentAccount(accounts[0]);
-          setOnChainBalance();
-          hasPledged();
- 
-          setPledgeIncome();
-          setPledgeBalance();
-          setCumulatedPledgeIncome();
-          setCumulatedPledgeBalance();
-          setHourlyIncome();
-          console.log(accounts)
- 
-          hasStaked();
-          setRate(1);
+          // setCurrentAccount(accounts[0]);
+          // setOnChainBalance();
+          // hasPledged();
+          // setPledgeIncome();
+          // setPledgeBalance();
+          // setCumulatedPledgeIncome();
+          // setCumulatedPledgeBalance();
+          // setHourlyIncome();
+          // console.log(accounts)
+          // hasStaked();
+          // setRate(1);
           // setPledgeIncome();
           // setPledgeBalance();
           // setCumulatedPledgeIncome();
@@ -452,7 +449,6 @@ class App extends React.Component {
           // setAccountBalance(hourlyIncome);
           // setTodayIncome(hourlyIncome);
           // setCumulativeIncome(hourlyIncome);
- 
         } else {
           console.log("No accounts found");
         }

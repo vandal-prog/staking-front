@@ -1,7 +1,7 @@
-//  
-import React, { useContext, useState, forwardRef, } from "react";
-//  
-//  
+//
+import React, { useContext, useState, forwardRef } from "react";
+//
+//
 // import { useTicker } from "../hooks/useTicker";
 // import add from "date-fns/add";
 import { connect } from "react-redux";
@@ -31,6 +31,8 @@ import {
   setRate,
 } from "../redux/user/user.actions";
 import { TimeConverter } from "../utils/timeConverter";
+import TimeMAchine from "../components/ui/timer/TimeMachine";
+import Timerzilla from "../components/ui/timer/Timerzilla";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -71,7 +73,6 @@ const Account = ({
   hasPledged,
   hasStaked,
 }) => {
-
   const [minWithdrawal, setMinWithdrawal] = useState(false);
   const [overWithdrawal, setOverWithdrawal] = useState(false);
   const [successfulPayment, setSuccesfulPayment] = useState(false);
@@ -151,11 +152,13 @@ const Account = ({
             <span className="account-timer-text">NEXT BENEFIT IN 1hr</span>
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
 
-            <Time localStorage="timer" />
-            {/* {staked && <Time localStorage="timer1" />}
+            {/* <Time localStorage="timer" /> */}
+            {staked && <Time localStorage="timer1" />}
             {pledged && <Timer localStorage="timer2" />}
-            {pledged || staked || <Time />} */}
+            {staked || pledged || <Time />}
             {/* <Time localStorage="timer1" /> */}
+            {/* <TimeMAchine /> */}
+            {/* <Timerzilla localstorage="timeer" staked={staked} /> */}
           </div>
           <input
             name="withdrawalAmount"
