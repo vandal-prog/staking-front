@@ -28,21 +28,14 @@ class Time extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log(`Next state =>`, nextState);
-    console.log(`Current State =>`, this.state);
-
-    return true;
-  }
-
-  UNSAFE_componentWillMount() {
-    if (this.state.running) {
-      this.timer = setInterval(
-        () => this.forceUpdate(),
-        this.props.interval | 0
-      );
-    }
-  }
+  // UNSAFE_componentWillMount() {
+  //   if (this.state.running) {
+  //     this.timer = setInterval(
+  //       () => this.forceUpdate(),
+  //       this.props.interval | 0
+  //     );
+  //   }
+  // }
 
   componentWillUnmount() {
     if (this.state.running) {
@@ -173,24 +166,36 @@ class Time extends Component {
       // setStakeRecords(recordArray);
     };
 
-    // // console.log("i love myself");
-    // if (h == 1) {
-    //   reset();
-    //   processTransactions();
-    //   const nowTime = Date.now();
-    //   // let nowTime = -this.state.value;
-    //   const recordArray = [nowTime, hourlyIncome];
-    //   setStakeRecords(recordArray);
-    //   hasStaked();
+    for (let t = 0; t < 5; t++) {
+      console.log("i love myself");
+    }
 
-    //   if (staked) {
-    //     start();
-    //   } else {
-    //     setRate(0);
-    //     setOnChainBalance();
-    //     return;
-    //   }
-    // }
+    if (h == 1) {
+      reset();
+      processTransactions();
+      const nowTime = Date.now();
+      // let nowTime = -this.state.value;
+      const recordArray = [nowTime, hourlyIncome];
+      setStakeRecords(recordArray);
+      hasStaked();
+
+      if (staked) {
+        start();
+      } else {
+        setRate(0);
+        setOnChainBalance();
+        return;
+      }
+    }
+
+    if (h > 1) {
+      for (let i = 1; i < h + 1; i++) {
+        processTransactions();
+        let nowTime = Date.now();
+        const recordArray = [nowTime, hourlyIncome];
+        // setStakeRecords(recordArray);
+      }
+    }
 
     // if (s === 59) {
     //   hasStaked();

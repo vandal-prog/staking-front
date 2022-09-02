@@ -22,7 +22,6 @@ import {
 const Home = ({
   setReferralAddress,
   Theuseraddress,
-  Myreferral
 }) => {
 
   let { referral_id } = useParams();
@@ -32,18 +31,14 @@ const Home = ({
 
     if(referral_id){
 
-      if( Theuseraddress === referral_id ){
-        alert("You can't refer your self")
-      }else{
-
-        if( Myreferral ){
-          alert("You ve been referred by someone else")
-        }else{
-          setReferralAddress(referral_id)
-        }
+      if(referral_id && Theuseraddress ){
+        alert("You already have an account with us")
       }
-    }else{
-      return
+
+      if( referral_id && !Theuseraddress ){
+        setReferralAddress(referral_id)
+      }
+
     }
 
   }
@@ -77,7 +72,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   Theuseraddress: state.account.currentAccount,
-  Myreferral: state.referral.ReferralAddress,
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(Home);
