@@ -153,6 +153,7 @@ class Time extends Component {
     }
 
     const timestamp = running ? Date.now() + value : value;
+
     const dayy = Math.floor(timestamp / 86400000);
     const hourr = Math.floor(timestamp / 3600000) % 24;
     const minn = Math.floor(timestamp / 60000) % 60;
