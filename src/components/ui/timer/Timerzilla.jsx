@@ -25,74 +25,30 @@ const Timerzilla = ({
   setMinuteTime,
   setSecondsTime,
 }) => {
-  let [timeState, setTimeState] = useState({
-    running: false,
-    value: 0,
-  });
+  const [timeState, setTimeState] = useState({});
+  const [timeStamp, setTimestamp] = useState(0);
 
   function saveChanges(state) {
     console.log("saveChanges", localstorage, state);
-    if (localStorage) {
+    if (localstorage) {
       localStorage.setItem(localstorage, JSON.stringify(state));
     }
     return state;
   }
 
-  useEffect(() => {
-    try {
-      timeState = JSON.parse(localStorage.getItem(localstorage));
-    } catch (error) {}
+  const startTimer = ({ running, value }) => {
+    const now = Date.now();
+    if (!running) return null;
 
-    if (!timeState) {
-      const newState = saveChanges({
-        running: false,
-        value: 0,
-      });
+    const newTimeState = saveChanges({
+      running: true,
+      value: value - now,
+    });
 
-      setTimeState(newState);
-    }
+    console.log();
 
-    console.log(timeState);
-    console.log(localStorage);
-
-    // const startTimer = ({ running, value }) => {
-    //   const now = Date.now();
-    //   if (!running) return null;
-
-    //   const newTimeState = saveChanges({
-    //     running: true,
-    //     value: value - now,
-    //   });
-
-    //   setTimeState(newTimeState);
-    // };
-
-    let timestamp = timeState.running
-      ? Date.now() + timeState.value
-      : timeState.value;
-
-    console.log(timeState);
-
-    console.log(timestamp);
-    let day = Math.floor(timestamp / 86400000);
-    let hour = Math.floor(timestamp / 3600000) % 24;
-    let min = Math.floor(timestamp / 60000) % 60;
-    let sec = Math.floor(timestamp / 1000) % 60;
-    let ms = timestamp % 1000;
-
-    setDayTime(day);
-    setHourTime(hour);
-    setMinuteTime(min);
-    setSecondsTime(sec);
-
-    if (staked) {
-      console.log(`I love jesus`);
-    }
-
-    // const timeInterval = setInterval(() => {}, 1000);
-    // return () => clearInterval(timeInterval);
-  }, [timeState]);
-
+    setTimeState(newTimeState);
+  };
   const stopTimer = () => {
     const now = Date.now();
 
@@ -123,6 +79,57 @@ const Timerzilla = ({
     //});
   };
 
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      const timeState = JSON.parse(localStorage.getItem(localstorage));
+
+      if (!timeState) {
+        const newState = saveChanges({
+          running: false,
+          value: 0,
+        });
+
+        setTimeState(newState);
+      } else {
+        setTimeState(timeState);
+      }
+
+      console.log(timeState);
+      console.log(timeState.value);
+      console.log(localStorage);
+
+      let timestamp = timeState.running
+        ? Date.now() + timeState.value
+        : timeState.value;
+
+      // console.log(timeState);
+      setTimestamp(timestamp);
+
+      console.log(timestamp);
+      let day = Math.floor(timestamp / 86400000);
+      let hour = Math.floor(timestamp / 3600000) % 24;
+      let min = Math.floor(timestamp / 60000) % 60;
+      let sec = Math.floor(timestamp / 1000) % 60;
+      let ms = timestamp % 1000;
+
+      setDayTime(day);
+      setHourTime(hour);
+      setMinuteTime(min);
+      setSecondsTime(sec);
+    }, 1000);
+    return () => clearInterval(timeInterval);
+
+    // if (staked) {
+    //   console.log(`I love jesus`);
+    // }
+
+    // const timeInterval = setInterval(() => {}, 1000);
+    // return () => clearInterval(timeInterval);
+  }, [timeStamp]);
+
+  if (staked) {
+    startTimer(timeState);
+  }
   const _ = (nr, length = 2, padding = 0) =>
     String(nr).padStart(length, padding);
 

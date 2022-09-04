@@ -33,6 +33,9 @@ import {
 import { TimeConverter } from "../utils/timeConverter";
 import TimeMAchine from "../components/ui/timer/TimeMachine";
 import Timerzilla from "../components/ui/timer/Timerzilla";
+// import NewTimerComponent from "../components/ui/timer/newTimer.component";
+import MyTimerzilla from "../components/ui/timer/MyTimerzilla";
+import MyTimerzilla2 from "../components/ui/timer/MyTimerzilla2";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -155,10 +158,12 @@ const Account = ({
             {/* <Time localStorage="timer" /> */}
             {staked && <Time localStorage="timer1" />}
             {pledged && <Timer localStorage="timer2" />}
-            {staked || pledged || <Time />}
+            {staked || pledged || <Time localStorage="static" />}
             {/* <Time localStorage="timer1" /> */}
             {/* <TimeMAchine /> */}
-            {/* <Timerzilla localstorage="timeer" staked={staked} /> */}
+            {/* <Timerzilla localstorage="timeer22" staked={staked} /> */}
+            {/* <MyTimerzilla localstorage="timeer11" /> */}
+            {/* <MyTimerzilla2 localstorage="God" staked={staked} /> */}
           </div>
           <input
             name="withdrawalAmount"

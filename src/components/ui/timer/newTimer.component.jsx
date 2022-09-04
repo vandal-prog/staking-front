@@ -207,14 +207,14 @@ class Time extends Component {
       }
     }
 
-    if (h > 1) {
-      for (let i = 1; i < h + 1; i++) {
-        processTransactions();
-        let nowTime = Date.now();
-        const recordArray = [nowTime, hourlyIncome];
-        // setStakeRecords(recordArray);
-      }
-    }
+    // if (h > 1) {
+    //   for (let i = 1; i < h + 1; i++) {
+    //     processTransactions();
+    //     let nowTime = Date.now();
+    //     const recordArray = [nowTime, hourlyIncome];
+    //     // setStakeRecords(recordArray);
+    //   }
+    // }
 
     if (s === 59) {
       hasStaked();

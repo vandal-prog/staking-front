@@ -430,16 +430,16 @@ class App extends React.Component {
 
         if (accounts.length) {
           //getAllTransactions();
-          // setCurrentAccount(accounts[0]);
-          // setOnChainBalance();
-          // hasPledged();
-          // setPledgeIncome();
-          // setPledgeBalance();
-          // setCumulatedPledgeIncome();
-          // setCumulatedPledgeBalance();
-          // setHourlyIncome();
+          setCurrentAccount(accounts[0]);
+          setOnChainBalance();
+          hasPledged();
+          setPledgeIncome();
+          setPledgeBalance();
+          setCumulatedPledgeIncome();
+          setCumulatedPledgeBalance();
+          setHourlyIncome();
           // console.log(accounts)
-          // hasStaked();
+          hasStaked();
           // setRate(1);
           // setPledgeIncome();
           // setPledgeBalance();
