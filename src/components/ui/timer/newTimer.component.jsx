@@ -186,10 +186,6 @@ class Time extends Component {
       // setStakeRecords(recordArray);
     };
 
-    for (let t = 0; t < 5; t++) {
-      console.log("i love myself");
-    }
-
     if (h == 1) {
       reset();
       processTransactions();
@@ -208,14 +204,14 @@ class Time extends Component {
       }
     }
 
-    if (h > 1) {
-      for (let i = 1; i < h + 1; i++) {
-        processTransactions();
-        let nowTime = Date.now();
-        const recordArray = [nowTime, hourlyIncome];
-        // setStakeRecords(recordArray);
-      }
-    }
+    // if (h > 1) {
+    //   for (let i = 1; i < h + 1; i++) {
+    //     processTransactions();
+    //     let nowTime = Date.now();
+    //     const recordArray = [nowTime, hourlyIncome];
+    //     // setStakeRecords(recordArray);
+    //   }
+    // }
 
     if (s === 59) {
       hasStaked();
@@ -230,9 +226,8 @@ class Time extends Component {
     return (
       <div>
         {/* {staked && reset()} */}
-        {staked && start()}
+        {/* // {staked && start()} */}
         {_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}
-
         {/* <div className="timer-controls">
             <button className="btn btn-success" onClick={start}>
               Start Timer

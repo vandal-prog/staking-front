@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   pledgeRecords: [],
-  stakeRecords: [[1659697200, 1]],
-  accountBalance: [1, 2, 4],
+  stakeRecords: [],
+  accountBalance: [],
   todayIncome: [],
   cummulativeIncome: [],
 };
