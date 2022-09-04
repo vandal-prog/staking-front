@@ -1,9 +1,13 @@
 const INITIAL_STATE = {
   pledgeRecords: [],
-  stakeRecords: [],
-  accountBalance: [],
-  todayIncome: [],
-  cummulativeIncome: [],
+  stakeRecords: [
+    [1661976179000, 0.044166],
+    [1661979779000, 0.044166],
+    [1661983379000, 0.044166],
+  ],
+  accountBalance: [0.044166, 0.044166, 0.044166],
+  todayIncome: [0.044166, 0.044166, 0.044166],
+  cummulativeIncome: [0.044166, 0.044166, 0.044166],
 };
 
 const arrayReducer = (state = INITIAL_STATE, action) => {
