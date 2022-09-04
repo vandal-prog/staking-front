@@ -12,11 +12,11 @@ const persistConfig = {
   key: "user",
   storage,
 
-  // whitelist: ["account", "user", "boolean", "data", "array", "referral"],
+  whitelist: ["account", "user", "boolean", "data", "array", "referral"],
 
   // whitelist: ["account", "user", "boolean", "data", "array"],
   //
-  whitelist: ["referral"],
+  // whitelist: ["referral"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
