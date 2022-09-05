@@ -48,7 +48,7 @@ const Timerzilla3 = ({
   };
 
   const processTransactions = async () => {
-    // await setHourlyIncome();
+    await setHourlyIncome();
     setAccountBalance(hourlyIncome);
     setTodayIncome(hourlyIncome);
     setCumulativeIncome(hourlyIncome);
