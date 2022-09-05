@@ -72,7 +72,7 @@ const Timerzilla3 = ({
   useEffect(() => {
     if (UpdatedTIme.hours > 0) {
       // run the for loop for the adding of profit to the amount of hours
-      for (let i; i < UpdatedTIme.hours + 1; i++) {
+      for (let i = 0; i < UpdatedTIme.hours + 1; i++) {
         processTransactions();
 
         const nowTime = Date.now();
@@ -126,7 +126,10 @@ const Timerzilla3 = ({
 
           // setTimeOut(3600000);
           UpdateLastprofitdrop();
-          setTimeOut(3600000);
+          setTimeOut({
+            ...TimeOut,
+            number: 3600000,
+          });
         }
       }
     }
@@ -148,7 +151,7 @@ const Timerzilla3 = ({
       {TimeOut ? (
         <div>{_(d) + ":" + _(h) + ":" + _(m) + ":" + _(s)}</div>
       ) : (
-        "loading"
+        <div>{_(0) + ":" + _(0) + ":" + _(0) + ":" + _(0)}</div>
       )}
     </div>
   );
