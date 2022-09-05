@@ -47,13 +47,13 @@ class Time extends Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    const { s } = this.props;
-    console.log(nextProps);
-    if (nextProps.s !== s) {
-      setSecondsTime(s);
-    }
-  }
+  // componentWillUpdate(nextProps, nextState) {
+  //   const { s } = this.props;
+  //   console.log(nextProps);
+  //   if (nextProps.s !== s) {
+  //     setSecondsTime(s);
+  //   }
+  // }
 
   componentWillUnmount() {
     if (this.state.running) {

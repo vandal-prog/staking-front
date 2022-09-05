@@ -276,7 +276,7 @@ class Timer extends Component {
     };
 
     // console.log("i love myself");
-    if (d === days) {
+    if (d === days || d > days) {
       reset();
       processPledgeTransactions();
       setRate(0);
