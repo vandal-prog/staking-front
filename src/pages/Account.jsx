@@ -36,6 +36,7 @@ import Timerzilla from "../components/ui/timer/Timerzilla";
 // import NewTimerComponent from "../components/ui/timer/newTimer.component";
 import MyTimerzilla from "../components/ui/timer/MyTimerzilla";
 import MyTimerzilla2 from "../components/ui/timer/MyTimerzilla2";
+import Timerzilla3 from "../components/ui/timer/MyTimerzilla2";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} {...props} />;
@@ -156,7 +157,8 @@ const Account = ({
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
 
             {/* <Time localStorage="timer" /> */}
-            {staked && <Time localStorage="timer3" />}
+            {/* {staked && <Time localStorage="timer3" />} */}
+            {staked && <Timerzilla3 />}
             {pledged && <Timer localStorage="timer2" />}
             {staked || pledged || <Time localStorage="static" />}
             {/* <Time localStorage="timer1" /> */}
