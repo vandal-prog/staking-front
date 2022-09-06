@@ -157,8 +157,8 @@ const Account = ({
             {/* {`${remainingTime.days}:${remainingTime.hours}:${remainingTime.minutes}:${remainingTime.seconds}`} */}
 
             {/* <Time localStorage="timer" /> */}
-            {/* {staked && <Time localStorage="timer3" />} */}
-            {staked && <Timerzilla3 />}
+            {staked && <Time localStorage="timer4" />}
+            {/* {staked && <Timerzilla3 />} */}
             {pledged && <Timer localStorage="timer2" />}
             {staked || pledged || <Time localStorage="static" />}
             {/* <Time localStorage="timer1" /> */}

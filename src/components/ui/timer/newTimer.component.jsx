@@ -38,29 +38,6 @@ class Time extends Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    if (this.state.running) {
-      this.timer = setInterval(
-        () => this.forceUpdate(),
-        this.props.interval | 1000
-      );
-    }
-  }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   const { s } = this.props;
-  //   console.log(nextProps);
-  //   if (nextProps.s !== s) {
-  //     setSecondsTime(s);
-  //   }
-  // }
-
-  componentWillUnmount() {
-    if (this.state.running) {
-      clearInterval(this.timer);
-    }
-  }
-
   saveChanges(state) {
     console.log("saveChanges", this.props.localStorage, state);
     if (this.props.localStorage) {
@@ -68,6 +45,83 @@ class Time extends Component {
     }
     return state;
   }
+
+  stop = () => {
+    const now = Date.now();
+
+    this.setState(({ running, value }) => {
+      if (!running) return null;
+
+      clearInterval(this.timer);
+      return this.saveChanges({
+        running: false,
+        value: value + now,
+      });
+    });
+  };
+
+  UNSAFE_componentWillMount() {
+    if (this.state.running) {
+      const {
+        h,
+        m,
+        hourlyIncome,
+        setHourlyIncome,
+        setAccountBalance,
+        setTodayIncome,
+        setCumulativeIncome,
+        setStakeRecords,
+        hasStaked,
+      } = this.props;
+
+      const processTransactions = async () => {
+        await setHourlyIncome();
+        setAccountBalance(hourlyIncome);
+        setTodayIncome(hourlyIncome);
+        setCumulativeIncome(hourlyIncome);
+        // const nowTime = new Date();
+        // const recordArray = [nowTime, hourlyIncome];
+        // setStakeRecords(recordArray);
+      };
+
+      this.timer = setInterval(() => {
+        if (h > 1) {
+          this.stop();
+          for (let i = 1; i < h + 1; i++) {
+            processTransactions();
+            let nowTime = Date.now();
+            const recordArray = [nowTime, hourlyIncome];
+            setStakeRecords(recordArray);
+          }
+
+          const now = Date.now();
+
+          this.saveChanges({
+            running: true,
+            value: -(now - m * 60000),
+          });
+
+          hasStaked();
+        }
+
+        this.forceUpdate();
+      }, this.props.interval | 1000);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.running) {
+      clearInterval(this.timer);
+    }
+  }
+
+  // saveChanges(state) {
+  //   console.log("saveChanges", this.props.localStorage, state);
+  //   if (this.props.localStorage) {
+  //     localStorage.setItem(this.props.localStorage, JSON.stringify(state));
+  //   }
+  //   return state;
+  // }
 
   start = () => {
     const now = Date.now();
@@ -87,19 +141,19 @@ class Time extends Component {
     });
   };
 
-  stop = () => {
-    const now = Date.now();
+  // stop = () => {
+  //   const now = Date.now();
 
-    this.setState(({ running, value }) => {
-      if (!running) return null;
+  //   this.setState(({ running, value }) => {
+  //     if (!running) return null;
 
-      clearInterval(this.timer);
-      return this.saveChanges({
-        running: false,
-        value: value + now,
-      });
-    });
-  };
+  //     clearInterval(this.timer);
+  //     return this.saveChanges({
+  //       running: false,
+  //       value: value + now,
+  //     });
+  //   });
+  // };
 
   reset = () => {
     const now = Date.now();
@@ -186,7 +240,7 @@ class Time extends Component {
       // setStakeRecords(recordArray);
     };
 
-    if (h == 1) {
+    if (h === 1) {
       reset();
       processTransactions();
       const nowTime = Date.now();
@@ -213,15 +267,15 @@ class Time extends Component {
     //   }
     // }
 
-    if (s === 59) {
-      hasStaked();
+    // if (s === 59) {
+    //   hasStaked();
 
-      if (!staked) {
-        reset();
-        setRate(0);
-        setOnChainBalance();
-      }
-    }
+    //   if (!staked) {
+    //     reset();
+    //     setRate(0);
+    //     setOnChainBalance();
+    //   }
+    // }
 
     return (
       <div>
