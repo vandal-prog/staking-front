@@ -38,9 +38,7 @@ const Timerzilla3 = ({
   const [TimeOut, setTimeOut] = useState({ status: false, number: 0 });
 
   const UpdateLastprofitdrop = () => {
-    Axios.put(
-      `https://nftmetapool.herokuapp.com/user/staking/${currentAccount}`
-    )
+    Axios.put(`https://nftmetapool.herokuapp.com/user/staking/${UserWallet}`)
       .then((response) => {
         setUpdatedTIme(response.data);
         console.log(response.data);
@@ -59,9 +57,7 @@ const Timerzilla3 = ({
 
   useEffect(() => {
     if (stakedvalue) {
-      Axios.get(
-        `https://nftmetapool.herokuapp.com/user/staking/${currentAccount}`
-      )
+      Axios.get(`https://nftmetapool.herokuapp.com/user/staking/${UserWallet}`)
         .then((response) => {
           setUpdatedTIme(response.data);
         })
@@ -135,7 +131,7 @@ const Timerzilla3 = ({
             number: 3600000,
           });
           UpdateLastprofitdrop();
-          window.location.reload();
+          // window.location.reload();
         }
       }
     }

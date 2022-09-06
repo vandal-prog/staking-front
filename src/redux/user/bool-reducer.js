@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  staked: false,
+  staked: true,
   pledged: false,
 };
 
