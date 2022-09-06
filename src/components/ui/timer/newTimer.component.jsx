@@ -177,7 +177,7 @@ class Time extends Component {
     // }
 
     const processTransactions = async () => {
-      // await setHourlyIncome();
+      await setHourlyIncome();
       setAccountBalance(hourlyIncome);
       setTodayIncome(hourlyIncome);
       setCumulativeIncome(hourlyIncome);
