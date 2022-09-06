@@ -7,6 +7,7 @@ import {
   selectSeconds,
 } from "../../../redux/user/time-selectors";
 import {
+  hasStaked,
   setAccountBalance,
   setCumulativeIncome,
   setDayTime,
@@ -27,6 +28,8 @@ const Timerzilla3 = ({
   setCumulativeIncome,
   setStakeRecords,
   currentAccount,
+  setHourlyIncome,
+  hasStaked,
 }) => {
   const [UserWallet, setUserWallet] = useState(
     "0xDD63BAa1bEF2FB5EA96797489dc3E03f7d1b3340"
@@ -124,12 +127,15 @@ const Timerzilla3 = ({
           const recordArray = [nowTime, hourlyIncome];
           setStakeRecords(recordArray);
 
+          hasStaked();
+
           // setTimeOut(3600000);
-          UpdateLastprofitdrop();
           setTimeOut({
             ...TimeOut,
             number: 3600000,
           });
+          UpdateLastprofitdrop();
+          window.location.reload();
         }
       }
     }
@@ -165,7 +171,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // hasStaked: () => dispatch(hasStaked()),
+  hasStaked: () => dispatch(hasStaked()),
   setHourlyIncome: () => dispatch(setHourlyIncome()),
   setAccountBalance: (balance) => dispatch(setAccountBalance(balance)),
   setTodayIncome: (hourlyIncome) => dispatch(setTodayIncome(hourlyIncome)),
