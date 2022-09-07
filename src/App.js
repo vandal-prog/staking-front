@@ -440,7 +440,7 @@ class App extends React.Component {
           setHourlyIncome();
           // console.log(accounts)
           hasStaked();
-          setRate(1);
+          // setRate();
           // setPledgeIncome();
           // setPledgeBalance();
           // setCumulatedPledgeIncome();

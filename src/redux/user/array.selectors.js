@@ -8,14 +8,16 @@ const selectBoolean = (state) => state.boolean;
 export const selectAccountArrayCount = createSelector([selectArray], (array) =>
   array.accountBalance.reduce((acc, balance) => {
     const displayBal = shortenBalance(balance);
-    return acc + displayBal;
+    const displayAcc = shortenBalance(acc);
+    return displayAcc + displayBal;
   }, 0)
 );
 
 export const selectCumIncomeCount = createSelector([selectArray], (array) =>
   array.cummulativeIncome.reduce((acc, balance) => {
     const displayBal = shortenBalance(balance);
-    return acc + displayBal;
+    const displayAcc = shortenBalance(acc);
+    return displayAcc + displayBal;
   }, 0)
 );
 
@@ -31,7 +33,8 @@ export const selecttodayIncomeCount = createSelector([selectArray], (array) =>
       return 0;
     } else {
       const displayBal = shortenBalance(balance);
-      return acc + displayBal;
+      const displayAcc = shortenBalance(acc);
+      return displayAcc + displayBal;
     }
   }, 0)
 );
