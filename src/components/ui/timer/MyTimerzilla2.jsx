@@ -34,7 +34,7 @@ const Timerzilla3 = ({
   const [UserWallet, setUserWallet] = useState(
     "0xDD63BAa1bEF2FB5EA96797489dc3E03f7d1b3340"
   );
-  const [UpdatedTIme, setUpdatedTIme] = useState(false);
+  const [UpdatedTIme, setUpdatedTIme] = useState({});
   const [TimeOut, setTimeOut] = useState({ status: false, number: 0 });
 
   const UpdateLastprofitdrop = () => {
