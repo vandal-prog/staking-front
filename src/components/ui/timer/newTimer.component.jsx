@@ -366,7 +366,7 @@ import {
   setDayTime,
 } from "../../../redux/user/user.actions";
 
-class Timer extends Component {
+class Time extends Component {
   constructor(props) {
     super(props);
 
@@ -625,4 +625,4 @@ const mapDispatchToProps = (dispatch) => ({
   setSecondsTime: (second) => dispatch(setSecondsTime(second)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Time);
