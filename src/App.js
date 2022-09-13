@@ -394,30 +394,56 @@ class App extends React.Component {
     if (!window.ethereum) {
       alert("Please, install ETH wallet and reload this page");
     }
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      var getStakingContract = () => {
+        const signer = provider.getSigner();
+        const transactionContract = new ethers.Contract(
+          contractAddress,
+          Staking.abi,
+          signer
+        );
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+        return transactionContract;
+      };
 
-    const getStakingContract = () => {
-      const signer = provider.getSigner();
-      const transactionContract = new ethers.Contract(
-        contractAddress,
-        Staking.abi,
-        signer
+      var getUSDTContract = () => {
+        const signer = provider.getSigner();
+        const transactionContract = new ethers.Contract(
+          USDTaddress,
+          USDT.abi,
+          signer
+        );
+
+        return transactionContract;
+      };
+    } else {
+      const provider = new ethers.providers.JsonRpcProvider(
+        `https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
       );
 
-      return transactionContract;
-    };
+      var getStakingContract = () => {
+        const signer = provider.getSigner();
+        const transactionContract = new ethers.Contract(
+          contractAddress,
+          Staking.abi,
+          signer
+        );
 
-    const getUSDTContract = () => {
-      const signer = provider.getSigner();
-      const transactionContract = new ethers.Contract(
-        USDTaddress,
-        USDT.abi,
-        signer
-      );
+        return transactionContract;
+      };
 
-      return transactionContract;
-    };
+      var getUSDTContract = () => {
+        const signer = provider.getSigner();
+        const transactionContract = new ethers.Contract(
+          USDTaddress,
+          USDT.abi,
+          signer
+        );
+
+        return transactionContract;
+      };
+    }
 
     const checkIfWalletIsConnected = async () => {
       try {
