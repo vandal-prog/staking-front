@@ -84,7 +84,7 @@ const Header = ({
 
     // }
     try {
-      if (!ethereum) return alert("Please install metamask");
+      if (!ethereum) return alert("Please install an ETH wallet");
 
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
