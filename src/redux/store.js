@@ -16,7 +16,7 @@ const persistConfig = {
   key: "user",
   storage,
 
-  whitelist: ["account", "user", "boolean", "data", "array", "referral"],
+  whitelist: ["account", "boolean", "data", "array", "referral"],
 
   // whitelist: ["account", "user", "boolean", "data", "array"],
   //
