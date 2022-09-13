@@ -394,9 +394,14 @@ class App extends React.Component {
     if (!window.ethereum) {
       alert("Please, install ETH wallet and reload this page");
     }
-
+    if (ethereum) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-
+    }
+    
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f'
+      )
+    
     const getStakingContract = () => {
       const signer = provider.getSigner();
       const transactionContract = new ethers.Contract(
