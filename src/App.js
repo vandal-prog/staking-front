@@ -427,7 +427,7 @@ class App extends React.Component {
     const checkIfWalletIsConnected = async () => {
       try {
         //if no wallet is found in browser it returns this
-        if (!ethereum) return alert("Please install metamask");
+        if (!ethereum) return alert("Please install ETH wallet");
 
         const accounts = await ethereum.request({
           method: "eth_accounts",
