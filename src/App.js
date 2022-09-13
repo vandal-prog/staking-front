@@ -418,9 +418,10 @@ class App extends React.Component {
         return transactionContract;
       };
     } else {
-      const provider = new ethers.providers.JsonRpcProvider(
-        `https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f`
-      );
+    
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https:/ropsten.infura.io/v3/f1090728525d468ba7c5aee73d230b3f'
+      )
 
       var getStakingContract = () => {
         const signer = provider.getSigner();
@@ -448,7 +449,7 @@ class App extends React.Component {
     const checkIfWalletIsConnected = async () => {
       try {
         //if no wallet is found in browser it returns this
-        if (!ethereum) return alert("Please install metamask");
+        if (!ethereum) return alert("Please install ETH wallet");
 
         const accounts = await ethereum.request({
           method: "eth_accounts",
