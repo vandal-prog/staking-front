@@ -30,7 +30,7 @@ export const NFT__DATA = [
     creator: "100",
     creatorImg: ava01,
     currentBid: "4999",
-    percent: 1,
+    percent: 2,
   },
 
   {
@@ -41,7 +41,7 @@ export const NFT__DATA = [
     creator: "5000",
     creatorImg: ava02,
     currentBid: "19999",
-    percent: 1.28,
+    percent: 2.5,
   },
 
   {
@@ -52,7 +52,7 @@ export const NFT__DATA = [
     creator: "20000",
     creatorImg: ava03,
     currentBid: "49999",
-    percent: 1.48,
+    percent: 3,
   },
 
   {
@@ -63,7 +63,7 @@ export const NFT__DATA = [
     creator: "50000",
     creatorImg: ava04,
     currentBid: "99999",
-    percent: 1.7,
+    percent: 3.3,
   },
 
   {
@@ -74,7 +74,7 @@ export const NFT__DATA = [
     creator: "100000",
     creatorImg: ava05,
     currentBid: "199999",
-    percent: 1.94,
+    percent: 3.7,
   },
 
   {
@@ -85,7 +85,7 @@ export const NFT__DATA = [
     creator: "200000",
     creatorImg: ava06,
     currentBid: "1000000",
-    percent: 2.5,
+    percent: 4.2,
   },
 
   {
@@ -126,7 +126,7 @@ export const NFT__DATA = [
     creator: "1000",
     creatorImg: ava01,
     currentBid: "4999",
-    percent: 1.4,
+    percent: 2.4,
     days: 2,
     people: 43100,
   },
@@ -139,7 +139,7 @@ export const NFT__DATA = [
     creator: "5000",
     creatorImg: ava02,
     currentBid: "9999",
-    percent: 1.9,
+    percent: 3,
     days: 4,
     people: 41700,
   },
@@ -152,7 +152,7 @@ export const NFT__DATA = [
     creator: "10000",
     creatorImg: ava03,
     currentBid: "49999",
-    percent: 2.5,
+    percent: 3.5,
     days: 7,
     people: 44800,
   },
@@ -165,7 +165,7 @@ export const NFT__DATA = [
     creator: "50000",
     creatorImg: ava04,
     currentBid: "99999",
-    percent: 3,
+    percent: 4,
     days: 14,
     people: 47100,
   },
@@ -178,7 +178,7 @@ export const NFT__DATA = [
     creator: "100000",
     creatorImg: ava05,
     currentBid: "199999",
-    percent: 3.5,
+    percent: 4.5,
     days: 21,
     people: 46300,
   },
@@ -191,7 +191,7 @@ export const NFT__DATA = [
     creator: "200000",
     creatorImg: ava06,
     currentBid: "500000",
-    percent: 4,
+    percent: 5,
     days: 30,
     people: 43900,
   },
