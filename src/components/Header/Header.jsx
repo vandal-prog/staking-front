@@ -14,6 +14,7 @@ import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
 import { shortenAddress } from "../../utils/shortenAddress";
 import TawkTo from "tawkto-react";
+import { ElfsightWidget } from 'react-elfsight-widget';
 
 import {
   setCurrentAccount,
@@ -130,14 +131,7 @@ const Header = ({
     }
   };
 
-  useEffect(() => {
-    var tawk = new TawkTo("637e4f51b0d6371309d0baa0", "1giimbm30");
-
-    tawk.onStatusChange((status) => {
-      console.log("status");
-    });
-
-  }, []);
+ 
   // console.log(currentAccount);
 
   return (
@@ -219,6 +213,7 @@ const Header = ({
             </ul>
           </div>
         </div>
+        <ElfsightWidget widgetID="8ce09cae-6feb-474d-9326-1e8dfe29eb6a" />
       </Container>
     </header>
   );
