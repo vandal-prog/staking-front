@@ -30,7 +30,7 @@ export const NFT__DATA = [
     creator: "100",
     creatorImg: ava01,
     currentBid: "4999",
-    percent: 2,
+    percent: 1.2,
   },
 
   {
@@ -41,7 +41,7 @@ export const NFT__DATA = [
     creator: "5000",
     creatorImg: ava02,
     currentBid: "19999",
-    percent: 2.5,
+    percent: 2,
   },
 
   {
