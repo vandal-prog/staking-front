@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   cumulatedPledgeIncome: 0,
   cumulatedPledgeBalance: 0,
   hourlyIncome: 0,
-  ratePercent: 0,
+  ratePercent: 1.2,
   days: 0,
   decimals: 1000000,
   stakingTime: 0,
